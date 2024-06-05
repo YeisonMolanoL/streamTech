@@ -1,0 +1,44 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AccountService {
+  globalRoute = 'http://localhost:8080/account/'
+
+  constructor(private http: HttpClient) { }
+
+  getAll(){
+    return this.http.get<any>(this.globalRoute + 'all');
+  }
+
+  getAllByType(accountTypeId: any){
+    let httpParams = new HttpParams().set('accountTypeId', accountTypeId);
+    return this.http.get<any>(this.globalRoute + 'all/type', {
+      params: httpParams
+    });
+  }
+
+  getAvailableByAccountType(account: any, page: any, pageSize: any){
+    let httpParams = new HttpParams().set('page', page).set('pageSize', pageSize);
+    return this.http.post<any>(this.globalRoute + 'available', account.accountTypeRecord, { params: httpParams});
+  }
+
+  newAccount(account: any) {
+    let httpParams = new HttpParams().set('accountTypeId', account.accountTypeRecord.accountTypeRecord.accountTypeId);
+    return this.http.post<any>(this.globalRoute + 'create', account, {
+      observe: 'response',
+      params: httpParams
+    });
+  }
+
+  updateAccount(accountId: any, account : any){
+    let httpParams = new HttpParams().set('accountId', accountId);
+    console.log(accountId, account);
+    
+    return this.http.put<any>(this.globalRoute + 'update', account , {
+      params: httpParams
+    });
+  }
+}

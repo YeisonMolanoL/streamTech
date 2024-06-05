@@ -1,0 +1,82 @@
+<div class="d-flex justify-content-between p-2">
+    <span class="d-flex align-items-center">
+        <h1>Plataformas disponibles</h1>
+    </span>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Nueva
+        plataforma</button>
+</div>
+<div class="row">
+    <div *ngFor="let account of accountsType" class="col-md-3 mb-4">
+        <div>
+            <app-card-info [object]="account" [totalAccounts]="accountsType.length"></app-card-info>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Modals-->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Nueva plataforma de streaming</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <h2>Formulario de Cuenta</h2>
+                    <form [formGroup]="newAccountTypeForm" (ngSubmit)="createAccountType()">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="accountTypeName"
+                                formControlName="accountTypeName" placeholder=" ">
+                            <label for="accountTypeName" class="form-label-placeholder">Nombre de la nueva
+                                plataforma</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="accountTypeAmountProfile"
+                                formControlName="accountTypeAmountProfile" placeholder=" ">
+                            <label for="accountTypeAmountProfile" class="form-label-placeholder">Cantidad de
+                                perfiles</label>
+                            <div *ngIf="newAccountTypeForm.get('accountTypeAmountProfile')?.hasError('pattern')">
+                                <small class="text-danger">La cantidad de perfiles debe ser un solo dígito entre 1 y
+                                    9.</small>
+                            </div>
+
+
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="accountTypeStatus"
+                                formControlName="accountTypeStatus">
+                            <label class="form-check-label" for="accountTypeStatus">Estado</label>
+                        </div>
+                        <div class="container p-5 text-center border rounded">
+                            <div *ngIf="!imageSelected">
+                                <h2 class="mb-4">Subir Imagen</h2>
+                                <label for="fileUpload" class="btn btn-primary">
+                                    <i class="bi bi-cloud-upload"></i> Seleccionar Archivo
+                                    <input (change)="onFileSelected($event)" type="file" id="fileUpload"
+                                        style="display: none;" accept=".jpg, .jpeg, .png, .pdf">
+                                </label>
+                                <p class="mt-2 mb-0">Selecciona un archivo JPG, JPEG, PNG o PDF.</p>
+                            </div>
+                            <div *ngIf="imageSelected" id="imagePreviewContainer" class="mt-4"
+                                style="display: none; position: relative;">
+                                <img id="imagePreview" class="img-thumbnail" alt="Vista Previa de la Imagen">
+                                <button id="removeImageButton" class="btn btn-danger btn-sm" (click)="removeImage()"
+                                    style="position: absolute; top: 0; right: 0; z-index: 1;">
+                                    <nb-icon icon="close-outline"></nb-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="createAccountType()">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>
