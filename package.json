@@ -26,6 +26,7 @@
     "@nebular/eva-icons": "^13.0.0",
     "@nebular/theme": "^13.0.0",
     "@popperjs/core": "^2.11.8",
+    "appsettings-json-reader": "^2.0.2",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "eva-icons": "^1.1.3",
