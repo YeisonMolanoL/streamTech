@@ -12,7 +12,6 @@ import { provideFirebaseApp } from '@angular/fire/app';
 import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -36,14 +35,14 @@ import { environment } from '../environments/environment';
     importProvidersFrom([
       provideFirebaseApp(() => 
           initializeApp({
-              apiKey: environment.api_key,
-              authDomain: environment.authDomain,
-              databaseURL: environment.database_images,
-              projectId: environment.project_id_images,
-              storageBucket: environment.storage_bucket_images,
-              messagingSenderId: environment.messaging_sender_id_images,
-              appId: environment.appId_images,
-              measurementId: environment.measurementId_images
+            apiKey: "AIzaSyDHZhNw6drFgQf3bgF7vkapOxeded80HgQ",
+            authDomain: "listado-personas-d417f.firebaseapp.com",
+            databaseURL: "https://listado-personas-d417f-default-rtdb.firebaseio.com",
+            projectId: "listado-personas-d417f",
+            storageBucket: "listado-personas-d417f.appspot.com",
+            messagingSenderId: "573061027074",
+            appId: "1:573061027074:web:19fb42cc9dd431ad7b9e1b",
+            measurementId: "G-5SHD59VGKC"
           })
       ),
       provideStorage (() => getStorage())

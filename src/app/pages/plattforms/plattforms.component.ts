@@ -45,8 +45,6 @@ export class PlattformsComponent implements OnInit{
     this.accountService.getAll().subscribe({
       next: (data) => {
         this.accounts = data;
-        console.log(this.accounts);
-        
       },
       error: (err) => {
         console.log('Ha ocurrido un error en el servidor', err.error);

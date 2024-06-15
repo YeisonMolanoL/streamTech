@@ -1,35 +1,66 @@
-<div *ngIf="!(accountTypeList.length > 0)" class="d-flex justify-content-center align-items-center border border-dashed"
-  style="height: 100vh;">
-  <div>
-    <h1 class="text-center">Aún no hay plataformas activas para la venta</h1>
-    <span class="d-flex justify-content-center">
-      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalNewAccount">Nueva
-        cuenta</button>
-    </span>
-  </div>
+<div class="card p-4">
+  <form [formGroup]="newAccountSaleForm">
+    <div class="row">
+      <div class="col-md-6 dropdown-container">
+        <div class="p-2 input-with-icon" (click)="toggleDropdownAccountType()">
+          <input
+            type="text"
+            placeholder="Seleccione plataforma"
+            [value]="selectedAccountType?.accountTypeRecord.accountTypeName"
+            formControlName="accountTypeId"
+            (input)="filterAccountType()"
+          />
+          <img *ngIf="selectedAccountType?.accountTypeRecord.accountTypeIcon" [src]="selectedAccountType.accountTypeRecord.accountTypeIcon" alt="{{ selectedAccountType.accountTypeRecord.accountTypeIcon }}" />
+        </div>
+        <div class="col-md-6 dropdown" [class.show]="isDropdownAccountTypeOpen">
+          <div
+            class="dropdown-item"
+            *ngFor="let accountType of filteredAccounts"
+            (click)="selectAccountType(accountType)"
+          >
+            <span>{{ accountType.accountTypeRecord.accountTypeName }}</span>
+            <img [src]="accountType.accountTypeRecord.accountTypeIcon" alt="{{ accountType.accountTypeRecord.accountTypeIcon }}" />
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-6 mb-3 dropdown-container">
+        <div class="p-2 input-with-icon" (click)="toggleDropdownClients()">
+          <input
+            type="text"
+            placeholder="Seleccione cliente"
+            [value]="selectedClient?.name"
+            formControlName="clientId"
+            (input)="filterClient()"
+          />
+        </div>
+        <div class="dropdown" [class.show]="isDropdownClientsOpen">
+          <div
+            class="dropdown-item"
+            *ngFor="let client of clients"
+            (click)="selectClient(client)"
+          >
+            <span>{{ client.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6 date-input-container">
+        <label for="saleDate" class="form-label">Fecha de venta</label>
+        <input type="date" class="form-control" formControlName="saleDate">
+      </div>
+  
+      <div class="col-md-6 date-input-container">
+        <label for="dueDate" class="form-label">Fecha de vencimiento</label>
+        <input type="date" class="form-control" formControlName="dueDate">
+      </div>
+    </div>
+  </form>
 </div>
 
-<div *ngIf="accountTypeList.length > 0">
-  <div *ngIf="!accountSelected" class="row">
-    <div *ngFor="let account of accountTypeList" class="col-md-3 mb-4">
-      <div (click)="uploadAccountType(account)">
-        <app-card-info [object]="account" [totalAccounts]="accountTypeList.length"></app-card-info>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="accountSelected">
-    <div class="d-flex justify-content-between">
-      <div class="col" style="max-height: 100px;">
-        <span class="d-flex justify-content-center p-2">
-
-        </span>
-      </div>
-
-
-    </div>
-    <div>
-      <app-account-list [accountType]="this.accountType"></app-account-list>
-    </div>
-  </div>
+<br>
+<div *ngIf="selectedAccountType != null && selectedAccountType != undefined" class="card">
+  <app-account-sale-list #accountSaleList [accountType]="this.selectedAccountType" (selectedAccountsUpdated)="newAccountSale($event)"></app-account-sale-list>
 </div>

@@ -20,9 +20,19 @@ export class AccountService {
     });
   }
 
-  getAvailableByAccountType(account: any, page: any, pageSize: any){
+  getAllByAccountType(account: any, page: any, pageSize: any){
+    let httpParams = new HttpParams().set('page', page).set('pageSize', pageSize);
+    return this.http.post<any>(this.globalRoute + 'all/type', account.accountTypeRecord, { params: httpParams});
+  }
+
+  getAvailableAccountsByAccounType(account: any, page: any, pageSize: any){
     let httpParams = new HttpParams().set('page', page).set('pageSize', pageSize);
     return this.http.post<any>(this.globalRoute + 'available', account.accountTypeRecord, { params: httpParams});
+  }
+
+  getAvailableAccountsByAccounTypeFilter(account: any, page: any, pageSize: any, status: boolean){
+    let httpParams = new HttpParams().set('page', page).set('pageSize', pageSize).set('status', status);
+    return this.http.post<any>(this.globalRoute + 'available/filter', account.accountTypeRecord, { params: httpParams});
   }
 
   newAccount(account: any) {

@@ -1,1 +1,66 @@
-<p>sell-by-profile works!</p>
+<div class="card p-4">
+    <form [formGroup]="newAccountSaleForm">
+      <div class="row">
+        <div class="col-md-6 dropdown-container">
+          <div class="p-2 input-with-icon" (click)="toggleDropdownAccountType()">
+            <input
+              type="text"
+              placeholder="Seleccione plataforma"
+              [value]="selectedAccountType?.accountTypeRecord.accountTypeName"
+              formControlName="accountTypeId"
+              (input)="filterAccountType()"
+            />
+            <img *ngIf="selectedAccountType?.accountTypeRecord.accountTypeIcon" [src]="selectedAccountType.accountTypeRecord.accountTypeIcon" alt="{{ selectedAccountType.accountTypeRecord.accountTypeIcon }}" />
+          </div>
+          <div class="col-md-6 dropdown" [class.show]="isDropdownAccountTypeOpen">
+            <div
+              class="dropdown-item"
+              *ngFor="let accountType of filteredAccounts"
+              (click)="selectAccountType(accountType)"
+            >
+              <span>{{ accountType.accountTypeRecord.accountTypeName }}</span>
+              <img [src]="accountType.accountTypeRecord.accountTypeIcon" alt="{{ accountType.accountTypeRecord.accountTypeIcon }}" />
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-6 mb-3 dropdown-container">
+          <div class="p-2 input-with-icon" (click)="toggleDropdownClients()">
+            <input
+              type="text"
+              placeholder="Seleccione cliente"
+              [value]="selectedClient?.name"
+              formControlName="clientId"
+              (input)="filterClient()"
+            />
+          </div>
+          <div class="dropdown" [class.show]="isDropdownClientsOpen">
+            <div
+              class="dropdown-item"
+              *ngFor="let client of clients"
+              (click)="selectClient(client)"
+            >
+              <span>{{ client.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6 date-input-container">
+          <label for="saleDate" class="form-label">Fecha de venta</label>
+          <input type="date" class="form-control" formControlName="saleDate">
+        </div>
+    
+        <div class="col-md-6 date-input-container">
+          <label for="dueDate" class="form-label">Fecha de vencimiento</label>
+          <input type="date" class="form-control" formControlName="dueDate">
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <br>
+  <div *ngIf="selectedAccountType != null && selectedAccountType != undefined" class="card">
+    <app-account-sale-list #accountSaleList [accountType]="this.selectedAccountType" (selectedAccountsUpdated)="newAccountSale($event)"></app-account-sale-list>
+  </div>

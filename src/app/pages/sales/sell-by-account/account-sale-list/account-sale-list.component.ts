@@ -1,28 +1,35 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { AccountService } from '../../core/services/account.service';
+import { Component, Input, Output, SimpleChanges, ViewChild, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, map, of } from 'rxjs';
+import { Observable, Subject, map, of } from 'rxjs';
+import { AccountService } from '../../../../core/services/account.service';
 
 @Component({
-  selector: 'app-account-list',
-  templateUrl: './account-list.component.html',
-  styleUrl: './account-list.component.css'
+  selector: 'app-account-sale-list',
+  templateUrl: './account-sale-list.component.html',
+  styleUrl: './account-sale-list.component.css'
 })
-export class AccountListComponent implements OnInit, OnChanges{
+export class AccountSaleListComponent implements OnInit, OnDestroy  {
+  @Output() selectedAccountsUpdated: EventEmitter<any> = new EventEmitter<any>();
+  @ViewChild('autoInput') input: any;
   @Input() accountType: any;
-  accountsPage : any[] = [];
-  accounts : any[] = [];
   filteredAccounts$: Observable<any[]> = of([]);
-  accountSelected = false;
+  selectedAccounts : any[] = [];
+  accountsPage : any[] = [];
   accountForm! : FormGroup;
+  accountSelected = false;
+  accounts : any[] = [];
+  pageTotal = 0;
   pageSize = 5;
   page = 0;
-  pageTotal = 0;
 
-  @ViewChild('autoInput') input: any;
+  
 
   constructor(private fb : FormBuilder, private accountService: AccountService){
     
+  }
+
+  ngOnDestroy(): void {
+      this.ngOnInit();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -30,6 +37,8 @@ export class AccountListComponent implements OnInit, OnChanges{
   }
 
   ngOnInit(): void {
+    console.log('hola');
+    
       this.getAvailableAccountsByAccountType();
       this.initForm();
       this.accountForm.get('accountTypeRecord')?.setValue(this.accountType);
@@ -77,7 +86,7 @@ export class AccountListComponent implements OnInit, OnChanges{
   }
 
   getAvailableAccountsByAccountType(){    
-    this.accountService.getAllByAccountType(this.accountType, this.page, this.pageSize).subscribe({
+    this.accountService.getAvailableAccountsByAccounType(this.accountType, this.page, this.pageSize).subscribe({
       next: (data) => {
         this.accountsPage = data.content;
         this.pageTotal = data.totalPages;
@@ -165,5 +174,34 @@ export class AccountListComponent implements OnInit, OnChanges{
 
   onSelectionChange($event: any) {
     this.filteredAccounts$ = this.getFilteredOptions($event);
+  }
+
+  selectNewAccount(account: any){
+    const index = this.selectedAccounts.findIndex(accountSelect => accountSelect === account.accountId);
+    if (index === -1) {
+        this.selectedAccounts.push(account.accountId);
+    } else {
+        this.selectedAccounts.splice(index, 1);
+    }
+  }
+
+  newAccountSale(){
+    this.selectedAccountsUpdated.emit(this.selectedAccounts);
+  }
+
+  filterBy(status: any){
+    if(status == 'every'){
+      this.getAvailableAccountsByAccountType();
+    }else{
+      this.accountService.getAvailableAccountsByAccounTypeFilter(this.accountType, this.page, this.pageSize, status).subscribe({
+        next: (data) => {
+          this.accountsPage = data.content;
+          this.pageTotal = data.totalPages;
+        },
+        error: (err) => {
+          console.log("Ha ocurrido un error en el backend");
+        }
+      });
+    }
   }
 }

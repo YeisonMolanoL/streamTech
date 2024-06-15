@@ -7,36 +7,34 @@
     </div>
 </div>
 <div>
+    <div class="d-flex justify-content-between align-items-center">
+        <input #autoInput nbInput type="text" (input)="onChange()" placeholder="Enter value"
+            [nbAutocomplete]="auto" />
+        <nb-autocomplete #auto (selectedChange)="onSelectionChange($event)">
+
+            <nb-option *ngFor="let option of filteredAccounts$ | async" [value]="option.accountEmail">
+                {{ option.accountEmail }}
+            </nb-option>
+
+        </nb-autocomplete>
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                data-bs-display="static" aria-expanded="false">
+                Filtrar por:
+            </button>
+            <ul class="dropdown-menu dropdown-menu-lg-end">
+                <li><button class="dropdown-item" type="button">Propias</button></li>
+                <li><button class="dropdown-item" type="button">Vendidas</button></li>
+                <li><button class="dropdown-item" type="button">Funcionales</button></li>
+            </ul>
+        </div>
+    </div>
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <div class="d-flex justify-content-between align-items-center">
-                    <input #autoInput nbInput type="text" (input)="onChange()" placeholder="Enter value"
-                        [nbAutocomplete]="auto" />
-                    <nb-autocomplete #auto (selectedChange)="onSelectionChange($event)">
-
-                        <nb-option *ngFor="let option of filteredAccounts$ | async" [value]="option.accountEmail">
-                            {{ option.accountEmail }}
-                        </nb-option>
-
-                    </nb-autocomplete>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
-                            data-bs-display="static" aria-expanded="false">
-                            Filtrar por:
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-lg-end">
-                            <li><button class="dropdown-item" type="button">Propias</button></li>
-                            <li><button class="dropdown-item" type="button">Vendidas</button></li>
-                            <li><button class="dropdown-item" type="button">Funcionales</button></li>
-                        </ul>
-                    </div>
-                </div>
-            </tr>
-            <br>
-            <tr>
                 <th scope="col">Correo</th>
-                <th scope="col">Perfiles disponibles</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Perfiles disp</th>
                 <th scope="col">¿Funcionando?</th>
                 <th scope="col">Estado de venta</th>
                 <th scope="col">¿Propia?</th>
@@ -44,7 +42,8 @@
         </thead>
         <tbody>
             <tr *ngFor="let account of accountsPage">
-                <th scope="row">{{ account.accountEmail }}</th>
+                <th>{{ account.accountEmail }}</th>
+                <td>Yeison</td>
                 <td>{{ account.accountAvailableProfiles }}</td>
                 <td>
                     <div class="form-check form-switch">

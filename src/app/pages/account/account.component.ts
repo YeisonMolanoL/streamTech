@@ -48,7 +48,7 @@ export class AccountComponent implements OnInit{
   
 
   getAvailableAccountsByAccountType(){    
-    this.accountService.getAvailableByAccountType(this.accountType, this.page, this.pageSize).subscribe({
+    this.accountService.getAllByAccountType(this.accountType, this.page, this.pageSize).subscribe({
       next: (data) => {
         this.accounts = [...data.content];
         this.pageTotal = data.totalPages;
