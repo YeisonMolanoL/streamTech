@@ -1,5 +1,5 @@
 import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountSaleService } from '../../../core/services/account-sale.service';
 import { AccountSaleListComponent } from '../sell-by-account/account-sale-list/account-sale-list.component';
 import { ClientService } from '../../../core/services/client.service';
@@ -12,28 +12,21 @@ import { AccountService } from '../../../core/services/account.service';
   styleUrl: './sell-by-profile.component.css'
 })
 export class SellByProfileComponent {
-  @Input() accountType: any;
-  @Output() selectedAccountTypeChange = new EventEmitter<any>();
+  accountType: any = [];
   isDropdownAccountTypeOpen = false;
   isDropdownClientsOpen = false;
-  newAccountSaleForm!: FormGroup;
-  selectedAccountType: any;
-  selectedClient: any;
-  selectedDate: string | null = null;
-  availableAccounts = Array<any>();
+  newProfileSaleForm!: FormGroup;
+  selectedAccountType: any = [];
+  selectedClient: any = [];
   accountTypeList = new Array<any>();
   clients = new Array<any>();
-  accountsSold = Array<any>();
-  accountSelected = false;
-  accounts: any[] = [];
-  pageTotal = 0;
-  page = 1;
-  pageSize = 5;
   searchAccountType: any;
   searchClient: any;
   filteredAccounts = new Array<any>();
   filteredClients = new Array<any>();
-  @ViewChild('accountSaleList') accountSaleList!: AccountSaleListComponent;
+  clientDialog = false;
+  newClientName = '';
+  profileSaleList = new Array<any>();
 
   constructor(private fb: FormBuilder, private accountSaleService: AccountSaleService, private clientsService: ClientService, private accountTypeService: AccountTypeService, private accountService
     : AccountService) {
@@ -41,30 +34,32 @@ export class SellByProfileComponent {
   }
 
   ngOnInit(): void {
+    console.log('Se dio');
+    
     this.getAllAccountType();
     this.getAllClients();
     this.initForm();
   }
 
   initForm() {
-    this.newAccountSaleForm = this.fb.group({
-      accountTypeId: ['', Validators.required],
-      clientId: ['', [Validators.required, Validators.pattern(/^[1-9]$/)]],
-      saleDate: ['', Validators.required],
-      dueDate: ['', Validators.required],
-      accounts: ['']
+    this.newProfileSaleForm = this.fb.group({
+      accountTypeName: new FormControl ('', Validators.required),
+      accountTypeId: new FormControl ('', Validators.required),
+      profileSaleName: new FormControl ('', Validators.required),
+      profileSalePin: new FormControl ('', Validators.required),
+      profileSaleDueDate: new FormControl ('', Validators.required),
+      profileSalePurchaseDate: new FormControl ('', Validators.required),
+      clientId: new FormControl ('', Validators.required),
     });
-  }
 
-  getAvailableAccounts() {
-    this.accountService.getAvailableAccountsByAccounType(this.accountType, this.page, this.pageSize).subscribe({
-      next: (data) => {
-        this.availableAccounts = data;
-      },
-      error: (err) => {
-        console.log("No se han podido cargar las cuentas disponibles");
+    this.newProfileSaleForm.get('profileSalePurchaseDate')?.valueChanges.subscribe((value) => {
+      if (value) {
+        const purchaseDate = new Date(value);
+        const dueDate = new Date(purchaseDate);
+        dueDate.setDate(purchaseDate.getDate() + 30);
+        this.newProfileSaleForm.get('profileSaleDueDate')?.setValue(dueDate.toISOString().split('T')[0]);
       }
-    })
+    });
   }
 
   getAllAccountType() {
@@ -93,24 +88,6 @@ export class SellByProfileComponent {
     });
   }
 
-  uploadAccountType(account: any) {
-    this.accountType = account;
-    this.accountSelected = true;
-    this.getAvailableAccountsByAccountType();
-  }
-
-  getAvailableAccountsByAccountType() {
-    this.accountService.getAvailableAccountsByAccounType(this.accountType, this.page, this.pageSize).subscribe({
-      next: (data) => {
-        this.accounts = [...data.content];
-        this.pageTotal = data.totalPages;
-      },
-      error: (err) => {
-        console.log("Ha ocurrido un error en el backend");
-      }
-    });
-  }
-
 
 
   toggleDropdownAccountType() {
@@ -123,14 +100,17 @@ export class SellByProfileComponent {
 
   selectAccountType(option: any) {
     this.selectedAccountType = option;
+    console.log(this.selectedAccountType);
+    
     this.isDropdownAccountTypeOpen = false;
-    this.newAccountSaleForm.get('accountTypeId')?.setValue(this.selectedAccountType.accountTypeRecord.accountTypeId);
+    this.newProfileSaleForm.get('accountTypeId')?.setValue(this.selectedAccountType.accountTypeRecord.accountTypeId);
+    this.newProfileSaleForm.get('accountTypeName')?.setValue(this.selectedAccountType.accountTypeRecord.accountTypeName);
   }
 
   selectClient(option: any) {
     this.selectedClient = option;
     this.isDropdownClientsOpen = false;
-    this.newAccountSaleForm.get('clientId')?.setValue(this.selectedClient.clientId);
+    this.newProfileSaleForm.get('clientId')?.setValue(this.selectedClient.clientId);
   }
 
   filterAccountType() {
@@ -148,14 +128,13 @@ export class SellByProfileComponent {
   }
 
   newAccountSale(accounts: any) {
-    this.newAccountSaleForm.get('accounts')?.reset;
-    this.newAccountSaleForm.get('accounts')?.setValue(accounts);
-    if (this.newAccountSaleForm.valid) {
-      this.accountSaleService.newAccountSale(this.newAccountSaleForm.value).subscribe({
+    this.newProfileSaleForm.get('accounts')?.reset;
+    this.newProfileSaleForm.get('accounts')?.setValue(accounts);
+    if (this.newProfileSaleForm.valid) {
+      this.accountSaleService.newAccountSale(this.newProfileSaleForm.value).subscribe({
         next: (data) => {
-          this.newAccountSaleForm.reset;
+          this.newProfileSaleForm.reset;
           this.ngOnInit();
-          this.recreateAccountSaleList();
         },
         error: (err) => {
         }
@@ -163,12 +142,19 @@ export class SellByProfileComponent {
     }
   }
 
-  recreateAccountSaleList() {
-    // Destruimos y recreamos el componente hijo
-    this.accountSaleList.ngOnDestroy();
+  newClientDialog(){
+    this.isDropdownClientsOpen = false;
+    this.clientDialog = true;
+  }
 
-    setTimeout(() => {
-      this.accountSaleList.ngOnInit();
-    });
+  createClient(){
+    console.log(this.newClientName);
+    
+  }
+
+  addNewProfileSale(){
+    this.profileSaleList.push(this.newProfileSaleForm.value)
+    this.newProfileSaleForm.get('profileSaleName')?.reset();
+    this.newProfileSaleForm.get('profileSalePin')?.reset();
   }
 }

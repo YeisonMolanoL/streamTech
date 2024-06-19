@@ -15,11 +15,12 @@ import { AccountListComponent } from '../components/account-list/account-list.co
 import { YesNoPipelinePipe } from '../core/yes-no-pipeline.pipe';
 import { SellByComboComponent } from './sales/sell-by-combo/sell-by-combo.component';
 import { AccountSaleListComponent } from './sales/sell-by-account/account-sale-list/account-sale-list.component';
+import { SellProfileListComponent } from './sales/sell-by-profile/sell-profile-list/sell-profile-list.component';
 
 
 @NgModule({
   declarations: [PagesComponent, HeaderComponent, PlattformsComponent, CardInfoComponent,
-    AccountComponent, SellByProfileComponent, SellByAccountComponent, YesNoPipelinePipe, AccountListComponent, SellByComboComponent, AccountSaleListComponent
+    AccountComponent, SellByProfileComponent, SellByAccountComponent, YesNoPipelinePipe, AccountListComponent, SellByComboComponent, AccountSaleListComponent, SellProfileListComponent
   ],
   imports: [
     CommonModule,

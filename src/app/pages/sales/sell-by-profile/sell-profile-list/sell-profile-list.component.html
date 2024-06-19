@@ -1,0 +1,80 @@
+<div *ngIf="saleList.length > 0">
+    <div class="d-flex justify-content-end">
+        <span>
+            <button type="button" class="btn btn-danger btn-xs" (click)="makeSale()">Realizar
+                venta</button>
+        </span>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Cuenta</th>
+                <th scope="col">Perfil</th>
+                <th scope="col">Pin</th>
+                <th scope="col">Fecha venta</th>
+                <th scope="col">Fecha vencimiento</th>
+                <th scope="col">Editar</th>
+                <th scope="col">Quitar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let profile of saleList; index as i">
+                <td>{{ profile.accountTypeName }}</td>
+                <td>{{ profile.profileSaleName }}</td>
+                <td>{{ profile.profileSalePin }}</td>
+                <td>{{ profile.profileSalePurchaseDate }}</td>
+                <td>{{ profile.profileSaleDueDate }}</td>
+                <td><span data-bs-toggle="modal" data-bs-target="#modalEditProfile" (click)="openEditModal(i)"><nb-icon icon="plus-circle-outline" status="warning"></nb-icon></span></td>
+                <td><span (click)="deleteProfile(profile)"><nb-icon icon="trash-2-outline" status="danger"></nb-icon></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--Modal-->
+<div class="modal fade" id="modalEditProfile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Editar perfil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+            <form [formGroup]="profileDataForm">            
+                <div class="row">
+                  <div class="date-input-container">
+                    <label for="saleDate" class="form-label">Fecha de venta</label>
+                    <input type="date" class="form-control" formControlName="profileSalePurchaseDate">
+                  </div>
+            
+                  <div class="date-input-container">
+                    <label for="dueDate" class="form-label">Fecha de vencimiento</label>
+                    <input type="date" class="form-control" formControlName="profileSaleDueDate">
+                  </div>
+                </div>
+                <br>
+            
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="p-2 input-with-icon">
+                      <input type="text" placeholder="Ingrese nombre" formControlName="profileSaleName" />
+                    </div>
+                  </div>
+            
+                  <div class="col-md-6">
+                    <div class="p-2 input-with-icon">
+                      <input type="text" placeholder="Ingrese pin" formControlName="profileSalePin" />
+                    </div>
+                  </div>
+                </div>
+              </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="saveChanges()">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ import { AccountService } from '../../../core/services/account.service';
 import { AccountTypeService } from '../../../core/services/account-type.service';
 import { ClientService } from '../../../core/services/client.service';
 import { AccountSaleService } from '../../../core/services/account-sale.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountSaleListComponent } from './account-sale-list/account-sale-list.component';
 
 @Component({
@@ -47,11 +47,11 @@ export class SellByAccountComponent implements OnInit {
 
   initForm() {
     this.newAccountSaleForm = this.fb.group({
-      accountTypeId: ['', Validators.required],
-      clientId: ['', [Validators.required, Validators.pattern(/^[1-9]$/)]],
-      saleDate: ['', Validators.required],
-      dueDate: ['', Validators.required],
-      accounts: ['']
+      accountTypeId: new FormControl ('', [Validators.required, Validators.pattern(/^[1-9]$/)]),
+      clientId: new FormControl ('', Validators.required),
+      saleDate: new FormControl ('', Validators.required),
+      dueDate: new FormControl ('', Validators.required),
+      accounts: new FormControl ('')
     });
   }
 

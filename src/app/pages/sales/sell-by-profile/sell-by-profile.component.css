@@ -33,7 +33,6 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    margin-right: 10px;
   }
   
   .input-with-icon input {
@@ -52,8 +51,8 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     z-index: 1;
-    width: 50%; /* Ajusta el ancho del dropdown al ancho del contenedor */
-    max-height: 200px;
+    width: 29%; /* Ajusta el ancho del dropdown al ancho del contenedor */
+    max-height: 50%;
     overflow-y: auto;
     transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
     opacity: 0;
