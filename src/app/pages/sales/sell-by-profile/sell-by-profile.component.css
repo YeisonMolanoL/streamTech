@@ -10,13 +10,13 @@
   
   .dropdown-container,
   .date-input-container {
-    flex: 1 1 calc(50% - 20px); /* Ajusta el ancho de cada columna */
+    flex: 1 1 calc(50% - 20px);
   }
   
   .input-with-icon {
     display: flex;
     align-items: center;
-    border: 2px solid #ccc;
+    border: 2px solid #ccc; 
     border-radius: 30px;
     cursor: pointer;
     transition: border-color 0.3s;

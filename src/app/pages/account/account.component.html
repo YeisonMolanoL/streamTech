@@ -10,7 +10,7 @@
 </div>
 <div *ngIf="accountTypeList.length > 0">
     <div *ngIf="!accountSelected" class="row">
-        <div *ngFor="let account of accountTypeList" class="col-md-3 mb-4">
+        <div *ngFor="let account of accountTypeList" class="col-6 col-md-3 mb-4">
             <div (click)="uploadAccountType(account)">
                 <app-card-info [object]="account" [totalAccounts]="accountTypeList.length"></app-card-info>
             </div>

@@ -1,7 +1,7 @@
 <div *ngIf="saleList.length > 0">
     <div class="d-flex justify-content-end">
         <span>
-            <button type="button" class="btn btn-danger btn-xs" (click)="makeSale()">Realizar
+            <button type="button" class="btn btn-danger btn-xs" (click)="this.dialogConfirmation = true">Realizar
                 venta</button>
         </span>
     </div>
@@ -77,4 +77,9 @@
       </div>
     </div>
   </div>
+</div>
+
+<!--Modal confirmation-->
+<div *ngIf="dialogConfirmation">
+  <app-dialog-confirmation (onConfirmCallback)="makeSale()" (onCancelCallback)="this.dialogConfirmation = false"></app-dialog-confirmation>
 </div>

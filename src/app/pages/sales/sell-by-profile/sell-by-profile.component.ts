@@ -5,6 +5,7 @@ import { AccountSaleListComponent } from '../sell-by-account/account-sale-list/a
 import { ClientService } from '../../../core/services/client.service';
 import { AccountTypeService } from '../../../core/services/account-type.service';
 import { AccountService } from '../../../core/services/account.service';
+import { AlertsService } from '../../../core/services/alerts.service';
 
 @Component({
   selector: 'app-sell-by-profile',
@@ -25,20 +26,19 @@ export class SellByProfileComponent {
   filteredAccounts = new Array<any>();
   filteredClients = new Array<any>();
   clientDialog = false;
-  newClientName = '';
+  clientForm!: FormGroup;
   profileSaleList = new Array<any>();
 
-  constructor(private fb: FormBuilder, private accountSaleService: AccountSaleService, private clientsService: ClientService, private accountTypeService: AccountTypeService, private accountService
+  constructor(private alert: AlertsService, private fb: FormBuilder, private accountSaleService: AccountSaleService, private clientsService: ClientService, private accountTypeService: AccountTypeService, private accountService
     : AccountService) {
 
   }
 
   ngOnInit(): void {
-    console.log('Se dio');
-    
     this.getAllAccountType();
     this.getAllClients();
     this.initForm();
+    this.initClientForm();
   }
 
   initForm() {
@@ -62,6 +62,13 @@ export class SellByProfileComponent {
     });
   }
 
+  initClientForm(){
+    this.clientForm = this.fb.group({
+      clientName: new FormControl ('', Validators.required),
+      clientNumber: new FormControl ('', Validators.required),
+    })
+  }
+
   getAllAccountType() {
     this.accountTypeService.getAllTotalAccounts().subscribe({
       next: (data) => {
@@ -69,8 +76,7 @@ export class SellByProfileComponent {
         this.filteredAccounts = this.accountTypeList;
       },
       error: (err) => {
-        console.log("Ocurrio un error al cargar la lista de plataformas disponibles", err.error);
-
+        this.alert.showWarning(err.error.message, '¡Precausión!')
       }
     });
   }
@@ -82,8 +88,7 @@ export class SellByProfileComponent {
         this.filteredClients = this.clients;
       },
       error: (err) => {
-        console.log("Ocurrio un error al cargar la lista de plataformas disponibles", err.error);
-
+        this.alert.showWarning(err.error.message, '¡Precausión!')
       }
     });
   }
@@ -100,8 +105,6 @@ export class SellByProfileComponent {
 
   selectAccountType(option: any) {
     this.selectedAccountType = option;
-    console.log(this.selectedAccountType);
-    
     this.isDropdownAccountTypeOpen = false;
     this.newProfileSaleForm.get('accountTypeId')?.setValue(this.selectedAccountType.accountTypeRecord.accountTypeId);
     this.newProfileSaleForm.get('accountTypeName')?.setValue(this.selectedAccountType.accountTypeRecord.accountTypeName);
@@ -127,34 +130,37 @@ export class SellByProfileComponent {
     );
   }
 
-  newAccountSale(accounts: any) {
-    this.newProfileSaleForm.get('accounts')?.reset;
-    this.newProfileSaleForm.get('accounts')?.setValue(accounts);
-    if (this.newProfileSaleForm.valid) {
-      this.accountSaleService.newAccountSale(this.newProfileSaleForm.value).subscribe({
-        next: (data) => {
-          this.newProfileSaleForm.reset;
-          this.ngOnInit();
-        },
-        error: (err) => {
-        }
-      });
-    }
-  }
-
   newClientDialog(){
     this.isDropdownClientsOpen = false;
     this.clientDialog = true;
   }
 
   createClient(){
-    console.log(this.newClientName);
-    
+    this.clientsService.newClient(this.clientForm.value).subscribe({
+      next: (data) => {
+        this.getAllClients();
+        this.closeModal();
+        this.alert.showSuccess('¡Se ha creado el nuevo cliente correctamente!', '¡Validado!')
+      },
+      error: (err) => {
+        this.alert.showError(err.error.message, 'Error inesperado')
+      }
+    });
   }
 
   addNewProfileSale(){
     this.profileSaleList.push(this.newProfileSaleForm.value)
     this.newProfileSaleForm.get('profileSaleName')?.reset();
     this.newProfileSaleForm.get('profileSalePin')?.reset();
+  }
+
+  closeModal(): void {
+    const modal = document.getElementById('modalNewClient');
+    modal?.classList.remove('show');
+    modal?.setAttribute('aria-hidden', 'true');
+    modal?.setAttribute('style', 'display: none');
+
+    const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
+    modalBackdrop.parentNode?.removeChild(modalBackdrop);
   }
 }

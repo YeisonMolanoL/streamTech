@@ -24,4 +24,8 @@ export class AccountTypeService {
       observe: 'response'
     })
   }
+
+  getAllAvailableProfile(){
+    return this.http.get<any>(this.globalRoute + 'all/available');
+  }
 }

@@ -1,12 +1,12 @@
 <nb-layout windowMode>
-    <nb-layout-header fixed>
-      <app-header></app-header>
-    </nb-layout-header>
-    <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
-      <nb-menu tag="menu" [items]="menu"></nb-menu>
-    </nb-sidebar>
-    <nb-layout-column>
-      <ng-content select="router-outlet"></ng-content>
-      <router-outlet></router-outlet>
-    </nb-layout-column>
-  </nb-layout>
+  <nb-layout-header>
+    <app-header></app-header>
+  </nb-layout-header>
+  <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
+    <nb-menu tag="menu" [items]="menu"></nb-menu>
+  </nb-sidebar>
+  <nb-layout-column>
+    <ng-content select="router-outlet"></ng-content>
+    <router-outlet></router-outlet>
+  </nb-layout-column>
+</nb-layout>

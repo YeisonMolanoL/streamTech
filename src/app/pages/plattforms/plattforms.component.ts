@@ -5,13 +5,14 @@ import { AccountService } from '../../core/services/account.service';
 import { AccountTypeService } from '../../core/services/account-type.service';
 import { ref, uploadBytesResumable, Storage } from '@angular/fire/storage';
 import { getDownloadURL } from 'firebase/storage';
+import { AlertsService } from '../../core/services/alerts.service';
 
 @Component({
   selector: 'app-plattforms',
   templateUrl: './plattforms.component.html',
   styleUrl: './plattforms.component.css'
 })
-export class PlattformsComponent implements OnInit{
+export class PlattformsComponent implements OnInit {
   accounts: Array<any> = [];
   accountsType: Array<any> = [];
   newAccountTypeForm!: FormGroup;
@@ -19,20 +20,21 @@ export class PlattformsComponent implements OnInit{
   downloadUrl$!: Observable<string>;
   imageSelected = false;
   fileSelected: File | null = null;
+  modalConfirmation: boolean = false;
+  modal1 = false;
 
   private storage: Storage = inject(Storage);
 
-  constructor(private fb: FormBuilder, private accountService: AccountService, private accountTypeService: AccountTypeService){
+  constructor(private alert: AlertsService, private fb: FormBuilder, private accountService: AccountService, private accountTypeService: AccountTypeService) {
 
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.initForm();
     this.getAllAccountsType();
-    this.getAllAccounts();
   }
 
-  initForm(){
+  initForm() {
     this.newAccountTypeForm = this.fb.group({
       accountTypeName: ['', Validators.required],
       accountTypeAmountProfile: ['', [Validators.required, Validators.pattern(/^[1-9]$/)]],
@@ -41,37 +43,25 @@ export class PlattformsComponent implements OnInit{
     });
   }
 
-  getAllAccounts(){
-    this.accountService.getAll().subscribe({
-      next: (data) => {
-        this.accounts = data;
-      },
-      error: (err) => {
-        console.log('Ha ocurrido un error en el servidor', err.error);
-        
-      },
-    });
-  }
-
-  getAllAccountsType(){
+  getAllAccountsType() {
     this.accountTypeService.getAllTotalAccounts().subscribe({
       next: (data) => {
         this.accountsType = data;
       },
       error: (err) => {
-        console.log('Ha ocurrido un error en el servidor', err.error);
-        
+        this.alert.showWarning(err.error.message, 'Importante');
       },
     });
   }
 
-  async createAccountType(){
-    if(this.newAccountTypeForm.valid){
+  async createAccountType() {
+    if (this.newAccountTypeForm.valid) {
+      this.modalConfirmation = false;
       let selectedFile: File | null = null;;
-      if(this.fileSelected != null){
+      if (this.fileSelected != null) {
         selectedFile = this.fileSelected;
       }
-      if(selectedFile != null){
+      if (selectedFile != null) {
         try {
           const url = await this.uploadFile(selectedFile);
           this.newAccountTypeForm.get('accountTypeIcon')?.setValue(url);
@@ -80,20 +70,18 @@ export class PlattformsComponent implements OnInit{
               this.newAccountTypeForm.reset();
               this.getAllAccountsType();
               this.closeModal();
-              console.log('Se ha añadido la nueva plataforma correctamente');
-              
+              this.alert.showSuccess('Se ha añadido la nueva plataforma correctamente', '¡Validado!');
             },
             error: (err) => {
-              console.log('Ha habido un error al inserta la nueva plataforma')
+              this.alert.showWarning(err.error.message, 'Importante');
             }
           })
-      } catch (error) {
-          console.log('Error al subir el archivo: ', error);
+        } catch (error) {
+          this.alert.showError('Error al subir el archivo: ' + error + '', 'Importante');
+        }
       }
-      }
-    }else{
-      console.log('Tiene que llenar el formulario bien ¡IDIOTA!');
-      
+    } else {
+      this.alert.showWarning('Tiene que llenar el formulario bien ¡IDIOTA!', 'Importante');
     }
   }
 
@@ -101,22 +89,22 @@ export class PlattformsComponent implements OnInit{
     this.fileSelected = event.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-        const imagePreview = document.getElementById('imagePreview') as HTMLImageElement;
-        const removeImageButton = document.getElementById('removeImageButton');
-        
-        if (imagePreviewContainer && imagePreview && removeImageButton) {
-            imagePreview.src = reader.result as string;
-            imagePreviewContainer.style.display = 'block';
-            removeImageButton.addEventListener('click', () => {
-                imagePreview.src = '';
-                imagePreviewContainer.style.display = 'none';
-                const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
-                if (fileInput) {
-                    fileInput.value = '';
-                }
-            });
-        }
+      const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+      const imagePreview = document.getElementById('imagePreview') as HTMLImageElement;
+      const removeImageButton = document.getElementById('removeImageButton');
+
+      if (imagePreviewContainer && imagePreview && removeImageButton) {
+        imagePreview.src = reader.result as string;
+        imagePreviewContainer.style.display = 'block';
+        removeImageButton.addEventListener('click', () => {
+          imagePreview.src = '';
+          imagePreviewContainer.style.display = 'none';
+          const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = '';
+          }
+        });
+      }
     };
     reader.readAsDataURL(this.fileSelected!);
     this.imageSelected = true;
@@ -124,31 +112,29 @@ export class PlattformsComponent implements OnInit{
 
   async uploadFile(file: File): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-        const filePath = `fileStreamTech/${file.name}`;
-        const fileRef = ref(this.storage, filePath);
-        const uploadTask = uploadBytesResumable(fileRef, file);
+      const filePath = `fileStreamTech/${file.name}`;
+      const fileRef = ref(this.storage, filePath);
+      const uploadTask = uploadBytesResumable(fileRef, file);
 
-        uploadTask.on('state_changed',
-            (snapshot) => {
-            },
-            (error) => {
-                console.log('Error al cargar el archivo: ', error);
-                reject(error);
-            },
-            async () => {
-                console.log("El archivo se subió exitosamente");
-                try {
-                    const url = await getDownloadURL(fileRef);
-                    console.log("Url del archivo: ", url);
-                    resolve(url);
-                } catch (error) {
-                    console.log('Error al obtener la URL del archivo: ', error);
-                    reject(error);
-                }
-            }
-        );
+      uploadTask.on('state_changed',
+        (snapshot) => {
+        },
+        (error) => {
+          this.alert.showError('Error al subir el archivo: ' + error, 'Importante');
+          reject(error);
+        },
+        async () => {
+          try {
+            const url = await getDownloadURL(fileRef);
+            resolve(url);
+          } catch (error) {
+            this.alert.showError('Error al obtener la URL del archivo: ' + error + '', 'Importante');
+            reject(error);
+          }
+        }
+      );
     });
-}
+  }
 
 
   removeImage() {
@@ -166,5 +152,9 @@ export class PlattformsComponent implements OnInit{
     const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
     modalBackdrop.parentNode?.removeChild(modalBackdrop);
     this.imageSelected = false;
+  }
+
+  openConfirmation(){
+    this.modalConfirmation = true;
   }
 }

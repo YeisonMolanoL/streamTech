@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@
 import { AccountService } from '../../core/services/account.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
+import { AlertsService } from '../../core/services/alerts.service';
 
 @Component({
   selector: 'app-account-list',
@@ -18,10 +19,11 @@ export class AccountListComponent implements OnInit, OnChanges{
   pageSize = 5;
   page = 0;
   pageTotal = 0;
+  modalConfirmation: boolean = false;
 
   @ViewChild('autoInput') input: any;
 
-  constructor(private fb : FormBuilder, private accountService: AccountService){
+  constructor(private alert: AlertsService, private fb : FormBuilder, private accountService: AccountService){
     
   }
 
@@ -48,7 +50,16 @@ export class AccountListComponent implements OnInit, OnChanges{
       accountPurchaseDate: ['', Validators.required],
       accountAvailableProfiles: ['', Validators.required],
       accountTypeRecord: [''],
-    })
+    });
+
+    this.accountForm.get('accountPurchaseDate')?.valueChanges.subscribe((value) => {
+      if (value) {
+        const purchaseDate = new Date(value);
+        const dueDate = new Date(purchaseDate);
+        dueDate.setDate(purchaseDate.getDate() + 30);
+        this.accountForm.get('accountDueDate')?.setValue(dueDate.toISOString().split('T')[0]);
+      }
+    });
   }
 
   getAllAccountsByType(){
@@ -83,7 +94,7 @@ export class AccountListComponent implements OnInit, OnChanges{
         this.pageTotal = data.totalPages;
       },
       error: (err) => {
-        console.log("Ha ocurrido un error en el backend");
+        this.alert.showWarning(err.error.message, 'Importante');
       }
     });
   }
@@ -99,14 +110,16 @@ export class AccountListComponent implements OnInit, OnChanges{
   }
 
   createAccount(){
+    this.modalConfirmation = false;
     this.accountService.newAccount(this.accountForm.value).subscribe({
       next: (data) => {
         this.closeModal();
         this.accountForm.reset();
         this.ngOnInit();
+        this.alert.showSuccess('Se ha creado la cuenta correctamente', '¡Correcto!')
       },
       error: (err) =>{
-        console.log("Ocurrio un error en el back");
+        this.alert.showWarning(err.error.message, 'Importante');
       }
     })
   }
@@ -118,19 +131,23 @@ export class AccountListComponent implements OnInit, OnChanges{
         this.ngOnInit();
       },
       error: (err) => {
-        console.log('ha ocurrido un error en el backend' + err.error);
+        this.alert.showWarning(err.error.message, 'Importante');
       }
     });
   }
 
   toggleAccountStatusSale(account: any){
     account.accountStatusSale = !account.accountStatusSale;
+    console.log(account);
+    account.accountTypeRecord.accountTypeAvailableProfiles = account.accountTypeRecord.accountTypeAvailableProfiles - account.accountAvailableProfiles;
+    
+    
     this.accountService.updateAccount(account.accountId, account).subscribe({
       next: (data) => {
         this.ngOnInit();
       },
       error: (err) => {
-        console.log('ha ocurrido un error en el backend' + err.error);
+        this.alert.showWarning(err.error.message, 'Importante');
       }
     });
   }
@@ -142,7 +159,7 @@ export class AccountListComponent implements OnInit, OnChanges{
         this.ngOnInit();
       },
       error: (err) => {
-        console.log('ha ocurrido un error en el backend' + err.error);
+        this.alert.showWarning(err.error.message, 'Importante');
       }
     });
   }

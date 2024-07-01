@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { PagesComponent } from './pages.component';
@@ -16,11 +16,15 @@ import { YesNoPipelinePipe } from '../core/yes-no-pipeline.pipe';
 import { SellByComboComponent } from './sales/sell-by-combo/sell-by-combo.component';
 import { AccountSaleListComponent } from './sales/sell-by-account/account-sale-list/account-sale-list.component';
 import { SellProfileListComponent } from './sales/sell-by-profile/sell-profile-list/sell-profile-list.component';
-
+import { DialogConfirmationComponent } from '../components/dialog-confirmation/dialog-confirmation.component';
+import { CreateClientComponent } from '../components/create-client/create-client.component';
 
 @NgModule({
-  declarations: [PagesComponent, HeaderComponent, PlattformsComponent, CardInfoComponent,
-    AccountComponent, SellByProfileComponent, SellByAccountComponent, YesNoPipelinePipe, AccountListComponent, SellByComboComponent, AccountSaleListComponent, SellProfileListComponent
+  declarations: [PagesComponent, HeaderComponent, PlattformsComponent,
+    CardInfoComponent,AccountComponent, SellByProfileComponent,
+    SellByAccountComponent, YesNoPipelinePipe, AccountListComponent,
+    SellByComboComponent, AccountSaleListComponent, SellProfileListComponent,
+    DialogConfirmationComponent, CreateClientComponent, HeaderComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +47,6 @@ import { SellProfileListComponent } from './sales/sell-by-profile/sell-profile-l
     NbSidebarModule,
     NbContextMenuModule,
     NbButtonModule,
-    NbSelectModule,
     NbIconModule,
     NbEvaIconsModule,
     NbInputModule,
@@ -56,6 +59,7 @@ import { SellProfileListComponent } from './sales/sell-by-profile/sell-profile-l
     FormsModule,
     NbDatepickerModule
   ],
-  exports: [YesNoPipelinePipe]
+  exports: [YesNoPipelinePipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PagesModule { }
+export class PagesModule {}

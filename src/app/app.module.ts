@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideStorage } from '@angular/fire/storage';
-import { NbDialogModule, NbIconModule, NbMenuModule, NbSidebarModule, NbThemeModule } from '@nebular/theme';
+import { NbDialogModule, NbIconModule, NbMenuModule, NbSidebarModule, NbThemeModule, NbToastrModule, NbToastrService } from '@nebular/theme';
 import { provideFirebaseApp } from '@angular/fire/app';
 import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
@@ -26,6 +26,7 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     NbMenuModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbDialogModule.forRoot(),
+    NbToastrModule.forRoot(),
     HttpClientModule,
     NbEvaIconsModule,
     NbIconModule
@@ -46,7 +47,7 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
           })
       ),
       provideStorage (() => getStorage())
-  ])
+  ]), NbToastrService
   ],
   exports: [],
   bootstrap: [AppComponent]

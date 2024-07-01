@@ -1,1 +1,139 @@
-/* You can add global styles to this file, and also import other style files */
+@media screen and (max-width: 576px) {
+    .card {
+        font-size: 14px !important;
+    }
+
+    ::ng-deep .nb-theme-default p {
+        font-size: 14px !important;
+    }
+
+    p {
+        font-size: 14px !important;
+    }
+
+    h1 {
+        font-size: 20px !important;
+    }
+
+    h2 {
+        font-size: 18px !important;
+        text-align: center;
+    }
+
+    .btn {
+        font-size: 14px !important;
+    }
+
+    label {
+        font-size: 14px !important;
+    }
+
+    table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        font-size: 5px;
+        text-align: center;
+    }
+
+    th {
+        font-size: 2px;
+    }
+
+    a {
+        font-size: 10px !important;
+    }
+
+    .custom-td {
+        display: flex !important;
+        align-items: center !important;
+        font-size: 8px !important;
+    }
+
+    .custom-td label{
+        font-size: 8px !important;
+    }
+
+    .nb-theme-default [nbInput].size-medium:not(.input-full-width) {
+        max-width: 10rem !important;
+    }
+}
+
+/* Media query para tablets en modo vertical */
+@media screen and (min-width: 577px) and (max-width: 768px) {
+    body {
+        font-size: 16px;
+        /* Tamaño de fuente para tablets */
+    }
+
+    .container {
+        padding: 15px;
+        /* Relleno mayor para contenedores en tablets */
+    }
+
+    .btn {
+        font-size: 1rem;
+        /* Tamaño de fuente para botones en tablets */
+        padding: 0.75rem 1.5rem;
+        /* Relleno mayor para botones en tablets */
+    }
+}
+
+/* Media query para tablets en modo horizontal y pantallas pequeñas */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    body {
+        font-size: 18px;
+        /* Tamaño de fuente para pantallas de tamaño mediano */
+    }
+
+    .container {
+        padding: 20px;
+        /* Relleno mayor para contenedores en pantallas de tamaño mediano */
+    }
+
+    .btn {
+        font-size: 1.2rem;
+        /* Tamaño de fuente para botones en pantallas de tamaño mediano */
+        padding: 1rem 2rem;
+        /* Relleno mayor para botones en pantallas de tamaño mediano */
+    }
+}
+
+/* Media query para pantallas grandes (computadoras de escritorio) */
+@media screen and (min-width: 1025px) {
+    body {
+        font-size: 20px;
+        /* Tamaño de fuente más grande para pantallas grandes */
+    }
+
+    .container {
+        padding: 30px;
+        /* Relleno mayor para contenedores en pantallas grandes */
+    }
+
+    .btn {
+        font-size: 1.4rem;
+        /* Tamaño de fuente más grande para botones en pantallas grandes */
+        padding: 1.5rem 3rem;
+        /* Relleno mayor para botones en pantallas grandes */
+    }
+}
+
+/* Media query para televisores (tamaño grande) */
+@media screen and (min-width: 1920px) {
+    body {
+        font-size: 24px;
+        /* Tamaño de fuente para televisores */
+    }
+
+    .container {
+        padding: 40px;
+        /* Relleno mayor para contenedores en televisores */
+    }
+
+    .btn {
+        font-size: 1.6rem;
+        /* Tamaño de fuente para botones en televisores */
+        padding: 2rem 4rem;
+        /* Relleno mayor para botones en televisores */
+    }
+}

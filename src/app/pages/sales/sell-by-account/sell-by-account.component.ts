@@ -5,6 +5,7 @@ import { ClientService } from '../../../core/services/client.service';
 import { AccountSaleService } from '../../../core/services/account-sale.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountSaleListComponent } from './account-sale-list/account-sale-list.component';
+import { AlertsService } from '../../../core/services/alerts.service';
 
 @Component({
   selector: 'app-sell-by-account',
@@ -33,9 +34,10 @@ export class SellByAccountComponent implements OnInit {
   searchClient: any;
   filteredAccounts = new Array<any>();
   filteredClients = new Array<any>();
+  clientDialog: boolean = false;
   @ViewChild('accountSaleList') accountSaleList!: AccountSaleListComponent;
 
-  constructor(private fb: FormBuilder, private accountSaleService: AccountSaleService, private clientsService: ClientService, private accountTypeService: AccountTypeService, private accountService: AccountService) {
+  constructor(private clientsService: ClientService, private alert: AlertsService, private fb: FormBuilder, private accountSaleService: AccountSaleService, private accountTypeService: AccountTypeService, private accountService: AccountService) {
 
   }
 
@@ -53,6 +55,15 @@ export class SellByAccountComponent implements OnInit {
       dueDate: new FormControl ('', Validators.required),
       accounts: new FormControl ('')
     });
+
+    this.newAccountSaleForm.get('saleDate')?.valueChanges.subscribe((value) => {
+      if (value) {
+        const purchaseDate = new Date(value);
+        const dueDate = new Date(purchaseDate);
+        dueDate.setDate(purchaseDate.getDate() + 30);
+        this.newAccountSaleForm.get('dueDate')?.setValue(dueDate.toISOString().split('T')[0]);
+      }
+    });
   }
 
   getAvailableAccounts() {
@@ -61,7 +72,6 @@ export class SellByAccountComponent implements OnInit {
         this.availableAccounts = data;
       },
       error: (err) => {
-        console.log("No se han podido cargar las cuentas disponibles");
       }
     })
   }
@@ -73,8 +83,6 @@ export class SellByAccountComponent implements OnInit {
         this.filteredAccounts = this.accountTypeList;
       },
       error: (err) => {
-        console.log("Ocurrio un error al cargar la lista de plataformas disponibles", err.error);
-
       }
     });
   }
@@ -86,8 +94,7 @@ export class SellByAccountComponent implements OnInit {
         this.filteredClients = this.clients;
       },
       error: (err) => {
-        console.log("Ocurrio un error al cargar la lista de plataformas disponibles", err.error);
-
+        this.alert.showWarning(err.error.message, '¡Importante!');
       }
     });
   }
@@ -105,12 +112,14 @@ export class SellByAccountComponent implements OnInit {
         this.pageTotal = data.totalPages;
       },
       error: (err) => {
-        console.log("Ha ocurrido un error en el backend");
       }
     });
   }
 
-
+  uploadClients(){
+    this.closeModal();
+    this.ngOnInit();
+  }
 
   toggleDropdownAccountType() {
     this.isDropdownAccountTypeOpen = !this.isDropdownAccountTypeOpen;
@@ -169,5 +178,15 @@ export class SellByAccountComponent implements OnInit {
     setTimeout(() => {
       this.accountSaleList.ngOnInit();
     });
+  }
+
+  closeModal(): void {
+    const modal = document.getElementById('modalNewClient');
+    modal?.classList.remove('show');
+    modal?.setAttribute('aria-hidden', 'true');
+    modal?.setAttribute('style', 'display: none');
+
+    const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
+    modalBackdrop.parentNode?.removeChild(modalBackdrop);
   }
 }

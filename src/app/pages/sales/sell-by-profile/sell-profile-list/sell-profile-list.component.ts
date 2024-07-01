@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ProfileSaleService } from '../../../../core/services/profile-sale.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AlertsService } from '../../../../core/services/alerts.service';
 
 @Component({
   selector: 'app-sell-profile-list',
@@ -10,12 +11,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class SellProfileListComponent implements OnInit{
   @Input() saleList : any[] = [];
   @Output() saleListCleared = new EventEmitter<void>();
+  dialogConfirmation: boolean = false;
   dataEditControl = false;
   profileEdit: any;
   profileDataForm!: FormGroup;
   selectedObjectIndex: number | null = null;
 
-  constructor(private fb: FormBuilder, private profileSaleService: ProfileSaleService){}
+  constructor(private alert: AlertsService, private fb: FormBuilder, private profileSaleService: ProfileSaleService){}
 
   ngOnInit(): void {
       this.initForm();
@@ -48,12 +50,13 @@ export class SellProfileListComponent implements OnInit{
         this.saleList = [];
         this.ngOnInit();
         this.saleListCleared.emit();
+        this.dialogConfirmation = false;
+        this.alert.showSuccess('Se ha realizado la venta correctamente', '¡Validado!')
       },
       error: (err) => {
-        console.log('Ha habido un error en el backend' + err.error);
-        
+        this.alert.showError(err.error.message, 'Importante')
       }
-    })
+    });
   }
 
   deleteProfile(profile: any){

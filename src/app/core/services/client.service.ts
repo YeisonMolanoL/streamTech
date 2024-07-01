@@ -12,4 +12,12 @@ export class ClientService {
   getAll(){
     return this.http.get<any>(this.globalRoute + 'all');
   }
+
+  newClient(client: any){
+    console.log(client);
+    
+    return this.http.post<any>(this.globalRoute + 'create', client, {
+      observe: 'response'
+    })
+  }
 }

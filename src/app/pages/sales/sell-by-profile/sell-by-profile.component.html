@@ -4,7 +4,8 @@
       <div class="col-md-5">
         <div class="p-2 input-with-icon" (click)="toggleDropdownAccountType()">
           <input type="text" placeholder="Seleccione plataforma"
-            [value]="selectedAccountType?.accountTypeRecord?.accountTypeName" formControlName="accountTypeName" (input)="filterAccountType()" />
+            [value]="selectedAccountType?.accountTypeRecord?.accountTypeName" formControlName="accountTypeName"
+            (input)="filterAccountType()" />
           <img *ngIf="selectedAccountType?.accountTypeRecord?.accountTypeIcon"
             [src]="selectedAccountType.accountTypeRecord.accountTypeIcon"
             alt="{{ selectedAccountType?.accountTypeRecord?.accountTypeIcon }}" />
@@ -19,13 +20,13 @@
         </div>
       </div>
 
-      <div class="col-md-2 p-1 d-flex align-items-center">
-        <span>Disponibles  {{ selectedAccountType?.accountTypeRecord?.accountTypeAvailableProfiles || 0 }}</span>
+      <div class="col-md-2 p-1 d-flex align-items-center justify-content-center">
+        <span>Disponibles {{ selectedAccountType?.accountTypeRecord?.accountTypeAvailableProfiles || 0 }}</span>
       </div>
 
       <div class="col-md-5 mb-3">
         <div class="p-2 input-with-icon" (click)="toggleDropdownClients()">
-          <input type="text" placeholder="Seleccione cliente" [value]="selectedClient?.name" formControlName="clientId"
+          <input type="text" placeholder="Seleccione cliente" [value]="selectedClient?.clientName" formControlName="clientId"
             (input)="filterClient()" />
         </div>
         <div class="dropdown" [class.show]="isDropdownClientsOpen">
@@ -33,7 +34,7 @@
             <span data-bs-toggle="modal" data-bs-target="#modalNewClient">Nuevo cliente</span>
           </div>
           <div class="dropdown-item" *ngFor="let client of clients" (click)="selectClient(client)">
-            <span>{{ client.name }}</span>
+            <span>{{ client.clientName }}</span>
           </div>
         </div>
       </div>
@@ -53,13 +54,13 @@
     <br>
 
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-5 mb-1">
         <div class="p-2 input-with-icon">
           <input type="text" placeholder="Ingrese nombre" formControlName="profileSaleName" />
         </div>
       </div>
 
-      <div class="col-md-5">
+      <div class="col-md-5 mb-1">
         <div class="p-2 input-with-icon">
           <input type="text" placeholder="Ingrese pin" formControlName="profileSalePin" />
         </div>
@@ -67,7 +68,9 @@
 
       <div class="col-md-2">
         <div class="d-flex justify-content-center">
-          <button nbButton status="danger" (click)="addNewProfileSale()" [disabled]="selectedAccountType?.accountTypeRecord?.accountTypeAvailableProfiles == 0"><nb-icon icon="plus-circle-outline"></nb-icon></button>
+          <button nbButton status="danger" (click)="addNewProfileSale()"
+            [disabled]="!this.newProfileSaleForm.valid"><nb-icon
+              icon="plus-circle-outline"></nb-icon></button>
         </div>
       </div>
     </div>
@@ -83,18 +86,24 @@
 
 <!--Dialog new client-->
 <div class="modal fade" id="modalNewClient" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  aria-labelledby="modalNewClientLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Nueva cuenta</h5>
+        <h5 class="modal-title" id="modalNewClientLabel">Nueva cuenta</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="container">
-          <div class="p-2 input-with-icon">
-            <input type="text" placeholder="Nombre cliente" [(ngModel)]="newClientName" />
-          </div>
+          <form [formGroup]="clientForm">
+            <div class="p-2 input-with-icon">
+              <input type="text" placeholder="Nombre cliente" formControlName="clientName" />
+            </div>
+            <br>
+            <div class="p-2 input-with-icon">
+              <input type="text" placeholder="Contacto cliente" formControlName="clientNumber" />
+            </div>
+          </form>
         </div>
       </div>
       <div class="modal-footer">

@@ -1,22 +1,28 @@
-<div class="d-flex justify-content-between p-2">
+<div class="d-md-flex justify-content-between p-2">
     <span class="d-flex align-items-center">
-        <h1>Plataformas disponibles</h1>
+        <h1 class="text-small">Plataformas disponibles</h1>
     </span>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Nueva
+    <button type="button" class="btn btn-danger text" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Nueva
         plataforma</button>
 </div>
-<div class="row">
-    <div *ngFor="let account of accountsType" class="col-md-3 mb-4">
-        <div>
-            <app-card-info [object]="account" [totalAccounts]="accountsType.length"></app-card-info>
+<div>
+    <div *ngIf="accountsType.length == 0" class="pt-5 d-flex justify-content-center">
+        <h1 class="text">NO HAY PLATAFORMAS DISPONIBLES</h1>
+    </div>
+    <div class="row" *ngIf="accountsType.length > 0">
+        <div *ngFor="let account of accountsType" class="col-6 col-md-3 mb-4">
+            <div>
+                <app-card-info [object]="account" [totalAccounts]="accountsType.length"></app-card-info>
+            </div>
         </div>
     </div>
+
 </div>
 
 
 
 <!--Modals-->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -53,13 +59,13 @@
                         </div>
                         <div class="container p-5 text-center border rounded">
                             <div *ngIf="!imageSelected">
-                                <h2 class="mb-4">Subir Imagen</h2>
-                                <label for="fileUpload" class="btn btn-primary">
-                                    <i class="bi bi-cloud-upload"></i> Seleccionar Archivo
+                                <h2 class="lg-mb-4">Subir Imagen</h2>
+                                <label for="fileUpload" class="btn btn-primary btn-lg" style="border-style: dashed;">
+                                    Seleccionar Archivo
                                     <input (change)="onFileSelected($event)" type="file" id="fileUpload"
                                         style="display: none;" accept=".jpg, .jpeg, .png, .pdf">
                                 </label>
-                                <p class="mt-2 mb-0">Selecciona un archivo JPG, JPEG, PNG o PDF.</p>
+                                <p class="lg-mt-2 mb-0">Selecciona un archivo JPG, JPEG, PNG o PDF.</p>
                             </div>
                             <div *ngIf="imageSelected" id="imagePreviewContainer" class="mt-4"
                                 style="display: none; position: relative;">
@@ -75,8 +81,36 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" (click)="createAccountType()">Crear</button>
+                <button type="button" class="btn btn-primary" (click)="openConfirmation()" [disabled]="!newAccountTypeForm.valid">Crear</button>
+
             </div>
         </div>
     </div>
 </div>
+
+<!--Modal confirmation-->
+<div *ngIf="modalConfirmation">
+    <app-dialog-confirmation (onConfirmCallback)="createAccountType()" (onCancelCallback)="this.modalConfirmation = false"></app-dialog-confirmation>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+

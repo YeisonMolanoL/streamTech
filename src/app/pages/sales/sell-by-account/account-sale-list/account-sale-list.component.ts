@@ -2,6 +2,7 @@ import { Component, Input, Output, SimpleChanges, ViewChild, EventEmitter, OnIni
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, map, of } from 'rxjs';
 import { AccountService } from '../../../../core/services/account.service';
+import { AlertsService } from '../../../../core/services/alerts.service';
 
 @Component({
   selector: 'app-account-sale-list',
@@ -13,10 +14,11 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
   @ViewChild('autoInput') input: any;
   @Input() accountType: any;
   filteredAccounts$: Observable<any[]> = of([]);
+  modalConfirmation: boolean = false;
+  accountSelected: boolean = false;
   selectedAccounts : any[] = [];
   accountsPage : any[] = [];
   accountForm! : FormGroup;
-  accountSelected = false;
   accounts : any[] = [];
   pageTotal = 0;
   pageSize = 5;
@@ -24,7 +26,7 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
 
   
 
-  constructor(private fb : FormBuilder, private accountService: AccountService){
+  constructor(private alert: AlertsService, private fb : FormBuilder, private accountService: AccountService){
     
   }
 
@@ -37,8 +39,6 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit(): void {
-    console.log('hola');
-    
       this.getAvailableAccountsByAccountType();
       this.initForm();
       this.accountForm.get('accountTypeRecord')?.setValue(this.accountType);
@@ -92,7 +92,7 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
         this.pageTotal = data.totalPages;
       },
       error: (err) => {
-        console.log("Ha ocurrido un error en el backend");
+        this.alert.showWarning(err.error.message, '¡Importante!');
       }
     });
   }
@@ -115,7 +115,7 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
         this.ngOnInit();
       },
       error: (err) =>{
-        console.log("Ocurrio un error en el back");
+        this.alert.showError(err.error.message, '¡Importante!');
       }
     })
   }
@@ -125,9 +125,10 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
     this.accountService.updateAccount(account.accountId, account).subscribe({
       next: (data) => {
         this.ngOnInit();
+        this.alert.showSuccess('Actualizado correctamente', '¡Validado!');
       },
       error: (err) => {
-        console.log('ha ocurrido un error en el backend' + err.error);
+        this.alert.showError(err.error.message, '¡Importante!');
       }
     });
   }
@@ -137,9 +138,10 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
     this.accountService.updateAccount(account.accountId, account).subscribe({
       next: (data) => {
         this.ngOnInit();
+        this.alert.showSuccess('Actualizado correctamente', '¡Validado!');
       },
       error: (err) => {
-        console.log('ha ocurrido un error en el backend' + err.error);
+        this.alert.showError(err.error.message, '¡Importante!');
       }
     });
   }
@@ -149,9 +151,10 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
     this.accountService.updateAccount(account.accountId, account).subscribe({
       next: (data) => {
         this.ngOnInit();
+        this.alert.showSuccess('Actualizado correctamente', '¡Validado!');
       },
       error: (err) => {
-        console.log('ha ocurrido un error en el backend' + err.error);
+        this.alert.showError(err.error.message, '¡Importante!');
       }
     });
   }
@@ -186,6 +189,7 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
   }
 
   newAccountSale(){
+    this.modalConfirmation = false;
     this.selectedAccountsUpdated.emit(this.selectedAccounts);
   }
 
@@ -199,7 +203,7 @@ export class AccountSaleListComponent implements OnInit, OnDestroy  {
           this.pageTotal = data.totalPages;
         },
         error: (err) => {
-          console.log("Ha ocurrido un error en el backend");
+          this.alert.showWarning(err.error.message, '¡Importante!');
         }
       });
     }

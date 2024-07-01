@@ -1,7 +1,7 @@
 <div class="card p-4">
   <form [formGroup]="newAccountSaleForm">
     <div class="row">
-      <div class="col-md-6 dropdown-container">
+      <div class="col-md-6 mb-2 dropdown-container">
         <div class="p-2 input-with-icon" (click)="toggleDropdownAccountType()">
           <input
             type="text"
@@ -29,18 +29,21 @@
           <input
             type="text"
             placeholder="Seleccione cliente"
-            [value]="selectedClient?.name"
+            [value]="selectedClient?.clientName"
             formControlName="clientId"
             (input)="filterClient()"
           />
         </div>
         <div class="dropdown" [class.show]="isDropdownClientsOpen">
+          <div class="dropdown-item">
+            <span data-bs-toggle="modal" data-bs-target="#modalNewClient">Nuevo cliente</span>
+          </div>
           <div
             class="dropdown-item"
             *ngFor="let client of clients"
             (click)="selectClient(client)"
           >
-            <span>{{ client.name }}</span>
+            <span>{{ client.clientName }}</span>
           </div>
         </div>
       </div>
@@ -63,4 +66,12 @@
 <br>
 <div *ngIf="selectedAccountType != null && selectedAccountType != undefined" class="card">
   <app-account-sale-list #accountSaleList [accountType]="this.selectedAccountType" (selectedAccountsUpdated)="newAccountSale($event)"></app-account-sale-list>
+</div>
+
+
+
+<!--Dialog new client-->
+<div class="modal fade" id="modalNewClient" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalNewClientLabel" aria-hidden="true">
+  <app-create-client (modalClose)="this.uploadClients()"></app-create-client>
 </div>
