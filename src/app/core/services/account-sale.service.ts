@@ -20,6 +20,6 @@ export class AccountSaleService {
   newAccountSale(accountSale: any){
     return this.http.post<any>(this.globalRoute + 'create', accountSale, {
       observe: 'response'
-    })
+    });
   }
 }

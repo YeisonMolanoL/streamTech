@@ -3,6 +3,11 @@ import { AccountService } from '../../core/services/account.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
 import { AlertsService } from '../../core/services/alerts.service';
+import { ProfileSaleService } from '../../core/services/profile-sale.service';
+import { NbDialogService } from '@nebular/theme';
+import { EditAccountDataModalComponent } from '../edit-account-data-modal/edit-account-data-modal.component';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-account-list',
@@ -14,18 +19,17 @@ export class AccountListComponent implements OnInit, OnChanges{
   accountsPage : any[] = [];
   accounts : any[] = [];
   filteredAccounts$: Observable<any[]> = of([]);
-  accountSelected = false;
+  accountSelected: any;
   accountForm! : FormGroup;
   pageSize = 5;
   page = 0;
   pageTotal = 0;
   modalConfirmation: boolean = false;
+  accountData: any[] = [];
 
   @ViewChild('autoInput') input: any;
 
-  constructor(private alert: AlertsService, private fb : FormBuilder, private accountService: AccountService){
-    
-  }
+  constructor(private dialogService: NbDialogService, private profileSaleService: ProfileSaleService, private alert: AlertsService, private fb : FormBuilder, private accountService: AccountService){}
 
   ngOnChanges(changes: SimpleChanges): void {
       this.ngOnInit();
@@ -125,20 +129,40 @@ export class AccountListComponent implements OnInit, OnChanges{
   }
 
   toggleAccountStatus(account: any){
-    account.accountStatusAcount = !account.accountStatusAcount;
-    this.accountService.updateAccount(account.accountId, account).subscribe({
+    if(account.accountAvailableProfiles < account.accountTypeRecord.accountTypeAmountProfile){
+      this.profileSaleService.getSalesByAccount(account.accountId).subscribe({
+        next: (data) => {
+          this.accountData = data;
+          this.dialogService.open(EditAccountDataModalComponent, {
+            context: {
+              accountType: this.accountType,
+              profilesSalesList: this.accountData,
+              account: account,
+            },
+          }).onClose.subscribe(data => {
+            if (data = 'restart'){
+              this.ngOnInit();
+            }
+          });
+        },
+        error: (err) => {
+  
+        }
+      });
+    }
+    //account.accountStatusAcount = !account.accountStatusAcount;
+    /*this.accountService.updateAccount(account.accountId, account).subscribe({
       next: (data) => {
         this.ngOnInit();
       },
       error: (err) => {
         this.alert.showWarning(err.error.message, 'Importante');
       }
-    });
+    });*/
   }
 
   toggleAccountStatusSale(account: any){
     account.accountStatusSale = !account.accountStatusSale;
-    console.log(account);
     account.accountTypeRecord.accountTypeAvailableProfiles = account.accountTypeRecord.accountTypeAvailableProfiles - account.accountAvailableProfiles;
     
     
@@ -182,5 +206,18 @@ export class AccountListComponent implements OnInit, OnChanges{
 
   onSelectionChange($event: any) {
     this.filteredAccounts$ = this.getFilteredOptions($event);
+  }
+
+  showAccountData(event: any){
+    this.accountSelected = event;
+    this.profileSaleService.getSalesByAccount(this.accountSelected.accountId).subscribe({
+      next: (data) => {
+        this.accountData = data;
+        
+      },
+      error: (err) => {
+
+      }
+    });
   }
 }

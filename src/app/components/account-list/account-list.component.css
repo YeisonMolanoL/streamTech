@@ -1,11 +1,20 @@
 .card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px 20px 0px 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #343a40;
+  cursor: pointer;
+  color: #fff;
+}
+
+.custom-modal-width {
+    max-width: 730px;
 }

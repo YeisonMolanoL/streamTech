@@ -1,3 +1,8 @@
+.overflow-auto {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 @media screen and (max-width: 576px) {
     .card {
         font-size: 14px !important;

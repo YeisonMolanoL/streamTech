@@ -18,13 +18,14 @@ import { AccountSaleListComponent } from './sales/sell-by-account/account-sale-l
 import { SellProfileListComponent } from './sales/sell-by-profile/sell-profile-list/sell-profile-list.component';
 import { DialogConfirmationComponent } from '../components/dialog-confirmation/dialog-confirmation.component';
 import { CreateClientComponent } from '../components/create-client/create-client.component';
+import { EditAccountDataModalComponent } from '../components/edit-account-data-modal/edit-account-data-modal.component';
 
 @NgModule({
   declarations: [PagesComponent, HeaderComponent, PlattformsComponent,
     CardInfoComponent,AccountComponent, SellByProfileComponent,
     SellByAccountComponent, YesNoPipelinePipe, AccountListComponent,
     SellByComboComponent, AccountSaleListComponent, SellProfileListComponent,
-    DialogConfirmationComponent, CreateClientComponent, HeaderComponent
+    DialogConfirmationComponent, CreateClientComponent, HeaderComponent, EditAccountDataModalComponent,
   ],
   imports: [
     CommonModule,

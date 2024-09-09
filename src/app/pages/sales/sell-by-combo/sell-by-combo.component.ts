@@ -127,6 +127,7 @@ export class SellByComboComponent implements OnInit{
     this.comboSaleService.newComboSale(this.newComboSaleForm.value).subscribe({
       next: (data) => {
         this.ngOnInit();
+        this.comboAccountsType = [];
         this.modalConfirmation = false;
         this.newComboSaleForm.reset();
         this.alert.showSuccess('Se ha creado la venta correctamente', '¡Validado!');

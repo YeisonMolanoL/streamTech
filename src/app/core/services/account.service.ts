@@ -51,4 +51,8 @@ export class AccountService {
       params: httpParams
     });
   }
+
+  inactiveAccount(accountId: number){
+    return this.http.post<any>(`${this.globalRoute}${accountId}`, {});
+  }
 }

@@ -10,6 +10,7 @@ export class ComboSaleService {
   constructor(private http: HttpClient) { }
 
   newComboSale(comboSale: any){
+    console.log('comboSale :>> ', comboSale);
     return this.http.post<any>(this.globalRoute + 'create', comboSale, {
       observe: 'response'
     })

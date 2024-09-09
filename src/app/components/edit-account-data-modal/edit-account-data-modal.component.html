@@ -1,0 +1,60 @@
+<div class="card p-4">
+  <div class="d-flex justify-content-between">
+    <div>
+
+    </div>
+    <div>
+      <button nbButton (click)="closeDialog('')">Cerrar</button>
+    </div>
+  </div>
+
+  <div class="header">
+    <h1>¡Recuerda que tienes estos clientes en esa cuenta!</h1>
+  </div>
+  <div class="overflow-auto">
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <td class="text-center" scope="col">Cliente</td>
+          <td class="text-center" scope="col">Usuario</td>
+          <td class="text-center" scope="col">Pin</td>
+          <td class="text-center" scope="col">Tipo de venta</td>
+          <td class="text-center" scope="col">Pasar a</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let profileSale of profilesSalesList">
+          <th class="text-center">{{ profileSale.clientRecord.clientName }}</th>
+          <td class="text-center">{{ profileSale.profileSaleName }}</td>
+          <td class="text-center">{{ profileSale.profileSalePurchaseDate }}</td>
+          <td class="text-center">{{ profileSale.profileSaleDueDate }}</td>
+          <td class="d-flex justify-content-center">
+            <input
+              #autoInput
+              nbInput
+              type="text"
+              (input)="onChange()"
+              placeholder="Seleccione cuenta"
+              [nbAutocomplete]="auto"
+            />
+
+            <nb-autocomplete #auto appendTo="body" (selectedChange)="onSelectionAccount($event, profileSale)">
+              <nb-option *ngFor="let account of availableAccounts" [value]="account.accountEmail">
+                {{ account.accountEmail }}
+              </nb-option>
+            </nb-autocomplete>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      class="p-3 d-flex justify-content-center"
+      *ngIf="profilesSalesList.length <= 0"
+    >
+      <h2>AÚN SIN VENTAS DE ESTA CUENTA</h2>
+    </div>
+  </div>
+  <div class="footer pt-3 d-flex justify-content-end align-items-center">
+    <button (click)="inactiveAccount()">Inactivar cuenta</button>
+  </div>
+</div>
