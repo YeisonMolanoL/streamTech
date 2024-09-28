@@ -19,13 +19,15 @@ import { SellProfileListComponent } from './sales/sell-by-profile/sell-profile-l
 import { DialogConfirmationComponent } from '../components/dialog-confirmation/dialog-confirmation.component';
 import { CreateClientComponent } from '../components/create-client/create-client.component';
 import { EditAccountDataModalComponent } from '../components/edit-account-data-modal/edit-account-data-modal.component';
+import { ConnectionComponent } from './connection/connection.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [PagesComponent, HeaderComponent, PlattformsComponent,
     CardInfoComponent,AccountComponent, SellByProfileComponent,
     SellByAccountComponent, YesNoPipelinePipe, AccountListComponent,
     SellByComboComponent, AccountSaleListComponent, SellProfileListComponent,
-    DialogConfirmationComponent, CreateClientComponent, HeaderComponent, EditAccountDataModalComponent,
+    DialogConfirmationComponent, CreateClientComponent, HeaderComponent, EditAccountDataModalComponent, ConnectionComponent,
   ],
   imports: [
     CommonModule,
@@ -58,7 +60,8 @@ import { EditAccountDataModalComponent } from '../components/edit-account-data-m
     NbSpinnerModule,
     NbAlertModule,
     FormsModule,
-    NbDatepickerModule
+    NbDatepickerModule,
+    ComponentsModule
   ],
   exports: [YesNoPipelinePipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

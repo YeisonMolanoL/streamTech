@@ -23,6 +23,11 @@ export class PagesComponent implements OnInit, AfterViewInit {
           home: true,
         },
         {
+          title: 'Conexión',
+          icon: 'message-square-outline',
+          link: 'conection'
+        },
+        {
           title: 'Inventario',
           group: true,
         },

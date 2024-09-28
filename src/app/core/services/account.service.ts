@@ -55,4 +55,11 @@ export class AccountService {
   inactiveAccount(accountId: number){
     return this.http.post<any>(`${this.globalRoute}${accountId}`, {});
   }
+
+  getAccountsWithAvailableProfiles(accountTypeId: number, page: number, pageSize: number){
+    const params = new HttpParams().set('accountTypeId', accountTypeId).set('page', page).set('pageSize', pageSize);
+    return this.http.get<any>(`${this.globalRoute}available/profiles`, {
+      params: params,
+    });
+  }
 }

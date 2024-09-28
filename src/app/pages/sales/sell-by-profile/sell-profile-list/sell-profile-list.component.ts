@@ -1,3 +1,4 @@
+import { ConnectionChatService } from './../../../../core/services/connection-chat.service';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ProfileSaleService } from '../../../../core/services/profile-sale.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -17,7 +18,7 @@ export class SellProfileListComponent implements OnInit{
   profileDataForm!: FormGroup;
   selectedObjectIndex: number | null = null;
 
-  constructor(private alert: AlertsService, private fb: FormBuilder, private profileSaleService: ProfileSaleService){}
+  constructor(private connectionService: ConnectionChatService, private alert: AlertsService, private fb: FormBuilder, private profileSaleService: ProfileSaleService){}
 
   ngOnInit(): void {
       this.initForm();
@@ -51,7 +52,15 @@ export class SellProfileListComponent implements OnInit{
         this.ngOnInit();
         this.saleListCleared.emit();
         this.dialogConfirmation = false;
-        this.alert.showSuccess('Se ha realizado la venta correctamente', '¡Validado!')
+        this.alert.showSuccess('Se ha realizado la venta correctamente', '¡Validado!');
+        this.connectionService.sendMessage('Se ha realizado la venta correctamente', '3214998117').subscribe({
+          next: (data) => {
+            console.log('data :>> ', data);
+          },
+          error: (err) => {
+            console.log('err :>> ', err);
+          }
+        });
       },
       error: (err) => {
         this.alert.showError(err.error.message, 'Importante')

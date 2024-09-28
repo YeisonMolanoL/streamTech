@@ -1,13 +1,13 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { AccountService } from '../../core/services/account.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
 import { AlertsService } from '../../core/services/alerts.service';
 import { ProfileSaleService } from '../../core/services/profile-sale.service';
 import { NbDialogService } from '@nebular/theme';
 import { EditAccountDataModalComponent } from '../edit-account-data-modal/edit-account-data-modal.component';
-
-declare var bootstrap: any;
+import { AddCustomersComponent } from '../add-customers/add-customers.component';
+import { CreateAccountComponent } from '../create-account/create-account.component';
 
 @Component({
   selector: 'app-account-list',
@@ -20,7 +20,6 @@ export class AccountListComponent implements OnInit, OnChanges{
   accounts : any[] = [];
   filteredAccounts$: Observable<any[]> = of([]);
   accountSelected: any;
-  accountForm! : FormGroup;
   pageSize = 5;
   page = 0;
   pageTotal = 0;
@@ -36,34 +35,8 @@ export class AccountListComponent implements OnInit, OnChanges{
   }
 
   ngOnInit(): void {
-      this.getAvailableAccountsByAccountType();
-      this.initForm();
-      this.accountForm.get('accountTypeRecord')?.setValue(this.accountType);
-      this.getAllAccountsByType();
-  }
-
-  initForm(){
-    this.accountForm = this.fb.group({
-      accountId: [''],
-      accountEmail: ['', Validators.required],
-      accountPassword: ['', Validators.required],
-      accountStatusAcount: [false],
-      accountStatusSale: [false],
-      accountProperty: [false],
-      accountDueDate: ['', Validators.required],
-      accountPurchaseDate: ['', Validators.required],
-      accountAvailableProfiles: ['', Validators.required],
-      accountTypeRecord: [''],
-    });
-
-    this.accountForm.get('accountPurchaseDate')?.valueChanges.subscribe((value) => {
-      if (value) {
-        const purchaseDate = new Date(value);
-        const dueDate = new Date(purchaseDate);
-        dueDate.setDate(purchaseDate.getDate() + 30);
-        this.accountForm.get('accountDueDate')?.setValue(dueDate.toISOString().split('T')[0]);
-      }
-    });
+    this.getAvailableAccountsByAccountType();
+    this.getAllAccountsByType();
   }
 
   getAllAccountsByType(){
@@ -113,20 +86,7 @@ export class AccountListComponent implements OnInit, OnChanges{
     modalBackdrop.parentNode?.removeChild(modalBackdrop);
   }
 
-  createAccount(){
-    this.modalConfirmation = false;
-    this.accountService.newAccount(this.accountForm.value).subscribe({
-      next: (data) => {
-        this.closeModal();
-        this.accountForm.reset();
-        this.ngOnInit();
-        this.alert.showSuccess('Se ha creado la cuenta correctamente', '¡Correcto!')
-      },
-      error: (err) =>{
-        this.alert.showWarning(err.error.message, 'Importante');
-      }
-    })
-  }
+  
 
   toggleAccountStatus(account: any){
     if(account.accountAvailableProfiles < account.accountTypeRecord.accountTypeAmountProfile){
@@ -217,6 +177,21 @@ export class AccountListComponent implements OnInit, OnChanges{
       },
       error: (err) => {
 
+      }
+    });
+  }
+
+  openDialogCreateAccount(){
+    const dialogRef = this.dialogService.open(CreateAccountComponent, {
+      context: { accountType: this.accountType },
+    });
+    dialogRef.onClose.subscribe((data: any) => {
+      if (data) {
+        if(data?.response){
+          this.ngOnInit();
+        }
+      } else {
+        console.log('El diálogo fue cancelado.');
       }
     });
   }

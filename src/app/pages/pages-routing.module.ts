@@ -7,12 +7,17 @@ import path from 'path';
 import { SellByAccountComponent } from './sales/sell-by-account/sell-by-account.component';
 import { SellByProfileComponent } from './sales/sell-by-profile/sell-by-profile.component';
 import { SellByComboComponent } from './sales/sell-by-combo/sell-by-combo.component';
+import { ConnectionComponent } from './connection/connection.component';
 
 const routes: Routes = [
   {
     path: '',
     component: PagesComponent,
     children: [
+      {
+        path: 'conection',
+        component: ConnectionComponent
+      },
       {
         path: 'plataformas',
         component: PlattformsComponent

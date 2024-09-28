@@ -7,8 +7,7 @@
       <button
         type="button"
         class="btn btn-danger"
-        data-bs-toggle="modal"
-        data-bs-target="#modalNewAccount"
+        (click)="openDialogCreateAccount()"
       >
         Nueva cuenta
       </button>
@@ -28,7 +27,7 @@
         nbInput
         type="text"
         (input)="onChange()"
-        placeholder="Enter value"
+        placeholder="Buscar"
         [nbAutocomplete]="auto"
       />
       <nb-autocomplete #auto (selectedChange)="onSelectionChange($event)">
@@ -66,6 +65,7 @@
           <td scope="col">Correo</td>
           <td scope="col">Cliente</td>
           <td scope="col">Perfiles disp</td>
+          <td scope="col">Vence</td>
           <td scope="col">¿Funcionando?</td>
           <td scope="col">¿Vendida?</td>
           <td scope="col">¿Propia?</td>
@@ -76,6 +76,7 @@
           <th data-bs-toggle="modal" data-bs-target="#modalAccountData" (click)="showAccountData(account)" class="text-center">{{ account.accountEmail }}</th>
           <td data-bs-toggle="modal" data-bs-target="#modalAccountData" (click)="showAccountData(account)" class="text-center">Yeison</td>
           <td data-bs-toggle="modal" data-bs-target="#modalAccountData" (click)="showAccountData(account)" class="text-center">{{ account.accountAvailableProfiles }}</td>
+          <td data-bs-toggle="modal" data-bs-target="#modalAccountData" (click)="showAccountData(account)" class="text-center">{{ account.accountDueDate }}</td>
           <td>
             <div class="custom-td form-check form-switch d-flex justify-content-center">
               <input
@@ -146,184 +147,6 @@
   </div>
 </div>
 
-<!--Modal-->
-<div
-  class="modal fade"
-  id="modalNewAccount"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Nueva cuenta</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          (click)="this.accountForm.reset()"
-        ></button>
-      </div>
-      <div>
-        <span class="d-flex justify-content-center p-2">
-          <img
-            src="{{
-              this.accountForm.get('accountTypeRecord')?.value?.accountTypeIcon
-            }}"
-            alt=""
-            style="max-width: 100%; max-height: 100px"
-          />
-        </span>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <form [formGroup]="accountForm">
-            <div class="form-floating mb-3">
-              <input
-                type="text"
-                class="form-control"
-                id="accountEmail"
-                formControlName="accountEmail"
-                placeholder=" "
-              />
-              <label for="accountEmail" class="form-label-placeholder"
-                >Email</label
-              >
-            </div>
-            <div class="form-floating mb-3">
-              <input
-                type="password"
-                class="form-control"
-                id="accountPassword"
-                formControlName="accountPassword"
-                placeholder=" "
-              />
-              <label for="accountPassword" class="form-label-placeholder"
-                >Contraseña</label
-              >
-            </div>
-
-            <div class="mb-3 form-check">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="accountStatusAcount"
-                formControlName="accountStatusAcount"
-              />
-              <label class="form-check-label" for="accountStatusAcount"
-                >¿Cuenta funcional?</label
-              >
-            </div>
-
-            <div class="mb-3 form-check">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="accountStatusSale"
-                formControlName="accountStatusSale"
-              />
-              <label class="form-check-label" for="accountStatusSale"
-                >¿Vendida?</label
-              >
-            </div>
-
-            <div class="mb-3 form-check">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="accountProperty"
-                formControlName="accountProperty"
-              />
-              <label class="form-check-label" for="accountProperty"
-                >¿Es propia?</label
-              >
-            </div>
-
-            <div class="mb-3">
-              <label for="accountDueDate" class="form-label"
-                >Fecha de compra</label
-              >
-              <input
-                type="date"
-                class="form-control"
-                formControlName="accountPurchaseDate"
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="accountPurchaseDate" class="form-label"
-                >Fecha de vencimiento</label
-              >
-              <input
-                type="date"
-                class="form-control"
-                formControlName="accountDueDate"
-              />
-            </div>
-
-            <div class="form-floating mb-3">
-              <input
-                type="number"
-                class="form-control"
-                id="accountAvailableProfiles"
-                formControlName="accountAvailableProfiles"
-                placeholder=" "
-              />
-              <label
-                for="accountAvailableProfiles"
-                class="form-label-placeholder"
-                >Cantidad de perfiles disponibles</label
-              >
-              <div
-                *ngIf="
-                  accountForm
-                    .get('accountAvailableProfiles')
-                    ?.hasError('pattern')
-                "
-              >
-                <small class="text-danger"
-                  >La cantidad de perfiles debe ser un solo dígito entre 1 y
-                  9.</small
-                >
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-          (click)="this.accountForm.reset()"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="this.modalConfirmation = true"
-          [disabled]="!this.accountForm.valid"
-        >
-          Crear
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--Modal confrimation-->
-<div *ngIf="modalConfirmation">
-  <app-dialog-confirmation
-    (onConfirmCallback)="createAccount()"
-    (onCancelCallback)="this.modalConfirmation = false"
-  ></app-dialog-confirmation>
-</div>
-
 <!--Modal Show Account Data-->
 <div
   class="modal fade"
@@ -343,7 +166,6 @@
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
-          (click)="this.accountForm.reset()"
         ></button>
       </div>
       <div class="d-flex justify-content-between p-3">

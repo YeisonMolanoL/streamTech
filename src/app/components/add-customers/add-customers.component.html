@@ -1,0 +1,118 @@
+<div class="card p-4">
+  <div class="row">
+    <div class="col-10 col-md-11">
+      <h5 class="text-center">Añadir clientes</h5>
+    </div>
+    <div class="col-2 col-md-1">
+      <button type="button" class="btn-close" (click)="closeModal()"></button>
+    </div>
+  </div>
+  <form [formGroup]="profilesForm">
+    <div class="row">
+      <div class="col-md-4 col-6 pb-2">
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          shape="rectangle"
+          placeholder="Perfil*"
+          formControlName="profile"
+        />
+      </div>
+      <div class="col-md-4 col-6 pb-2">
+        <input
+          #autoInput
+          nbInput
+          fullWidth
+          type="text"
+          placeholder="Pin"
+          formControlName="pin"
+        />
+      </div>
+      <div class="col-md-4 col-12 pb-2">
+        <nb-select placeholder="Cliente" class="w-100" formControlName="clientId">
+          <nb-option
+            *ngFor="let customer of customers"
+            [value]="customer.clientId"
+            >{{ customer.clientName }}</nb-option
+          >
+        </nb-select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 col-6">
+        <input
+          nbInput
+          placeholder="Fecha de venta"
+          [nbDatepicker]="dateSalePurchase"
+          class="w-100"
+          formControlName="profileSalePurchaseDate"
+        />
+        <nb-datepicker #dateSalePurchase></nb-datepicker>
+      </div>
+      <div class="col-md-4 col-6">
+        <div>
+          <input
+            nbInput
+            placeholder="Fecha de vencimiento"
+            [nbDatepicker]="dateSaleDue"
+            class="w-100"
+            formControlName="profileSaleDueDate"
+          />
+          <nb-datepicker #dateSaleDue></nb-datepicker>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mt-2">
+      <div class="d-flex justify-content-center">
+        <button
+          nbButton
+          status="danger"
+          (click)="addProfile()"
+          [disabled]="profilesForm.invalid || profiles.length >= _accountType.accountTypeRecord.accountTypeAmountProfile"
+        >
+          <nb-icon icon="plus-circle-outline"></nb-icon>
+        </button>
+      </div>
+    </div>
+    <!--Dialog new client-->
+  </form>
+
+  <div *ngIf="profiles.length > 0">
+    <div>
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <td scope="col">Perfil</td>
+            <td scope="col">Pin</td>
+            <td scope="col">Fecha venta</td>
+            <td scope="col">Fecha vencimiento</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let profile of profiles">
+            <th class="text-center">{{ profile.profileSaleName }}</th>
+            <td class="text-center">{{ profile.profileSalePin }}</td>
+            <td class="text-center">
+              {{ profile.profileSalePurchaseDate | date : "dd/MM/yyyy" : "es" }}
+            </td>
+            <td class="text-center">
+              {{ profile.profileSaleDueDate | date : "dd/MM/yyyy" : "es" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="profiles.length <= 0"
+        (click)="closeModal()"
+      >
+        Continuar
+      </button>
+    </div>
+  </div>
+</div>

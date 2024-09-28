@@ -29,4 +29,8 @@ export class ProfileSaleService {
       params: params,
     });
   }
+
+  sellProfilesByAccountRecord(request: any){
+    return this.http.post<any>(`${this.globalRoute}by/account`, request);
+  }
 }

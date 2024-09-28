@@ -19,11 +19,11 @@ export class EditAccountDataModalComponent implements OnInit {
   constructor(protected dialogRef: NbDialogRef<EditAccountDataModalComponent>, private alert: AlertsService, private profileSaleService: ProfileSaleService, private accountService: AccountService, private overlayService: NbOverlayService){}
 
   ngOnInit(): void {
-    this.getAvailableAccountsByAccountType();
+    this.getAvailableAccountsByAccountTypeWithAvailableProfiles();
   }
 
-  getAvailableAccountsByAccountType(){
-    this.accountService.getAllByAccountType(this.accountType, 0, 100).subscribe({
+  getAvailableAccountsByAccountTypeWithAvailableProfiles(){
+    this.accountService.getAccountsWithAvailableProfiles(this.accountType.accountTypeRecord.accountTypeId, 0, 100).subscribe({
       next: (data) => {
         this.availableAccounts = data.content.filter((account: any) => account.accountId !== this.account.accountId);
       },
