@@ -78,7 +78,6 @@ export class CreateAccountComponent implements OnInit {
         this.isReadonly = true; 
         this.profilesActive = data;
       } else {
-        console.log('El diálogo fue cancelado.');
       }
     });
   }
@@ -90,11 +89,9 @@ export class CreateAccountComponent implements OnInit {
 
   createAccount(){
     this.accountForm.get('accountTypeRecord')?.setValue(this._accountType);
-    console.log('this.accountForm.value :>> ', this.accountForm.value);
     this.accountForm.get('accountAvailableProfiles')?.enable();
     this.accountService.newAccount(this.accountForm.value).subscribe({
       next: (data) => {
-        console.log('data :>> ', data);
         const dataAddProdiles = {
           accountTypeId: 1,
           accountRecordId: data.body.accountId,
@@ -118,10 +115,5 @@ export class CreateAccountComponent implements OnInit {
         this.alert.showWarning(err.error.message, 'Importante');
       }
     });
-  }
-
-  test(){
-    console.log('this.accountForm.value :>> ', this.accountForm.value);
-    console.log('this.accountForm.valid :>> ', this.accountForm.valid);
   }
 }

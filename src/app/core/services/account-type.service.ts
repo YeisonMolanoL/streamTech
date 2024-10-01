@@ -18,8 +18,6 @@ export class AccountTypeService {
   }
 
   newAccountType(accountType: any){
-    console.log(accountType);
-    
     return this.http.post<any>(this.globalRoute + 'create', accountType, {
       observe: 'response'
     })

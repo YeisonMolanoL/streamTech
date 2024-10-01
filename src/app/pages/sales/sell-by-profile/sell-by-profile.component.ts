@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, Input, Output, ViewChild, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountSaleService } from '../../../core/services/account-sale.service';
 import { AccountSaleListComponent } from '../sell-by-account/account-sale-list/account-sale-list.component';
@@ -12,13 +12,13 @@ import { AlertsService } from '../../../core/services/alerts.service';
   templateUrl: './sell-by-profile.component.html',
   styleUrl: './sell-by-profile.component.css'
 })
-export class SellByProfileComponent {
+export class SellByProfileComponent implements OnInit {
   accountType: any = [];
   isDropdownAccountTypeOpen = false;
   isDropdownClientsOpen = false;
   newProfileSaleForm!: FormGroup;
-  selectedAccountType: any = [];
-  selectedClient: any = [];
+  selectedAccountType: any;
+  selectedClient: any;
   accountTypeList = new Array<any>();
   clients = new Array<any>();
   searchAccountType: any;
@@ -106,8 +106,8 @@ export class SellByProfileComponent {
   selectAccountType(option: any) {
     this.selectedAccountType = option;
     this.isDropdownAccountTypeOpen = false;
-    this.newProfileSaleForm.get('accountTypeId')?.setValue(this.selectedAccountType.accountTypeRecord.accountTypeId);
-    this.newProfileSaleForm.get('accountTypeName')?.setValue(this.selectedAccountType.accountTypeRecord.accountTypeName);
+    this.newProfileSaleForm.get('accountTypeId')?.setValue(this.selectedAccountType.accountTypeRecord?.accountTypeId);
+    this.newProfileSaleForm.get('accountTypeName')?.setValue(this.selectedAccountType.accountTypeRecord?.accountTypeName);
   }
 
   selectClient(option: any) {
@@ -116,17 +116,17 @@ export class SellByProfileComponent {
     this.newProfileSaleForm.get('clientId')?.setValue(this.selectedClient.clientId);
   }
 
-  filterAccountType() {
-    const lowerCaseSearchText = this.searchAccountType.toLowerCase();
+  filterAccountType(event: any) {
+    const inputValue = (event.target as HTMLInputElement).value;
     this.filteredAccounts = this.accountTypeList.filter(accountType =>
-      accountType.accountTypeRecord.accountTypeName.toLowerCase().includes(lowerCaseSearchText)
+      accountType.accountTypeRecord.accountTypeName.toLowerCase().includes(inputValue.toLowerCase())
     );
   }
 
-  filterClient() {
-    const lowerCaseSearchText = this.searchAccountType.toLowerCase();
+  filterClient(event: any) {
+    const inputValue = (event.target as HTMLInputElement).value;
     this.filteredClients = this.clients.filter(client =>
-      client.accountTypeRecord.accountTypeName.toLowerCase().includes(lowerCaseSearchText)
+      client.clientName.toLowerCase().includes(inputValue.toLowerCase())
     );
   }
 
@@ -162,5 +162,12 @@ export class SellByProfileComponent {
 
     const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
     modalBackdrop.parentNode?.removeChild(modalBackdrop);
+  }
+
+  saleMade(){
+    this.clientForm.reset();
+    this.selectedAccountType = undefined;
+    this.selectedClient = undefined;
+    this.ngOnInit();
   }
 }

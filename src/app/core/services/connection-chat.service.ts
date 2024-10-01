@@ -17,7 +17,6 @@ export class ConnectionChatService {
 
   public sendMessage(customMessage: string, whatsappNumber: string){
     const params = new HttpParams().set('message', customMessage).set('number', whatsappNumber);
-    console.log('this.api :>> ', this.api);
     return this.http.get<any>(`${this.api}/send-message`, {
       params: params,
     });

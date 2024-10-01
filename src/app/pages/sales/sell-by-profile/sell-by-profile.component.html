@@ -2,9 +2,38 @@
   <form [formGroup]="newProfileSaleForm">
     <div class="row">
       <div class="col-md-5">
+        <input
+          nbInput
+          type="text"
+          fullWidth
+          placeholder="Elige plataforma"
+          [nbAutocomplete]="autoControl"
+          [value]="selectedAccountType?.accountTypeRecord?.accountTypeName"
+          (input)="filterAccountType($event)"
+        />
+
+        <nb-autocomplete #autoControl (selectedChange)="selectAccountType($event)">
+          <nb-option *ngFor="let accountType of filteredAccounts" [value]="accountType">
+            <div class="row w-100">
+              <span class="col-10">{{
+                accountType?.accountTypeRecord?.accountTypeName
+              }}</span>
+              <span class="col-2">
+                <img
+                  [src]="accountType?.accountTypeRecord?.accountTypeIcon"
+                  alt="logo plataforma"
+                  class="rounded-circle"
+                  style="width: 30px; height: 30px"
+                />
+              </span>
+            </div>
+          </nb-option>
+        </nb-autocomplete>
+      </div>
+      <!--<div class="col-md-5">
         <div class="p-2 input-with-icon" (click)="toggleDropdownAccountType()">
           <input type="text" placeholder="Seleccione plataforma"
-            [value]="selectedAccountType?.accountTypeRecord?.accountTypeName" formControlName="accountTypeName"
+            [value]="selectedAccountType?.accountTypeRecord?.accountTypeName" 
             (input)="filterAccountType()" />
           <img *ngIf="selectedAccountType?.accountTypeRecord?.accountTypeIcon"
             [src]="selectedAccountType.accountTypeRecord.accountTypeIcon"
@@ -18,24 +47,40 @@
               alt="{{ accountType?.accountTypeRecord.accountTypeIcon }}" />
           </div>
         </div>
-      </div>
+      </div>-->
 
-      <div class="col-md-2 p-1 d-flex align-items-center justify-content-center">
-        <span>Disponibles {{ selectedAccountType?.accountTypeRecord?.accountTypeAvailableProfiles || 0 }}</span>
+      <div
+        class="col-md-2 p-1 d-flex align-items-center justify-content-center"
+      >
+        <span
+          >Disponibles
+          {{
+            selectedAccountType?.accountTypeRecord
+              ?.accountTypeAvailableProfiles || 0
+          }}</span
+        >
       </div>
 
       <div class="col-md-5 mb-3">
-        <div class="p-2 input-with-icon" (click)="toggleDropdownClients()">
-          <input type="text" placeholder="Seleccione cliente" [value]="selectedClient?.clientName" formControlName="clientId"
-            (input)="filterClient()" />
-        </div>
-        <div class="dropdown" [class.show]="isDropdownClientsOpen">
-          <div class="dropdown-item">
-            <span data-bs-toggle="modal" data-bs-target="#modalNewClient">Nuevo cliente</span>
-          </div>
-          <div class="dropdown-item" *ngFor="let client of clients" (click)="selectClient(client)">
-            <span>{{ client.clientName }}</span>
-          </div>
+        <div class="" (click)="toggleDropdownClients()">
+          <input
+            nbInput
+            type="text"
+            fullWidth
+            placeholder="Seleccione cliente"
+            [nbAutocomplete]="customersControl"
+            (input)="filterClient($event)"
+            [value]="selectedClient?.clientName"
+          />
+
+          <nb-autocomplete #customersControl (selectedChange)="selectClient($event)">
+            <nb-option data-bs-toggle="modal" data-bs-target="#modalNewClient"
+              >Nuevo cliente</nb-option
+            >
+            <nb-option *ngFor="let client of filteredClients" [value]="client">
+              {{ client.clientName }}
+            </nb-option>
+          </nb-autocomplete>
         </div>
       </div>
     </div>
@@ -43,72 +88,120 @@
     <div class="row">
       <div class="date-input-container">
         <label for="saleDate" class="form-label">Fecha de venta</label>
-        <input type="date" class="form-control" formControlName="profileSalePurchaseDate">
+        <input
+          type="date"
+          class="form-control"
+          formControlName="profileSalePurchaseDate"
+        />
       </div>
 
       <div class="date-input-container">
         <label for="dueDate" class="form-label">Fecha de vencimiento</label>
-        <input type="date" class="form-control" formControlName="profileSaleDueDate">
+        <input
+          type="date"
+          class="form-control"
+          formControlName="profileSaleDueDate"
+        />
       </div>
     </div>
-    <br>
+    <br />
 
     <div class="row">
       <div class="col-md-5 mb-1">
         <div class="p-2 input-with-icon">
-          <input type="text" placeholder="Ingrese nombre" formControlName="profileSaleName" />
+          <input
+            type="text"
+            placeholder="Ingrese nombre"
+            formControlName="profileSaleName"
+          />
         </div>
       </div>
 
       <div class="col-md-5 mb-1">
         <div class="p-2 input-with-icon">
-          <input type="text" placeholder="Ingrese pin" formControlName="profileSalePin" />
+          <input
+            type="text"
+            placeholder="Ingrese pin"
+            formControlName="profileSalePin"
+          />
         </div>
       </div>
 
       <div class="col-md-2">
         <div class="d-flex justify-content-center">
-          <button nbButton status="danger" (click)="addNewProfileSale()"
-            [disabled]="!this.newProfileSaleForm.valid"><nb-icon
-              icon="plus-circle-outline"></nb-icon></button>
+          <button
+            nbButton
+            status="danger"
+            (click)="addNewProfileSale()"
+            [disabled]="!this.newProfileSaleForm.valid"
+          >
+            <nb-icon icon="plus-circle-outline"></nb-icon>
+          </button>
         </div>
       </div>
     </div>
   </form>
 </div>
 
-<br>
+<br />
 <div *ngIf="this.profileSaleList.length > 0">
-  <app-sell-profile-list [saleList]="profileSaleList" (saleListCleared)="ngOnInit()"></app-sell-profile-list>
+  <app-sell-profile-list
+    [saleList]="profileSaleList"
+    (saleListCleared)="saleMade()"
+  ></app-sell-profile-list>
 </div>
 
-
-
 <!--Dialog new client-->
-<div class="modal fade" id="modalNewClient" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="modalNewClientLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="modalNewClient"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="modalNewClientLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalNewClientLabel">Nueva cuenta</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="container">
           <form [formGroup]="clientForm">
             <div class="p-2 input-with-icon">
-              <input type="text" placeholder="Nombre cliente" formControlName="clientName" />
+              <input
+                type="text"
+                placeholder="Nombre cliente"
+                formControlName="clientName"
+              />
             </div>
-            <br>
+            <br />
             <div class="p-2 input-with-icon">
-              <input type="text" placeholder="Contacto cliente" formControlName="clientNumber" />
+              <input
+                type="text"
+                placeholder="Contacto cliente"
+                formControlName="clientNumber"
+              />
             </div>
           </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="createClient()"
-          [disabled]="this.clientDialog">Crear</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="createClient()"
+          [disabled]="this.clientDialog"
+        >
+          Crear
+        </button>
       </div>
     </div>
   </div>

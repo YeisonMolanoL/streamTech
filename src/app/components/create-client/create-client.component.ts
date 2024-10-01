@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from '../../core/services/client.service';
 import { AlertsService } from '../../core/services/alerts.service';
+import { NbDialogRef } from '@nebular/theme';
 
 @Component({
   selector: 'app-create-client',
@@ -14,7 +15,7 @@ export class CreateClientComponent implements OnInit{
   clients = new Array<any>();
   clientForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private alert: AlertsService, private clientsService: ClientService){}
+  constructor(public dialogRef: NbDialogRef<CreateClientComponent>, private fb: FormBuilder, private alert: AlertsService, private clientsService: ClientService){}
 
   ngOnInit(): void {
     this.getAllClients();
@@ -34,6 +35,7 @@ export class CreateClientComponent implements OnInit{
         this.getAllClients();
         this.alert.showSuccess('¡Se ha creado el nuevo cliente correctamente!', '¡Validado!');
         this.modalClose.emit();
+        this.dialogRef.close({ response: true });
       },
       error: (err) => {
         this.alert.showError(err.error.message, 'Error inesperado')

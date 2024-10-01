@@ -31,6 +31,7 @@
       </div>
       <div class="col-md-4 col-12 pb-2">
         <nb-select placeholder="Cliente" class="w-100" formControlName="clientId">
+          <nb-option (click)="openDialogCreateCustomer()">Nuevo cliente</nb-option>
           <nb-option
             *ngFor="let customer of customers"
             [value]="customer.clientId"

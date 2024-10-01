@@ -191,7 +191,6 @@ export class AccountListComponent implements OnInit, OnChanges{
           this.ngOnInit();
         }
       } else {
-        console.log('El diálogo fue cancelado.');
       }
     });
   }

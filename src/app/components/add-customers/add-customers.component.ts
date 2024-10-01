@@ -1,8 +1,9 @@
-import { NB_DIALOG_CONFIG, NbDialogRef } from '@nebular/theme';
+import { NB_DIALOG_CONFIG, NbDialogRef, NbDialogService } from '@nebular/theme';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ClientService } from '../../core/services/client.service';
 import { AlertsService } from '../../core/services/alerts.service';
+import { CreateClientComponent } from '../create-client/create-client.component';
 
 @Component({
   selector: 'app-add-customers',
@@ -21,10 +22,9 @@ export class AddCustomersComponent implements OnInit {
 
   set accountType(value: any) {
     this._accountType = value;
-    console.log('this._accountType :>> ', this._accountType);
   }
 
-  constructor(@Inject(NB_DIALOG_CONFIG) private config: any, private dialogRef: NbDialogRef<AddCustomersComponent>, private fb: FormBuilder, private customerService: ClientService, private alert: AlertsService){}
+  constructor(private dialogService: NbDialogService, @Inject(NB_DIALOG_CONFIG) private config: any, private dialogRef: NbDialogRef<AddCustomersComponent>, private fb: FormBuilder, private customerService: ClientService, private alert: AlertsService){}
 
   ngOnInit(): void {
     this.initprofilesForm();
@@ -55,7 +55,6 @@ export class AddCustomersComponent implements OnInit {
     this.customerService.getAll().subscribe({
       next: (data) => {
         this.customers = data;
-        console.log('data :>> ', data);
       },
       error: (err) => {
         this.alert.showWarning('No se han cargado los clientes correctamente', 'Importante');
@@ -90,5 +89,17 @@ export class AddCustomersComponent implements OnInit {
     }
     this.profiles.push(profile);
     this.profilesForm.reset()
+  }
+
+  openDialogCreateCustomer(){
+    const dialogRef = this.dialogService.open(CreateClientComponent);
+    dialogRef.onClose.subscribe((data: any) => {
+      if (data) {
+        if(data?.response){
+          this.getAllCustomers();
+        }
+      } else {
+      }
+    });
   }
 }

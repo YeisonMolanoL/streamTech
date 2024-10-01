@@ -53,6 +53,7 @@
     z-index: 1;
     width: 29%; /* Ajusta el ancho del dropdown al ancho del contenedor */
     max-height: 50%;
+    width: 100%;
     overflow-y: auto;
     transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
     opacity: 0;

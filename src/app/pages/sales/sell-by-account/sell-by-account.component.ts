@@ -6,6 +6,8 @@ import { AccountSaleService } from '../../../core/services/account-sale.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountSaleListComponent } from './account-sale-list/account-sale-list.component';
 import { AlertsService } from '../../../core/services/alerts.service';
+import { NbDialogService } from '@nebular/theme';
+import { CreateClientComponent } from '../../../components/create-client/create-client.component';
 
 @Component({
   selector: 'app-sell-by-account',
@@ -37,7 +39,7 @@ export class SellByAccountComponent implements OnInit {
   clientDialog: boolean = false;
   @ViewChild('accountSaleList') accountSaleList!: AccountSaleListComponent;
 
-  constructor(private clientsService: ClientService, private alert: AlertsService, private fb: FormBuilder, private accountSaleService: AccountSaleService, private accountTypeService: AccountTypeService, private accountService: AccountService) {
+  constructor(private dialogService: NbDialogService, private clientsService: ClientService, private alert: AlertsService, private fb: FormBuilder, private accountSaleService: AccountSaleService, private accountTypeService: AccountTypeService, private accountService: AccountService) {
 
   }
 
@@ -141,17 +143,17 @@ export class SellByAccountComponent implements OnInit {
     this.newAccountSaleForm.get('clientId')?.setValue(this.selectedClient.clientId);
   }
 
-  filterAccountType() {
-    const lowerCaseSearchText = this.searchAccountType.toLowerCase();
+  filterAccountType(event: any) {
+    const inputValue = (event.target as HTMLInputElement).value;
     this.filteredAccounts = this.accountTypeList.filter(accountType =>
-      accountType.accountTypeRecord.accountTypeName.toLowerCase().includes(lowerCaseSearchText)
+      accountType.accountTypeRecord.accountTypeName.toLowerCase().includes(inputValue.toLowerCase())
     );
   }
 
-  filterClient() {
-    const lowerCaseSearchText = this.searchAccountType.toLowerCase();
+  filterClient(event: any) {
+    const inputValue = (event.target as HTMLInputElement).value;
     this.filteredClients = this.clients.filter(client =>
-      client.accountTypeRecord.accountTypeName.toLowerCase().includes(lowerCaseSearchText)
+      client.clientName.toLowerCase().includes(inputValue.toLowerCase())
     );
   }
 
@@ -188,5 +190,9 @@ export class SellByAccountComponent implements OnInit {
 
     const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
     modalBackdrop.parentNode?.removeChild(modalBackdrop);
+  }
+
+  openDialogNewCustomer(){
+    this.dialogService.open(CreateClientComponent);
   }
 }

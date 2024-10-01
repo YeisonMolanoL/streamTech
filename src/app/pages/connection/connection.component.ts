@@ -15,7 +15,6 @@ export class ConnectionComponent implements OnInit {
   ngOnInit(): void {
     this.socketService.getQRCodeStatus().subscribe({
       next: (data) => {
-        console.log('data aca en el oniniti :>> ', data);
         this.qrCodeUrl = data;
       },
       error: (err) => {
@@ -28,11 +27,9 @@ export class ConnectionComponent implements OnInit {
   getDynaicQr(){
     this.connectionChatService.getDynamicQr().subscribe({
       next: (data) => {
-        console.log('data :>> ', data.qr);
         this.qrCodeUrl = data.qr;
       },
       error: (err) => {
-        console.log(err);
       }
     });
   }

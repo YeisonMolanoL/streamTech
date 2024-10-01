@@ -53,16 +53,17 @@ export class SellProfileListComponent implements OnInit{
         this.saleListCleared.emit();
         this.dialogConfirmation = false;
         this.alert.showSuccess('Se ha realizado la venta correctamente', '¡Validado!');
-        this.connectionService.sendMessage('Se ha realizado la venta correctamente', '3214998117').subscribe({
+        /*this.connectionService.sendMessage('Se ha realizado la venta correctamente', '3214998117').subscribe({
           next: (data) => {
             console.log('data :>> ', data);
           },
           error: (err) => {
             console.log('err :>> ', err);
           }
-        });
+        });*/
       },
       error: (err) => {
+        this.dialogConfirmation = false;
         this.alert.showError(err.error.message, 'Importante')
       }
     });

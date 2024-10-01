@@ -45,8 +45,6 @@ export class AccountService {
 
   updateAccount(accountId: any, account : any){
     let httpParams = new HttpParams().set('accountId', accountId);
-    console.log(accountId, account);
-    
     return this.http.put<any>(this.globalRoute + 'update', account , {
       params: httpParams
     });
