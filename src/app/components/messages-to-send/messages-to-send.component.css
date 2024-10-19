@@ -1,0 +1,16 @@
+.chat-bubble {
+  background-color: #e1ffc7;
+  color: #000;
+  border-radius: 30px 30px 30px 0;
+  max-width: 300px;
+  margin: 10px 0;
+  max-height: 200px; 
+  white-space: pre-wrap;
+  position: relative;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.item:hover {
+  background-color: #eeeeee;
+  cursor: pointer;
+}

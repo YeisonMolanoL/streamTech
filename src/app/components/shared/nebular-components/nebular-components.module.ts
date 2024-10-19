@@ -1,8 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbListModule, NbSelectModule } from '@nebular/theme';
-
-
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbContextMenuModule,
+  NbDatepickerModule,
+  NbIconModule,
+  NbInputModule,
+  NbListModule,
+  NbPopoverModule,
+  NbSelectModule,
+  NbTooltipModule,
+} from '@nebular/theme';
 
 @NgModule({
   declarations: [],
@@ -14,8 +23,22 @@ import { NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInput
     NbInputModule,
     NbDatepickerModule,
     NbListModule,
-    NbCardModule
+    NbCardModule,
+    NbContextMenuModule,
+    NbPopoverModule,
+    NbTooltipModule,
   ],
-  exports: [NbSelectModule, NbIconModule, NbButtonModule, NbInputModule, NbDatepickerModule, NbListModule, NbCardModule]
+  exports: [
+    NbSelectModule,
+    NbIconModule,
+    NbButtonModule,
+    NbInputModule,
+    NbDatepickerModule,
+    NbListModule,
+    NbCardModule,
+    NbContextMenuModule,
+    NbPopoverModule,
+    NbTooltipModule,
+  ],
 })
-export class NebularComponentsModule { }
+export class NebularComponentsModule {}

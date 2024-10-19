@@ -8,6 +8,7 @@ import { SellByAccountComponent } from './sales/sell-by-account/sell-by-account.
 import { SellByProfileComponent } from './sales/sell-by-profile/sell-by-profile.component';
 import { SellByComboComponent } from './sales/sell-by-combo/sell-by-combo.component';
 import { ConnectionComponent } from './connection/connection.component';
+import { MessagesToSendComponent } from '../components/messages-to-send/messages-to-send.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
       {
         path: 'venta/combos',
         component: SellByComboComponent
+      },
+      {
+        path: 'messages',
+        component: MessagesToSendComponent
       }
     ]
   },

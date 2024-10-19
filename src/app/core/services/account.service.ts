@@ -1,11 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  globalRoute = 'http://localhost:8080/account/'
+  globalRoute = `${environment.api}/account/`;
 
   constructor(private http: HttpClient) { }
 

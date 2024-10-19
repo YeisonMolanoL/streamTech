@@ -149,7 +149,7 @@ export class SellByProfileComponent implements OnInit {
   }
 
   addNewProfileSale(){
-    this.profileSaleList.push(this.newProfileSaleForm.value)
+    this.profileSaleList.push(this.newProfileSaleForm.value);
     this.newProfileSaleForm.get('profileSaleName')?.reset();
     this.newProfileSaleForm.get('profileSalePin')?.reset();
   }
@@ -168,6 +168,7 @@ export class SellByProfileComponent implements OnInit {
     this.clientForm.reset();
     this.selectedAccountType = undefined;
     this.selectedClient = undefined;
+    this.profileSaleList = [];
     this.ngOnInit();
   }
 }

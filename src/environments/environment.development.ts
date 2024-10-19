@@ -1,3 +1,4 @@
 export const environment = {
-    apiConnection: 'http://localhost:8000'
+    api: 'http://localhost:8080',
+    apiComunication: `http://localhost:8001`,
 }

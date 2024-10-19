@@ -11,7 +11,7 @@ export class SocketService {
 
   constructor() {
     // Conectarse al servidor Socket.io
-    this.socket = io(`${environment.apiConnection}/`); // Cambia la URL a la de tu servidor
+    this.socket = io(`${environment.apiComunication}/`); // Cambia la URL a la de tu servidor
   }
 
   // Método para recibir el QR

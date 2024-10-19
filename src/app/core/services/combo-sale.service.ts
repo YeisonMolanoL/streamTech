@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComboSaleService {
-  private globalRoute = 'http://localhost:8080/sale/combo/';
+  private globalRoute = `${environment.api}/sale/combo/`;
 
   constructor(private http: HttpClient) { }
 
