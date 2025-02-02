@@ -1,0 +1,63 @@
+.number-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: #f0f0f0;
+    border-radius: 12px;
+    width: 100%;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.number-button {
+    width: fit-content;
+    height: 28px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background: white;
+    color: #495057;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.number-button:hover {
+    background: #f1f3f5;
+    border-color: #ced4da;
+}
+
+.number-button:active {
+    background: #e9ecef;
+    transform: translateY(1px);
+}
+
+.number-input {
+    width: 50px;
+    height: 32px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    outline: none;
+    color: #495057;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.number-input::-webkit-inner-spin-button,
+.number-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.number-input:focus {
+    border-color: #adb5bd;
+    box-shadow: 0 0 0 2px rgba(173,181,189,0.1);
+}

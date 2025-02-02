@@ -1,0 +1,27 @@
+<div class="card p-3">
+  <form [formGroup]="newComboForm">
+    <div class="header p-2">
+      <h1>Nuevo combo</h1>
+    </div>
+    <div class="body p-2">
+      <input
+        type="text"
+        nbInput
+        fullWidth
+        formControlName="comboName"
+        placeholder="Nombre combo"
+      />
+    </div>
+    <div class="footer">
+      <button
+        nbButton
+        status="danger"
+        class="rounded-pill"
+        (click)="saveNewCombo()"
+        [disabled]="this.newComboForm.invalid"
+      >
+        Vender
+      </button>
+    </div>
+  </form>
+</div>

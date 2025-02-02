@@ -19,7 +19,7 @@ export class PagesComponent implements OnInit, AfterViewInit {
         {
           title: 'Home',
           icon: 'home',
-          link: '/principal',
+          link: '/principal/landing-sale',
           home: true,
         },
         {

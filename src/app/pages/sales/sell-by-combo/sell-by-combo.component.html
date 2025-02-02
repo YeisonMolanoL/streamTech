@@ -1,105 +1,174 @@
 <div class="card p-4">
   <form [formGroup]="newComboSaleForm">
     <div class="row">
-      <div class="col-md-5">
-        <div class="p-2 input-with-icon" (click)="toggleDropdownAccountType()">
-          <input type="text" placeholder="Seleccione combo" [value]="selectedCombo?.accountTypeRecord?.accountTypeName"
-            formControlName="existingCombo" (input)="filterCombo()" readonly/>
-          <img *ngIf="selectedCombo?.accountTypeRecord?.accountTypeIcon"
-            [src]="selectedCombo.accountTypeRecord.accountTypeIcon"
-            alt="{{ selectedCombo?.accountTypeRecord?.accountTypeIcon }}" />
-        </div>
-        <div class="col-md-4 dropdown" [class.show]="isDropdownComboOpen">
-          <div class="dropdown-item" *ngFor="let combo of availableCombos" (click)="selectCombo(combo)">
-            <span>{{ combo?.accountTypeRecord.accountTypeName }}</span>
-            <img [src]="combo?.accountTypeRecord.accountTypeIcon"
-              alt="{{ combo?.accountTypeRecord.accountTypeIcon }}" />
-          </div>
-        </div>
+      <div class="col-md-5 p-2">
+        <!--<div class="" (click)="toggleDropdownClients()">
+          <input
+            nbInput
+            type="text"
+            fullWidth
+            placeholder="Seleccione combo"
+            [nbAutocomplete]="comboControl"
+            (input)="filterCombo($event)"
+            [value]="selectedCombo.comboName"
+          />
+
+          <nb-autocomplete
+            #comboControl
+            (selectedChange)="selectCombo($event)"
+          >
+            <nb-option (click)="openDialogNewCombo()">Nuevo combo</nb-option>
+            <nb-option *ngFor="let combo of combos" [value]="combo">
+              {{ combo.comboName }}
+            </nb-option>
+          </nb-autocomplete>
+        </div>-->
       </div>
 
-      <div class="col-md-2 p-1 d-flex align-items-center justify-content-center">
-        <span>Disponibles {{ selectedCombo?.accountTypeRecord?.accountTypeAvailableProfiles || 0 }}</span>
-      </div>
-
-      <div class="col-md-5 mb-3">
-        <div class="p-2 input-with-icon" (click)="toggleDropdownClients()">
-          <input type="text" placeholder="Seleccione cliente" [value]="selectedClient?.clientName" formControlName="clientId"
-            (input)="filterClient()" />
-        </div>
-        <div class="dropdown" [class.show]="isDropdownClientsOpen">
-          <div class="dropdown-item">
-            <span data-bs-toggle="modal" data-bs-target="#modalNewClient">Nuevo cliente</span>
-          </div>
-          <div class="dropdown-item" *ngFor="let client of clients" (click)="selectClient(client)">
-            <span>{{ client.clientName }}</span>
-          </div>
-        </div>
-      </div>
+      <!--<div
+        class="col-md-2 p-1 d-flex align-items-center justify-content-center"
+      >
+        <span
+          >Disponibles
+          {{
+            selectedCombo?.accountTypeRecord?.accountTypeAvailableProfiles || 0
+          }}</span
+        >
+      </div>-->
     </div>
 
     <div class="row">
-      <div class="col-sm-6 col-md-4">
-        <div class="date-input-container">
-          <label for="saleDate" class="form-label">Fecha de venta</label>
-          <input type="date" class="form-control" formControlName="profileSalePurchaseDate">
-        </div>
+      <div class="col-md-4">
+        <input
+          nbInput
+          placeholder="Fecha de venta"
+          [nbDatepicker]="dateSalePurchase"
+          fullWidth
+          formControlName="profileSalePurchaseDate"
+        />
+        <nb-datepicker #dateSalePurchase></nb-datepicker>
       </div>
 
-      <div class="col-sm-6 col-md-4">
-        <div class="date-input-container">
-          <label for="dueDate" class="form-label">Fecha de vencimiento</label>
-          <input type="date" class="form-control" formControlName="profileSaleDueDate">
-        </div>
+      <div class="col-12 col-md-4">
+        <input
+          nbInput
+          placeholder="Fecha de venta"
+          [nbDatepicker]="dateSaleDueDate"
+          class="w-100"
+          formControlName="profileSaleDueDate"
+        />
+        <nb-datepicker #dateSaleDueDate></nb-datepicker>
       </div>
 
       <div class="col-sm-6 col-md-4 d-flex align-items-center">
-        <div class="date-input-container">
-          <label for="dueDate" class="form-label">Nombre del combo</label>
-          <input type="text" class="p-2 input-with-icon" placeholder="Nombre" formControlName="comboName" />
+        <div class="" (click)="toggleDropdownClients()">
+          <input
+            nbInput
+            type="text"
+            fullWidth
+            placeholder="Seleccione cliente"
+            [nbAutocomplete]="customersControl"
+            (input)="filterClient($event)"
+            [value]="selectedClient?.clientName"
+          />
+
+          <nb-autocomplete
+            #customersControl
+            (selectedChange)="selectClient($event)"
+          >
+            <nb-option (click)="openDialogNewClient()">Nuevo cliente</nb-option
+            >
+            <nb-option *ngFor="let client of filteredClients" [value]="client">
+              {{ client.clientName }}
+            </nb-option>
+          </nb-autocomplete>
         </div>
       </div>
     </div>
-    <br>
+    <br />
 
     <div class="row">
-      <div class="col-md-5 mb-1">
-        <div class="p-2 input-with-icon">
-          <input type="text" placeholder="Ingrese nombre" formControlName="profileSaleName" />
+      <div class="col-md-4 p-2">
+        <div>
+          <input
+            nbInput
+            type="text"
+            fullWidth
+            placeholder="Seleccione combo"
+            [nbAutocomplete]="comboControl"
+            (input)="filterCombo($event)"
+            [value]="selectedCombo ? selectedCombo.comboName : ''"
+          />
+
+          <nb-autocomplete
+            #comboControl
+            (selectedChange)="selectCombo($event)"
+          >
+            <nb-option (click)="openDialogNewCombo()">Nuevo combo</nb-option>
+            <nb-option *ngFor="let combo of combos" [value]="combo">
+              {{ combo.comboName }}
+            </nb-option>
+          </nb-autocomplete>
         </div>
       </div>
 
-      <div class="col-md-5 mb-2">
-        <div class="p-2 input-with-icon">
-          <input type="text" placeholder="Ingrese pin" formControlName="profileSalePin" />
-        </div>
+      <div class="col-md-3 p-2">
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          placeholder="Ingrese nombre"
+          formControlName="profileSaleName"
+        />
+      </div>
+
+      <div class="col-md-3 p-2">
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          placeholder="Ingrese pin"
+          formControlName="profileSalePin"
+        />
       </div>
 
       <div class="col-md-2">
-        <div class="d-flex justify-content-center">
-          <button nbButton status="danger" class="rounded-pill" (click)="this.modalConfirmation = true" [disabled]="!this.newComboSaleForm.valid || this.comboAccountsType.length < 2">Vender</button>
+        <div class="d-flex justify-content-center p-2">
+          <button
+            nbButton
+            status="danger"
+            class="rounded-pill"
+            (click)="this.modalConfirmation = true"
+            [disabled]="
+              this.newComboSaleForm.invalid || this.comboAccountsType.length < 2"
+          >
+            Vender
+          </button>
         </div>
       </div>
     </div>
   </form>
 </div>
 
-
-
-
-
-
 <div class="container">
   <div class="row">
-    <div class="col-6 col-sm-6 col-md-3" *ngFor="let accountType of availableAccountsType">
-      <div class="miniCard my-3 position-relative" [ngClass]="{'active-card': accountType.isSelected}"
-        (click)="toggleCard(accountType)">
+    <div
+      class="col-6 col-sm-6 col-md-3"
+      *ngFor="let accountType of availableAccountsType"
+    >
+      <div
+        class="miniCard my-3 position-relative"
+        [ngClass]="{ 'active-card': accountType.isSelected }"
+        (click)="toggleCard(accountType)"
+      >
         <div class="image-container position-relative">
-          <img [src]="accountType.accountTypeIcon" class="card-img-top" alt="Card image">
-          <input type="checkbox" [(ngModel)]="accountType.isSelected"
-            class="form-check-input position-absolute top-0 end-0 m-2">
+          <img
+            [src]="accountType.accountTypeIcon"
+            class="card-img-top"
+            alt="Card image"
+          />
         </div>
-        <br>
+        <br />
         <div class="card-body">
           <div class="d-flex justify-content-center">
             <p>{{ accountType.accountTypeName }}</p>
@@ -113,14 +182,10 @@
   </div>
 </div>
 
-<!--Dialog new client-->
-<div class="modal fade" id="modalNewClient" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <app-create-client (modalClose)="this.uploadClients()"></app-create-client>
-</div>
-
 <!--Modal confirmation-->
 <div *ngIf="modalConfirmation">
-  <app-dialog-confirmation (onConfirmCallback)="createNewComboSale()"
-      (onCancelCallback)="this.modalConfirmation = false"></app-dialog-confirmation>
+  <app-dialog-confirmation
+    (onConfirmCallback)="createNewComboSale()"
+    (onCancelCallback)="this.modalConfirmation = false"
+  ></app-dialog-confirmation>
 </div>

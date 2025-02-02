@@ -1,0 +1,92 @@
+<div
+  class="d-flex align-items-center justify-content-center"
+>
+  <div class="d-flex">
+    <div class="">
+      <div class="d-flex justify-content-center p-2">
+        <button
+          nbButton
+          shape="round"
+          size="small"
+          status="danger"
+          class="w-100"
+          routerLink="perfil"
+          routerLinkActive="active"
+        >
+          Perfil
+        </button>
+      </div>
+    </div>
+    <div class="">
+      <div class="d-flex justify-content-center p-2">
+        <button
+          nbButton
+          shape="round"
+          size="small"
+          status="danger"
+          class="w-100"
+          routerLink="combos"
+          routerLinkActive="active"
+        >
+          Combos
+        </button>
+      </div>
+    </div>
+    <div class="">
+      <div class="d-flex justify-content-center p-2">
+        <button
+          nbButton
+          shape="round"
+          size="small"
+          status="danger"
+          class="w-100"
+          routerLink="cuentas"
+          routerLinkActive="active"
+        >
+          Cuentas completas
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <router-outlet></router-outlet>
+</div>
+<!--<div>
+  <div class="d-flex flex-wrap">
+    <div *ngFor="let platform of allPlatforms" class="platform-style">
+      <div class="position-relative d-inline-block" style="max-width: 50px">
+        <!-- Imagen redondeada --
+        <img
+          [src]="platform.accountTypeIcon"
+          alt="Imagen redonda"
+          style="width: 100%; height: auto"
+          class="rounded-circle img-thumbnail"
+        />
+
+        <!-- Checkbox en la esquina superior derecha --
+        <input
+          type="checkbox"
+          class="form-check-input position-absolute top-0 end-0 rounded-circle checkbox-overlay"
+        />
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<div class="px-4">
+  <div class="row">
+    <div class="col-md-5 p-2">
+      <input nbInput type="text" fullWidth placeholder="Nombre" />
+    </div>
+    <div class="col-md-5 p-2">
+      <input nbInput type="text" fullWidth placeholder="Pin" />
+    </div>
+  </div>
+</div>
+
+<!-- <div>
+  <button nbButton shape="round" size="small" status="danger" class="w-100" (click)="addSale()">
+    Continuar con el pago
+  </button>
+</div> -->

@@ -1,16 +1,25 @@
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { AccountTypeService } from '../../../core/services/account-type.service';
 import { AlertsService } from '../../../core/services/alerts.service';
 import { ClientService } from '../../../core/services/client.service';
 import { ComboSaleService } from '../../../core/services/combo-sale.service';
+import { CreateClientComponent } from '../../../components/create-client/create-client.component';
+import { CreateComboComponent } from '../../../components/create-combo/create-combo.component';
+import { ComboModel } from '../../../core/models/Combo.model';
 
 @Component({
   selector: 'app-sell-by-combo',
   templateUrl: './sell-by-combo.component.html',
-  styleUrl: './sell-by-combo.component.css'
+  styleUrl: './sell-by-combo.component.css',
 })
-export class SellByComboComponent implements OnInit{
+export class SellByComboComponent implements OnInit {
   isDropdownAccountTypeOpen: boolean = false;
   availableAccountsType = new Array<any>();
   comboAccountsType = new Array<any>();
@@ -27,59 +36,72 @@ export class SellByComboComponent implements OnInit{
   clientDialog = false;
   selectedClient: any;
   newClientName: any;
-  selectedCombo: any;
+  selectedCombo!: ComboModel;
   searchClient: any;
 
-  constructor(private comboSaleService: ComboSaleService, private clientsService: ClientService, private alert: AlertsService, private accountTypeService: AccountTypeService, private fb: FormBuilder){}
+  constructor(
+    private dialogRef: NbDialogService,
+    private comboSaleService: ComboSaleService,
+    private clientsService: ClientService,
+    private alert: AlertsService,
+    private accountTypeService: AccountTypeService,
+    private fb: FormBuilder
+  ) {}
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.initForm();
     this.getAccountsType();
     this.getAllClients();
+    this.getAllCombos();
   }
 
   initForm() {
     this.newComboSaleForm = this.fb.group({
-      existingCombo: new FormControl (''),
-      clientId: new FormControl ('', Validators.required),
-      profileSaleDueDate: new FormControl ('', Validators.required),
-      profileSalePurchaseDate: new FormControl ('', Validators.required),
-      comboName: new FormControl ('', Validators.required),
-      profileSaleName: new FormControl ('', Validators.required),
-      profileSalePin: new FormControl ('', Validators.required),
-      comboAccountsType: new FormControl (''),
+      existingCombo: new FormControl(''),
+      clientId: new FormControl('', Validators.required),
+      profileSaleDueDate: new FormControl('', Validators.required),
+      profileSalePurchaseDate: new FormControl('', Validators.required),
+      comboName: new FormControl(''),
+      profileSaleName: new FormControl('', Validators.required),
+      profileSalePin: new FormControl('', Validators.required),
+      comboAccountsType: new FormControl([], Validators.required),
+      comboId: new FormControl('', Validators.required),
     });
 
-    this.newComboSaleForm.get('profileSalePurchaseDate')?.valueChanges.subscribe((value) => {
-      if (value) {
-        const purchaseDate = new Date(value);
-        const dueDate = new Date(purchaseDate);
-        dueDate.setDate(purchaseDate.getDate() + 30);
-        this.newComboSaleForm.get('profileSaleDueDate')?.setValue(dueDate.toISOString().split('T')[0]);
-      }
-    });
+    this.newComboSaleForm
+      .get('profileSalePurchaseDate')
+      ?.valueChanges.subscribe((value) => {
+        if (value) {
+          const purchaseDate = new Date(value);
+          const dueDate = new Date(purchaseDate);
+          dueDate.setDate(purchaseDate.getDate() + 30);
+          this.newComboSaleForm
+            .get('profileSaleDueDate')
+            ?.setValue(dueDate.toISOString().split('T')[0]);
+        }
+      });
   }
 
-  getALlCombos(){
+  getAllCombos() {
     this.comboSaleService.getAllCombos().subscribe({
       next: (data) => {
         this.combos = data;
       },
       error: (err) => {
         this.alert.showWarning(err.error.message, '¡Importante!');
-      }
-    })
+      },
+    });
   }
 
-  getAccountsType(){
+  getAccountsType() {
     this.accountTypeService.getAllAvailableProfile().subscribe({
       next: (data) => {
         this.availableAccountsType = data;
       },
       error: (err) => {
-        this.alert.showWarning(err.error.message, '¡Importante!');        
-      }
-    })
+        this.alert.showWarning(err.error.message, '¡Importante!');
+      },
+    });
   }
 
   getAllClients() {
@@ -90,51 +112,55 @@ export class SellByComboComponent implements OnInit{
       },
       error: (err) => {
         this.alert.showWarning(err.error.message, '¡Importante!');
-      }
+      },
     });
   }
 
-  selectCombo(combo: any){
-
+  selectCombo(combo: any) {
+    this.selectedCombo = combo;
+    this.newComboSaleForm.get('comboId')?.setValue(this.selectedCombo.comboId);
   }
 
-  toggleDropdownAccountType(){
+  toggleDropdownAccountType() {
     this.isDropdownAccountTypeOpen = !this.isDropdownAccountTypeOpen;
   }
 
-  toggleDropdownClients(){
+  toggleDropdownClients() {
     this.isDropdownClientsOpen = !this.isDropdownClientsOpen;
   }
 
-  filterClient(){
-    const lowerCaseSearchText = this.searchAccountType.toLowerCase();
-    this.filteredClients = this.clients.filter(client =>
-      client.accountTypeRecord.accountTypeName.toLowerCase().includes(lowerCaseSearchText)
+  filterClient(event: any) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.filteredClients = this.clients.filter((client) =>
+      client.clientName.toLowerCase().includes(inputValue.toLowerCase())
     );
   }
 
-  filterCombo(){
-
-  }
+  filterCombo(event: any) {}
 
   selectClient(option: any) {
     this.selectedClient = option;
     this.isDropdownClientsOpen = false;
-    this.newComboSaleForm.get('clientId')?.setValue(this.selectedClient.clientId);
+    this.newComboSaleForm
+      .get('clientId')
+      ?.setValue(this.selectedClient.clientId);
   }
 
-  createNewComboSale(){
+  createNewComboSale() {
     this.comboSaleService.newComboSale(this.newComboSaleForm.value).subscribe({
       next: (data) => {
         this.ngOnInit();
         this.comboAccountsType = [];
         this.modalConfirmation = false;
         this.newComboSaleForm.reset();
-        this.alert.showSuccess('Se ha creado la venta correctamente', '¡Validado!');
+        this.alert.showSuccess(
+          'Se ha creado la venta correctamente',
+          '¡Validado!'
+        );
       },
       error: (err) => {
         this.alert.showError(err.error.message, '¡Importante!');
-      }
+      },
     });
   }
 
@@ -147,12 +173,21 @@ export class SellByComboComponent implements OnInit{
       this.comboAccountsType.splice(index, 1);
       accountType.isSelected = false;
     }
-    this.newComboSaleForm.get('comboAccountsType')?.setValue(this.comboAccountsType);
+    this.newComboSaleForm
+      .get('comboAccountsType')
+      ?.setValue(this.comboAccountsType);
   }
 
-  uploadClients(){
-    this.closeModal();
-    this.ngOnInit();
+  openDialogNewClient() {
+    const dialogRef = this.dialogRef.open(CreateClientComponent, {});
+  }
+
+  openDialogNewCombo() {
+    this.dialogRef
+      .open(CreateComboComponent, {})
+      .onClose.subscribe((result) => {
+        this.selectCombo(result);
+      });
   }
 
   closeModal(): void {

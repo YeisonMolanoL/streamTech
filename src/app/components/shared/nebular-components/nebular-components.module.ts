@@ -1,17 +1,32 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  NbActionsModule,
+  NbAlertModule,
+  NbAutocompleteModule,
+  NbBadgeModule,
   NbButtonModule,
   NbCardModule,
+  NbCheckboxModule,
   NbContextMenuModule,
   NbDatepickerModule,
+  NbFormFieldModule,
   NbIconModule,
   NbInputModule,
+  NbLayoutModule,
   NbListModule,
+  NbMenuModule,
   NbPopoverModule,
+  NbSearchModule,
   NbSelectModule,
+  NbSidebarModule,
+  NbSpinnerModule,
+  NbTagModule,
+  NbThemeModule,
   NbTooltipModule,
+  NbUserModule,
 } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 @NgModule({
   declarations: [],
@@ -27,6 +42,7 @@ import {
     NbContextMenuModule,
     NbPopoverModule,
     NbTooltipModule,
+    NbFormFieldModule
   ],
   exports: [
     NbSelectModule,
@@ -39,6 +55,36 @@ import {
     NbContextMenuModule,
     NbPopoverModule,
     NbTooltipModule,
+    NbAutocompleteModule,
+    NbLayoutModule,
+
+    NbSidebarModule,
+    NbIconModule,
+    NbMenuModule,
+    NbThemeModule,
+    NbAlertModule,
+    NbLayoutModule,
+    NbActionsModule,
+    NbSelectModule,
+    NbLayoutModule,
+    NbMenuModule,
+    NbUserModule,
+    NbActionsModule,
+    NbSearchModule,
+    NbSidebarModule,
+    NbContextMenuModule,
+    NbButtonModule,
+    NbIconModule,
+    NbEvaIconsModule,
+    NbTooltipModule,
+    NbAutocompleteModule,
+    NbBadgeModule,
+    NbTagModule,
+    NbSpinnerModule,
+    NbAlertModule,
+    NbDatepickerModule,
+    NbCheckboxModule,
+    NbFormFieldModule
   ],
 })
 export class NebularComponentsModule {}

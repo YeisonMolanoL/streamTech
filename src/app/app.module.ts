@@ -12,6 +12,8 @@ import { provideFirebaseApp } from '@angular/fire/app';
 import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { CarProductsComponent } from './components/car-products/car-products.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +32,11 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     NbDatepickerModule.forRoot(),
     HttpClientModule,
     NbEvaIconsModule,
-    NbIconModule
+    NbIconModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [
+    CarProductsComponent,
     provideClientHydration(),
     importProvidersFrom([
       provideFirebaseApp(() => 

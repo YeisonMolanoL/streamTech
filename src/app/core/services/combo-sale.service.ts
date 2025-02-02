@@ -1,3 +1,4 @@
+import { ComboModel } from './../models/Combo.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
@@ -18,5 +19,9 @@ export class ComboSaleService {
 
   getAllCombos(){
     return this.http.get<any>(this.globalRoute + 'all');
+  }
+
+  insertCombo(newCombo: ComboModel){
+    return this.http.post<ComboModel>(`${this.globalRoute}insert`, newCombo);
   }
 }

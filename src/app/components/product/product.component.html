@@ -1,0 +1,67 @@
+<div class="container">
+  <form [formGroup]="dataSaleForm">
+    <div class="row">
+      <div
+        class="miniCard my-3 position-relative px-3 pt-2"
+        [ngClass]="{ 'active-card': accountType.isSelected }"
+      >
+        <div class="image-container position-relative">
+          <img
+            [src]="accountType.accountTypeIcon || accountType.icon"
+            class="card-img-top"
+            alt="Card image"
+          />
+        </div>
+        <br />
+        <div class="card-body">
+          <div class="d-flex">
+            <p class="p-0 m-0">{{ accountType.accountTypeName }}</p>
+          </div>
+          <div class="d-flex">
+            <p>Disponibles: {{ accountType.accountTypeAvailableProfiles }}</p>
+          </div>
+          <div>
+            <app-add-car-product
+              [max]="accountType.accountTypeAvailableProfiles"
+              [currentQuantity]="itemItemSale.quantity || 0"
+              (emmiter)="updateSale($event)"
+            ></app-add-car-product>
+          </div>
+        </div>
+        <div *ngIf="isNewSale" class="d-grid py-1 gap-1">
+          <div class="w-100">
+            <input nbInput type="text" fullWidth placeholder="Nombre" formControlName="name"/>
+          </div>
+          <div class="d-flex">
+            <div class="w-50">
+              <input nbInput type="text" fullWidth placeholder="Pin" formControlName="pin"/>
+            </div>
+
+            <div class="w-50 d-flex justify-content-around">
+              <button
+                nbButton
+                ghost
+                status="success"
+                [size]="'tiny'"
+                class="w-50"
+                (click)="addToCart()"
+              >
+                <nb-icon icon="checkmark"></nb-icon>
+              </button>
+              <button
+                nbButton
+                ghost
+                status="danger"
+                [size]="'tiny'"
+                class="w-50"
+                (click)="cancelSale()"
+              >
+                <nb-icon icon="close-circle"></nb-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

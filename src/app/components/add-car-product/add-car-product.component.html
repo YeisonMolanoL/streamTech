@@ -1,0 +1,5 @@
+<div class="number-control py-1">
+    <button class="number-button decrease" (click)="decrease()" [disabled]="carService.isSaleActive | async">-</button>
+    <input type="number" class="number-input" [value]="currentQuantity" min="0" [max]="max">
+    <button class="number-button increase" (click)="increase()" [disabled]="carService.isSaleActive | async">+</button>
+</div>

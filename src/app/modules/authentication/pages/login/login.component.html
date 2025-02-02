@@ -1,0 +1,225 @@
+<nb-layout>
+  <nb-layout-column>
+    <div class="d-flex justify-content-center py-4">
+      <!--  <div class="container mt-4" id="container">
+        <div class="form-container sign-up-container">
+          <form action="#" id="signup-form">
+            <h1>Crear Cuenta</h1>
+            <input
+              type="text"
+              name="name"
+              placeholder="Nombre"
+              required
+              minlength="2"
+              maxlength="50"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              required
+              minlength="8"
+            />
+            <input
+              type="password"
+              name="confirm-password"
+              placeholder="Confirmar Contraseña"
+              required
+              minlength="8"
+            />
+            <div id="signup-error" class="error-message"></div>
+            <button type="submit">Registrarse</button>
+          </form>
+        </div>
+        <div class="form-container sign-in-container">
+          <form action="#" id="login-form">
+            <h1>Iniciar Sesión</h1>
+            <input type="email" name="email" placeholder="Email" required />
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              required
+            />
+            <div id="login-error" class="error-message"></div>
+            <a href="https://example.com/forgot-password"
+              >¿Olvidaste tu contraseña?</a
+            >
+            <button type="submit">Iniciar Sesión</button>
+          </form>
+        </div>
+        <div class="overlay-container">
+          <div class="overlay">
+            <div class="overlay-panel overlay-left">
+              <img src="" alt="Imagen de Login" id="login-image" />
+              <h2>¡Bienvenido de vuelta!</h2>
+              <p>
+                Para mantenerte conectado, inicia sesión con tu información personal
+              </p>
+            </div>
+            <div class="overlay-panel overlay-right">
+              <img src="" alt="Imagen de Registro" id="signup-image" />
+              <h2>¡Hola, Amigo!</h2>
+              <p>
+                Regístrate con tus datos personales para comenzar tu viaje con
+                nosotros
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+      <div class="container mt-4" [class.right-panel-active]="isSignUpMode">
+        <div class="form-container sign-up-container">
+          <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+            <h1>Crear Cuenta</h1>
+            <nb-form-field class="w-100">
+              <input
+                nbInput
+                class="m-1"
+                formControlName="name"
+                type="text"
+                placeholder="Nombres"
+                required
+              />
+              <span *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="error-message">
+                Este campo es obligatorio*
+              </span>
+            </nb-form-field>
+            <nb-form-field class="w-100">
+              <input
+                nbInput
+                class="m-1"
+                formControlName="lastName"
+                type="text"
+                placeholder="Apellidos"
+                required
+              />
+              <span *ngIf="signupForm.get('lastName')?.invalid && signupForm.get('lastName')?.touched" class="error-message">
+                Este campo es obligatorio*
+              </span>
+            </nb-form-field>
+            <nb-form-field class="w-100">
+              <input
+                nbInput
+                class="m-1"
+                formControlName="userName"
+                type="email"
+                placeholder="Email"
+                required
+              />
+              <span *ngIf="signupForm.get('userName')?.invalid && signupForm.get('userName')?.touched" class="error-message">
+                Este campo debe ser tipo email.
+              </span>
+            </nb-form-field>
+            <nb-form-field class="w-100">
+              <input
+              nbInput
+              class="m-1"
+              formControlName="password"
+              type="password"
+              placeholder="Contraseña"
+              required
+            />
+            <span *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="error-message">
+              Este campo debe tener minimo 8 caráteres es obligatorio.
+            </span>
+            </nb-form-field>
+            <nb-form-field class="w-100">
+              <input
+              nbInput
+              class="m-1"
+              formControlName="confirmPassword"
+              type="password"
+              placeholder="Confirmar Contraseña"
+              required
+            />
+            <span *ngIf="signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched" class="error-message">
+              Este campo debe tener minimo 8 caráteres es obligatorio.
+            </span>
+            </nb-form-field>
+            <div class="w-100 p-1 mt-3">
+              <button nbButton outline type="submit" status="primary" class="w-100">Registrarse</button>
+            </div>
+            <span class="error-message">{{ errorMessage$ | async }}</span>
+          </form>
+        </div>
+
+        <div class="form-container sign-in-container">
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <h1>Iniciar Sesión</h1>
+            <nb-form-field class="w-100">
+            <input
+              nbInput
+              class="m-1"
+              type="email"
+              formControlName="userName"
+              fullWidth
+              placeholder="Correo electrónico"
+            />
+            <span *ngIf="loginForm.get('userName')?.invalid && loginForm.get('userName')?.touched" class="error-message">
+              Este campo es obligatorio*
+            </span>
+          </nb-form-field>
+          <nb-form-field class="w-100">
+            <input
+              nbInput
+              class="m-1"
+              type="password"
+              formControlName="password"
+              fullWidth
+              placeholder="Contraseña"
+            />
+            <span *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+              Este campo es obligatorio*
+            </span>
+          </nb-form-field>
+          <div class="mt-3 w-100">
+            <button nbButton outline type="submit" status="primary" class="w-100">Iniciar Sesión</button>
+          </div>
+          <span class="error-message">{{ errorMessage$ | async }}</span>
+          <div>
+              <span
+                class="mt-4"
+                style="cursor: pointer; border-bottom: 1px solid blue"
+              >
+                <p class="p-0 m-0" style="font-size: 12px; color: blue;">
+                  ¡He olvidado mi contraseña!
+                </p>
+              </span>
+          </div>
+          </form>
+        </div>
+
+        <div class="overlay-container">
+          <div class="overlay">
+            <div class="overlay-panel overlay-left">
+              <h2 style="color: antiquewhite">¡Bienvenido de vuelta!</h2>
+              <p style="color: antiquewhite">
+                Para mantenerte conectado, inicia sesión con tu información
+                personal
+              </p>
+              <button nbButton type="submit" status="primary" class="w-75" (click)="toggleMode(false)">Iniciar Sesión</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+              <h2 style="color: antiquewhite">¡Hola, Amigo!</h2>
+              <p style="color: antiquewhite">
+                Regístrate con tus datos personales para comenzar tu viaje con
+                nosotros
+              </p>
+              <button nbButton type="submit" status="primary" class="w-75" (click)="toggleMode(true)">Registrarse</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-layout-column>
+</nb-layout>
