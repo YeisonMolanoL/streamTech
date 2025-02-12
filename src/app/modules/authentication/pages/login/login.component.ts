@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
   isSignUpMode = false; // Estado para alternar entre login y registro
@@ -15,28 +15,32 @@ export class LoginComponent implements OnInit {
   signupForm!: FormGroup;
   errorMessage$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
-  }
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-      this.initLoginform();
-      this.initSignUpForm();
+    this.initLoginform();
+    this.initSignUpForm();
   }
 
-  initLoginform(){
+  initLoginform() {
     this.loginForm = this.fb.group({
       userName: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
-  initSignUpForm(){
+  initSignUpForm() {
     this.signupForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', Validators.required],
       userName: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+      roles: ['USER'],
     });
   }
 
@@ -51,11 +55,13 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.userService.logIn(this.loginForm.value).subscribe({
         next: (data) => {
+          localStorage.setItem('data_user', JSON.stringify(data));
           this.router.navigate(['/principal/landing-sale']);
         },
         error: (err) => {
-          this.errorMessage$.next(err.error.message || '¡Upsss...! Ha ocurrido un error inesperado.');
-        }
+          console.error('err :>> ', err);
+          // this.errorMessage$.next(err.error.message || '¡Upsss...! Ha ocurrido un error inesperado.');
+        },
       });
     } else {
       this.loginForm.markAllAsTouched();
@@ -70,8 +76,10 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/principal/landing-sale']);
         },
         error: (err) => {
-          this.errorMessage$.next(err.error.message || '¡Upsss...! Ha ocurrido un error inesperado.');
-        }
+          this.errorMessage$.next(
+            err.error.message || '¡Upsss...! Ha ocurrido un error inesperado.'
+          );
+        },
       });
     } else {
       this.signupForm.markAllAsTouched();

@@ -4,7 +4,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideStorage } from '@angular/fire/storage';
 import { NbDatepickerModule, NbDialogModule, NbIconModule, NbMenuModule, NbSidebarModule, NbThemeModule, NbToastrModule, NbToastrService } from '@nebular/theme';
@@ -14,6 +14,7 @@ import { getStorage } from 'firebase/storage';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CarProductsComponent } from './components/car-products/car-products.component';
+import { AuthInterceptor } from './modules/authentication/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { CarProductsComponent } from './components/car-products/car-products.com
           })
       ),
       provideStorage (() => getStorage())
-  ]), NbToastrService
+  ]), NbToastrService,
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   exports: [],
   bootstrap: [AppComponent]
