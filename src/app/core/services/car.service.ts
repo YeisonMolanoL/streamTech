@@ -19,7 +19,7 @@ export class CarService {
     return this.carItems$.asObservable();
   }
 
-  addNewItem(item: CartItem){
+  addNewItem(item: CartItem) {
     this.car.items.push(item);
     this.carItems$.next(this.car.items);
   }
@@ -79,7 +79,7 @@ export class CarService {
   addNewSale() {}
 
   getItemBySaleType(saleType: string) {
-    if(!saleType){
+    if (!saleType) {
       return;
     }
     let dataFind = this.currentCar?.items?.find((item) => {
@@ -94,14 +94,31 @@ export class CarService {
     return dataFind;
   }
 
-  async findCurrentItemByItem(saleType: string, productId: any, price: number = 0, imageUrl: string = '') {
-    const carItemFound = await this.getItemBySaleType(saleType);
-    if(carItemFound){
+  findCurrentItemByItem(saleType: string, data: any) {
+    const carItemFound = this.getItemBySaleType(saleType);
+    if (carItemFound) {
+      let dataSaleFound: any = {};
+      switch (saleType) {
+        case 'profile':
+          dataSaleFound.productId = data.accountTypeId;
+          dataSaleFound.price = data.profilePrice;
+          dataSaleFound.imageUrl = data.accountTypeIcon;
+          dataSaleFound.productName = data.accountTypeName;
+          break;
+        case 'accounts':
+          dataSaleFound.productId = data.accountTypeId;
+          dataSaleFound.price = data.price;
+          dataSaleFound.imageUrl = data.accountTypeIcon;
+          dataSaleFound.productName = data.accountTypeName;
+          break;
+        case 'combo':
+          break;
+      }
       let itemSaleFound = carItemFound.items.find((itemSale) => {
-        return itemSale.productId === productId;
+        return itemSale.productId === dataSaleFound.productId && itemSale.productName === dataSaleFound.productName;
       });
       if (!itemSaleFound) {
-        itemSaleFound = new SaleItem(productId, price, imageUrl);
+        itemSaleFound = new SaleItem(dataSaleFound.productId, dataSaleFound.price, dataSaleFound.imageUrl, dataSaleFound.productName);
         carItemFound.items.push(itemSaleFound);
         this.saveCar();
       }

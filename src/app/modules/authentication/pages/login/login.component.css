@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+@import "../../../../../styles.css";
 
 * {
     box-sizing: border-box;
@@ -171,11 +172,4 @@ a {
     font-size: 14px;
     text-decoration: none;
     margin: 15px 0;
-}
-
-.error-message {
-    color: #ff4b2b;
-    font-size: 0.7em;
-    margin-bottom: 10px;
-    height: 20px;
 }

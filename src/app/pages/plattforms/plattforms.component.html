@@ -1,116 +1,243 @@
 <div class="d-md-flex justify-content-between p-2">
-    <span class="d-flex align-items-center">
-        <h1 class="text-small">Plataformas disponibles</h1>
-    </span>
-    <button type="button" class="btn btn-danger text" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Nueva
-        plataforma</button>
+  <span class="d-flex align-items-center">
+    <h1 class="text-small">Plataformas disponibles</h1>
+  </span>
+  <button
+    type="button"
+    class="btn btn-danger text"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+  >
+    Nueva plataforma
+  </button>
 </div>
 <div>
-    <div *ngIf="accountsType.length == 0" class="pt-5 d-flex justify-content-center">
-        <h1 class="text">NO HAY PLATAFORMAS DISPONIBLES</h1>
+  <div
+    *ngIf="accountsType.length == 0"
+    class="pt-5 d-flex justify-content-center"
+  >
+    <h1 class="text">NO HAY PLATAFORMAS DISPONIBLES</h1>
+  </div>
+  <div class="row" *ngIf="accountsType.length > 0">
+    <div *ngFor="let account of accountsType" class="col-6 col-md-3 mb-4">
+      <div>
+        <app-card-info
+          [object]="account"
+          [totalAccounts]="accountsType.length"
+        ></app-card-info>
+      </div>
     </div>
-    <div class="row" *ngIf="accountsType.length > 0">
-        <div *ngFor="let account of accountsType" class="col-6 col-md-3 mb-4">
-            <div>
-                <app-card-info [object]="account" [totalAccounts]="accountsType.length"></app-card-info>
-            </div>
-        </div>
-    </div>
-
+  </div>
 </div>
 
-
-
 <!--Modals-->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Nueva plataforma de streaming</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">
+          Nueva plataforma de streaming
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <h2>Formulario de Cuenta</h2>
+          <form
+            [formGroup]="newAccountTypeForm"
+            (ngSubmit)="createAccountType()"
+          >
+            <div class="row g-2">
+              <nb-form-field class="col-md-6">
+                <input
+                  nbInput
+                  type="text"
+                  formControlName="accountTypeName"
+                  fullWidth
+                  placeholder="Nombre plataforma"
+                />
+                <span
+                  *ngIf="
+                    newAccountTypeForm.get('accountTypeName')?.invalid &&
+                    newAccountTypeForm.get('accountTypeName')?.touched
+                  "
+                  class="error-message"
+                >
+                  Este campo es obligatorio*
+                </span>
+              </nb-form-field>
+              <nb-form-field class="col-md-6">
+                <input
+                  nbInput
+                  type="number"
+                  formControlName="accountTypeAmountProfile"
+                  fullWidth
+                  placeholder="Cantidad de perfiles"
+                />
+                <span
+                  *ngIf="
+                    newAccountTypeForm.get('accountTypeAmountProfile')
+                      ?.invalid &&
+                    newAccountTypeForm.get('accountTypeAmountProfile')?.touched
+                  "
+                  class="error-message"
+                >
+                  Este campo es obligatorio*
+                </span>
+                <span
+                  *ngIf="
+                    newAccountTypeForm
+                      .get('accountTypeAmountProfile')
+                      ?.hasError('pattern') &&
+                    newAccountTypeForm.get('accountTypeAmountProfile')?.touched
+                  "
+                >
+                  <small class="text-danger"
+                    >La cantidad de perfiles debe ser un solo dígito entre 1 y
+                    9.</small
+                  >
+                </span>
+              </nb-form-field>
+              <nb-form-field class="col-md-6">
+                <input
+                  nbInput
+                  type="number"
+                  formControlName="price"
+                  fullWidth
+                  placeholder="Precio cuenta"
+                />
+                <span
+                  *ngIf="
+                    newAccountTypeForm.get('accountTypeName')?.invalid &&
+                    newAccountTypeForm.get('accountTypeName')?.touched
+                  "
+                  class="error-message"
+                >
+                  Este campo es obligatorio*
+                </span>
+              </nb-form-field>
+              <nb-form-field class="col-md-6">
+                <input
+                  nbInput
+                  type="number"
+                  formControlName="profile_price"
+                  fullWidth
+                  placeholder="Precio perfil"
+                />
+                <span
+                  *ngIf="
+                    newAccountTypeForm.get('accountTypeAmountProfile')
+                      ?.invalid &&
+                    newAccountTypeForm.get('accountTypeAmountProfile')?.touched
+                  "
+                  class="error-message"
+                >
+                  Este campo es obligatorio*
+                </span>
+                <span
+                  *ngIf="
+                    newAccountTypeForm
+                      .get('accountTypeAmountProfile')
+                      ?.hasError('pattern') &&
+                    newAccountTypeForm.get('accountTypeAmountProfile')?.touched
+                  "
+                >
+                  <small class="text-danger"
+                    >La cantidad de perfiles debe ser un solo dígito entre 1 y
+                    9.</small
+                  >
+                </span>
+              </nb-form-field>
             </div>
-            <div class="modal-body">
-                <div class="container">
-                    <h2>Formulario de Cuenta</h2>
-                    <form [formGroup]="newAccountTypeForm" (ngSubmit)="createAccountType()">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="accountTypeName"
-                                formControlName="accountTypeName" placeholder=" ">
-                            <label for="accountTypeName" class="form-label-placeholder">Nombre de la nueva
-                                plataforma</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="accountTypeAmountProfile"
-                                formControlName="accountTypeAmountProfile" placeholder=" ">
-                            <label for="accountTypeAmountProfile" class="form-label-placeholder">Cantidad de
-                                perfiles</label>
-                            <div *ngIf="newAccountTypeForm.get('accountTypeAmountProfile')?.hasError('pattern')">
-                                <small class="text-danger">La cantidad de perfiles debe ser un solo dígito entre 1 y
-                                    9.</small>
-                            </div>
-
-
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="accountTypeStatus"
-                                formControlName="accountTypeStatus">
-                            <label class="form-check-label" for="accountTypeStatus">Estado</label>
-                        </div>
-                        <div class="container p-5 text-center border rounded">
-                            <div *ngIf="!imageSelected">
-                                <h2 class="lg-mb-4">Subir Imagen</h2>
-                                <label for="fileUpload" class="btn btn-primary btn-lg" style="border-style: dashed;">
-                                    Seleccionar Archivo
-                                    <input (change)="onFileSelected($event)" type="file" id="fileUpload"
-                                        style="display: none;" accept=".jpg, .jpeg, .png, .pdf">
-                                </label>
-                                <p class="lg-mt-2 mb-0">Selecciona un archivo JPG, JPEG, PNG o PDF.</p>
-                            </div>
-                            <div *ngIf="imageSelected" id="imagePreviewContainer" class="mt-4"
-                                style="display: none; position: relative;">
-                                <img id="imagePreview" class="img-thumbnail" alt="Vista Previa de la Imagen">
-                                <button id="removeImageButton" class="btn btn-danger btn-sm" (click)="removeImage()"
-                                    style="position: absolute; top: 0; right: 0; z-index: 1;">
-                                    <nb-icon icon="close-outline"></nb-icon>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+            <div class="mb-3 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="accountTypeStatus"
+                formControlName="accountTypeStatus"
+              />
+              <label class="form-check-label" for="accountTypeStatus"
+                >Estado</label
+              >
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" (click)="createAccountType()" [disabled]="!newAccountTypeForm.valid">Crear</button>
-
+            <div class="container p-5 text-center border rounded">
+              <div *ngIf="!imageSelected">
+                <h2 class="lg-mb-4">Subir Imagen</h2>
+                <label
+                  for="fileUpload"
+                  class="btn btn-primary btn-lg"
+                  style="border-style: dashed"
+                >
+                  Seleccionar Archivo
+                  <input
+                    (change)="onFileSelected($event)"
+                    type="file"
+                    id="fileUpload"
+                    style="display: none"
+                    accept=".jpg, .jpeg, .png, .pdf"
+                  />
+                </label>
+                <p class="lg-mt-2 mb-0">
+                  Selecciona un archivo JPG, JPEG, PNG o PDF.
+                </p>
+              </div>
+              <div
+                *ngIf="imageSelected"
+                id="imagePreviewContainer"
+                class="mt-4"
+                style="display: none; position: relative"
+              >
+                <img
+                  id="imagePreview"
+                  class="img-thumbnail"
+                  alt="Vista Previa de la Imagen"
+                />
+                <button
+                  id="removeImageButton"
+                  class="btn btn-danger btn-sm"
+                  (click)="removeImage()"
+                  style="position: absolute; top: 0; right: 0; z-index: 1"
+                >
+                  <nb-icon icon="close-outline"></nb-icon>
+                </button>
+              </div>
             </div>
+          </form>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="createAccountType()"
+          [disabled]="!newAccountTypeForm.valid"
+        >
+          Crear
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!--Modal confirmation-->
 <div *ngIf="modalConfirmation">
-    <app-dialog-confirmation (onConfirmCallback)="createAccountType()" (onCancelCallback)="this.modalConfirmation = false"></app-dialog-confirmation>
+  <app-dialog-confirmation
+    (onConfirmCallback)="createAccountType()"
+    (onCancelCallback)="this.modalConfirmation = false"
+  ></app-dialog-confirmation>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-
-
-
-
-
-

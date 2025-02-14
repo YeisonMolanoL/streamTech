@@ -4,7 +4,7 @@
         class="col-6 col-sm-6 col-md-3"
         *ngFor="let combo of availableCombos; let i = index"
       >
-      <app-card-product [accountType]="combo" [id]="'product-' + i" (emmiter)="addToCart($event, i)"></app-card-product>
+      <app-card-product [accountType]="combo" [itemSale]="itemSale" [id]="'product-' + i" (emmiter)="addToCart($event, i)"></app-card-product>
       </div>
       <div>
         <button nbButton shape="round" size="small" status="danger" class="w-100">

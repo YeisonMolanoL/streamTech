@@ -20,7 +20,7 @@ import { CarService } from '../../core/services/car.service';
 })
 export class ProductCardComponent implements OnInit {
   @Input() accountType: any;
-  // @Input() itemSale!: CartItem;
+  @Input() itemSale!: CartItem;
   @Input() itemSaleType!: string;
   @Output() emmiter = new EventEmitter<any>();
   dataSaleForm!: FormGroup;
@@ -35,28 +35,10 @@ export class ProductCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initializeItem();
     this.itemItemSale = this._carService.findCurrentItemByItem(
-      this.itemSaleType,
-      this.accountType.id,
-      this.accountType.price,
-      this.accountType.imageUrl
+      this.itemSaleType, this.accountType
     );
-
     this.initFormData();
-  }
-
-  private async initializeItem(): Promise<void> {
-    try {
-      this.itemItemSale = await this._carService.findCurrentItemByItem(
-        this.itemSaleType,
-        this.accountType.id,
-        this.accountType.price,
-        this.accountType.imageUrl
-      );
-    } catch (error) {
-      console.error('Error finding item:', error);
-    }
   }
 
   initFormData() {
@@ -71,7 +53,8 @@ export class ProductCardComponent implements OnInit {
   }
 
   addToCart() {
-    this.itemItemSale.items.push(this.dataSaleForm.value);
+    this.itemItemSale.data.push(this.dataSaleForm.value);
+    this.itemItemSale.totalPrice = this.itemItemSale.price * this.itemItemSale.quantity;
     this.isNewSale = false;
     this.dataSaleForm.reset();
     this._carService.saveCar();

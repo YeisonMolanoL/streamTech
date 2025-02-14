@@ -10,7 +10,7 @@ import { AlertsService } from '../../core/services/alerts.service';
 @Component({
   selector: 'app-plattforms',
   templateUrl: './plattforms.component.html',
-  styleUrl: './plattforms.component.css'
+  styleUrl: './plattforms.component.css',
 })
 export class PlattformsComponent implements OnInit {
   accounts: Array<any> = [];
@@ -25,9 +25,12 @@ export class PlattformsComponent implements OnInit {
 
   private storage: Storage = inject(Storage);
 
-  constructor(private alert: AlertsService, private fb: FormBuilder, private accountService: AccountService, private accountTypeService: AccountTypeService) {
-
-  }
+  constructor(
+    private alert: AlertsService,
+    private fb: FormBuilder,
+    private accountService: AccountService,
+    private accountTypeService: AccountTypeService
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -37,9 +40,14 @@ export class PlattformsComponent implements OnInit {
   initForm() {
     this.newAccountTypeForm = this.fb.group({
       accountTypeName: ['', Validators.required],
-      accountTypeAmountProfile: ['', [Validators.required, Validators.pattern(/^[1-9]$/)]],
-      accountTypeStatus: [false],
-      accountTypeIcon: ['']
+      accountTypeAmountProfile: [
+        '',
+        [Validators.required, Validators.pattern(/^[1-9]$/)],
+      ],
+      accountTypeStatus: [true],
+      accountTypeIcon: [''],
+      price: ['', [Validators.required]],
+      profile_price: ['', [Validators.required]],
     });
   }
 
@@ -57,7 +65,7 @@ export class PlattformsComponent implements OnInit {
   async createAccountType() {
     if (this.newAccountTypeForm.valid) {
       this.modalConfirmation = false;
-      let selectedFile: File | null = null;;
+      let selectedFile: File | null = null;
       if (this.fileSelected != null) {
         selectedFile = this.fileSelected;
       }
@@ -65,23 +73,34 @@ export class PlattformsComponent implements OnInit {
         try {
           const url = await this.uploadFile(selectedFile);
           this.newAccountTypeForm.get('accountTypeIcon')?.setValue(url);
-          this.accountTypeService.newAccountType(this.newAccountTypeForm.value).subscribe({
-            next: (data) => {
-              this.newAccountTypeForm.reset();
-              this.getAllAccountsType();
-              this.closeModal();
-              this.alert.showSuccess('Se ha añadido la nueva plataforma correctamente', '¡Validado!');
-            },
-            error: (err) => {
-              this.alert.showWarning(err.error.message, 'Importante');
-            }
-          })
+          this.accountTypeService
+            .newAccountType(this.newAccountTypeForm.value)
+            .subscribe({
+              next: (data) => {
+                this.newAccountTypeForm.reset();
+                this.getAllAccountsType();
+                this.closeModal();
+                this.alert.showSuccess(
+                  'Se ha añadido la nueva plataforma correctamente',
+                  '¡Validado!'
+                );
+              },
+              error: (err) => {
+                this.alert.showWarning(err.error.message, 'Importante');
+              },
+            });
         } catch (error) {
-          this.alert.showError('Error al subir el archivo: ' + error + '', 'Importante');
+          this.alert.showError(
+            'Error al subir el archivo: ' + error + '',
+            'Importante'
+          );
         }
       }
     } else {
-      this.alert.showWarning('Tiene que llenar el formulario bien ¡IDIOTA!', 'Importante');
+      this.alert.showWarning(
+        'Tiene que llenar el formulario bien ¡IDIOTA!',
+        'Importante'
+      );
     }
   }
 
@@ -89,8 +108,12 @@ export class PlattformsComponent implements OnInit {
     this.fileSelected = event.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-      const imagePreview = document.getElementById('imagePreview') as HTMLImageElement;
+      const imagePreviewContainer = document.getElementById(
+        'imagePreviewContainer'
+      );
+      const imagePreview = document.getElementById(
+        'imagePreview'
+      ) as HTMLImageElement;
       const removeImageButton = document.getElementById('removeImageButton');
 
       if (imagePreviewContainer && imagePreview && removeImageButton) {
@@ -99,7 +122,9 @@ export class PlattformsComponent implements OnInit {
         removeImageButton.addEventListener('click', () => {
           imagePreview.src = '';
           imagePreviewContainer.style.display = 'none';
-          const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
+          const fileInput = document.getElementById(
+            'fileUpload'
+          ) as HTMLInputElement;
           if (fileInput) {
             fileInput.value = '';
           }
@@ -116,11 +141,14 @@ export class PlattformsComponent implements OnInit {
       const fileRef = ref(this.storage, filePath);
       const uploadTask = uploadBytesResumable(fileRef, file);
 
-      uploadTask.on('state_changed',
-        (snapshot) => {
-        },
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {},
         (error) => {
-          this.alert.showError('Error al subir el archivo: ' + error, 'Importante');
+          this.alert.showError(
+            'Error al subir el archivo: ' + error,
+            'Importante'
+          );
           reject(error);
         },
         async () => {
@@ -128,14 +156,16 @@ export class PlattformsComponent implements OnInit {
             const url = await getDownloadURL(fileRef);
             resolve(url);
           } catch (error) {
-            this.alert.showError('Error al obtener la URL del archivo: ' + error + '', 'Importante');
+            this.alert.showError(
+              'Error al obtener la URL del archivo: ' + error + '',
+              'Importante'
+            );
             reject(error);
           }
         }
       );
     });
   }
-
 
   removeImage() {
     this.imageSelected = false;
@@ -154,7 +184,7 @@ export class PlattformsComponent implements OnInit {
     this.imageSelected = false;
   }
 
-  openConfirmation(){
+  openConfirmation() {
     this.modalConfirmation = true;
   }
 }

@@ -25,14 +25,17 @@ export class CartItem {
 }
 
 export class SaleItem {
-  productId?: number; // el id del producto elegido, cuenta en la mayoria de los casos
-  quantity: number = 0; // la cantidad de productos actuales
+  productId?: number;
+  productName?: string;
+  quantity: number = 0;
   price!: number;
   data: { name: string; pin: string }[] = [];
   imageUrl?: string;
-  constructor(productId: number, price: number, imageUrl: string){
+  totalPrice: number = 0;
+  constructor(productId: number, price: number, imageUrl: string, productName: string){
     this.productId = productId;
     this.price = price;
     this.imageUrl = imageUrl;
+    this.productName = productName;
   }
 }

@@ -35,9 +35,9 @@ export class SaleProfilesComponent implements OnInit {
 
   ngOnInit(): void {
     const itemBySaleFound = this._carService.getItemBySaleType(this.itemType);
-    // if(itemBySaleFound && itemBySaleFound != null){
-    //   this.itemSale = itemBySaleFound;
-    // }
+    if(itemBySaleFound && itemBySaleFound != null){
+      this.itemSale = itemBySaleFound;
+    }
     this.getAccountsType();
     this.initForm();
   }
@@ -80,18 +80,6 @@ export class SaleProfilesComponent implements OnInit {
       .get('comboAccountsType')
       ?.setValue(this.comboAccountsType);
   }
-
-  // addToCart(event: number, index: number){
-  //   const productElement = document.getElementById(`product-${index}`);
-  //   const cartPosition = this.cartButton.nativeElement.getBoundingClientRect();
-  //   if(productElement){
-  //     const productPosition = productElement.getBoundingClientRect();
-
-  //     const animationElement = this.createAnimationElement(productElement);
-  //     this.animateElement(animationElement, productPosition, cartPosition);
-  //   }
-  //   // Aplica animación
-  // }
 
   createAnimationElement(productElement: HTMLElement): HTMLElement {
     const animationElement = productElement.cloneNode(true) as HTMLElement;
