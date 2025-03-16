@@ -21,7 +21,7 @@ export class SaleProfilesComponent implements OnInit {
   comboAccountsType = new Array<any>();
   newComboSaleForm!: FormGroup;
   @ViewChild('car', { static: false }) cartButton!: ElementRef;
-  itemType: string = 'profile';
+  itemType: string = 'Perfil';
   itemSale!: CartItem;
   isActive: boolean = true;
 

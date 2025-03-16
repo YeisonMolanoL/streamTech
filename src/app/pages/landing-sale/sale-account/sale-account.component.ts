@@ -11,7 +11,7 @@ import { AlertsService } from '../../../core/services/alerts.service';
 export class SaleAccountComponent implements OnInit {
   availableAccountsType = new Array<any>();
   itemSale: any;
-  itemType: string = 'accounts';
+  itemType: string = 'Cuentas';
 
   constructor(private _carService: CarService, private accountTypeService: AccountTypeService, private alert: AlertsService){}
 

@@ -16,7 +16,7 @@ export class SaleCombosComponent implements OnInit {
   newComboSaleForm!: FormGroup;
   @ViewChild('car', { static: false }) cartButton!: ElementRef;
   itemSale: any;
-  itemType: string = 'combos';
+  itemType: string = 'Combos';
 
   constructor(
     private fb: FormBuilder,

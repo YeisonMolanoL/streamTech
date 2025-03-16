@@ -2,10 +2,8 @@ import { CartItem } from './../../core/models/Car.model';
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { CarModel } from '../../core/models/Car.model';
 import { CarService } from '../../core/services/car.service';
+import { BehaviorSubject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root', // Proporciona el componente como servicio a nivel global
-})
 @Component({
   selector: 'app-car-products',
   templateUrl: './car-products.component.html',
@@ -13,8 +11,9 @@ import { CarService } from '../../core/services/car.service';
   providers: [],
 })
 export class CarProductsComponent implements OnInit {
-  @Input() car = new CarModel();
-  carPoducts: CartItem[] = [];
+  carProducts: CartItem[] = [];
+  car = new CarModel();
+  isCarActivated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private carService: CarService) {}
 
@@ -23,12 +22,11 @@ export class CarProductsComponent implements OnInit {
     setTimeout(() => {
       this.getCurrentCar();
     }, 500);
-    this.carService.carItems.subscribe({
+    this.carService.currentCar$.subscribe({
       next: (data) => {
-        this.carPoducts = data;
+        this.car = data;
       }
     });
-    // this.getCurrentCar();
   }
 
   getCurrentCar() {
@@ -60,5 +58,9 @@ export class CarProductsComponent implements OnInit {
     //   this.carService.addNewItem(dataFind);
     // }
     // return dataFind;
+  }
+
+  get currentItems(){
+    return this.car.items.filter(item => item.items.length > 0);
   }
 }

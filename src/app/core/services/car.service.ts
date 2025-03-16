@@ -7,24 +7,26 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CarService {
   car!: CarModel;
-  carItems$: BehaviorSubject<CartItem[]> = new BehaviorSubject<CartItem[]>([]);
+  currentCar$: BehaviorSubject<CarModel> = new BehaviorSubject<CarModel>(this.initializeCart());
   currentProduct$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public isSaleActive: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
 
-  constructor() {}
+  constructor() {
+    this.car = this.initializeCart(); // Se inicializa correctamente
+    this.currentCar$ = new BehaviorSubject<CarModel>(this.car);
+  }
 
-  get carItems() {
-    return this.carItems$.asObservable();
+  get carCurrentCar() {
+    return this.currentCar$.asObservable();
   }
 
   addNewItem(item: CartItem) {
     this.car.items.push(item);
-    this.carItems$.next(this.car.items);
   }
 
-  initializeCart() {
+  initializeCart(): CarModel {
     const savedCar = localStorage.getItem('currentCar');
     if (savedCar) {
       try {
@@ -40,12 +42,11 @@ export class CarService {
         console.error('Error al inicializar el carrito, reiniciando...', e);
         this.resetCar();
       }
-    } else {
-      return this.resetCar();
     }
+    return this.resetCar();
   }
 
-  resetCar() {
+  resetCar(): CarModel {
     this.car = {
       createdAt: new Date(),
       totalPrice: 0.0,
@@ -55,6 +56,7 @@ export class CarService {
       currency: 'USD',
     };
     this.saveCar();
+    return this.car;
   }
 
   saveCar() {
@@ -62,9 +64,8 @@ export class CarService {
       console.error('No hay carrito para guardar.');
       return;
     }
-
     localStorage.setItem('currentCar', JSON.stringify(this.car));
-    localStorage;
+    this.currentCar$.next(this.car);
   }
 
   get currentCar() {
@@ -88,7 +89,7 @@ export class CarService {
     if (!dataFind) {
       dataFind = new CartItem(saleType, saleType);
       this.car.items.push(dataFind);
-      this.carItems$.next(this.car.items);
+      // this.carItems$.next(this.car.items);
       this.saveCar();
     }
     return dataFind;
