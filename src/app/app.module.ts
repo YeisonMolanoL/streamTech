@@ -15,6 +15,7 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CarProductsComponent } from './components/car-products/car-products.component';
 import { AuthInterceptor } from './modules/authentication/interceptors/auth.interceptor';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { AuthInterceptor } from './modules/authentication/interceptors/auth.inte
       ),
       provideStorage (() => getStorage())
   ]), NbToastrService,
-  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   exports: [],
   bootstrap: [AppComponent]
