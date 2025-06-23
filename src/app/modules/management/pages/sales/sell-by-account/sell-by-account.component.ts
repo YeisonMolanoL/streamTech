@@ -7,7 +7,7 @@ import { AccountTypeService } from '../../../../../core/services/account-type.se
 import { ClientService } from '../../../../../core/services/client.service';
 import { AccountService } from '../../../../../core/services/account.service';
 import { AccountSaleService } from '../../../../../core/services/account-sale.service';
-import { CreateClientComponent } from '../../../../../components/create-client/create-client.component';
+import { CreateClientComponent } from '../../../../shared/components/create-client/create-client.component';
 
 @Component({
   selector: 'app-sell-by-account',

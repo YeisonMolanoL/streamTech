@@ -6,12 +6,18 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateCustomerComponent } from './components/create-customer/create-customer.component';
+import { MessagesToSendComponent } from './components/messages-to-send/messages-to-send.component';
+import { DialogConfirmationComponent } from '../inventory/components/dialog-confirmation/dialog-confirmation.component';
+import { EditAccountDataModalComponent } from './components/edit-account-data-modal/edit-account-data-modal.component';
+import { AddCustomersComponent } from './components/add-customers/add-customers.component';
+import { CardInfoComponent } from './components/card-info/card-info.component';
+import { CreateClientComponent } from './components/create-client/create-client.component';
 
 
 
 @NgModule({
   declarations: [
-    LoaderComponent, HeaderComponent, YesNoPipelinePipe, CreateCustomerComponent
+    LoaderComponent, HeaderComponent, YesNoPipelinePipe, CreateCustomerComponent, MessagesToSendComponent, DialogConfirmationComponent, EditAccountDataModalComponent, AddCustomersComponent, CardInfoComponent, CreateClientComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +30,13 @@ import { CreateCustomerComponent } from './components/create-customer/create-cus
     ReactiveFormsModule,
     YesNoPipelinePipe,
     HeaderComponent,
-    CreateCustomerComponent
+    CreateCustomerComponent,
+    MessagesToSendComponent,
+    DialogConfirmationComponent,
+    EditAccountDataModalComponent,
+    AddCustomersComponent,
+    CardInfoComponent,
+    CreateClientComponent
   ],
 })
 export class SharedModule { }

@@ -1,8 +1,8 @@
 import { NB_DIALOG_CONFIG, NbDialogRef, NbDialogService } from '@nebular/theme';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ClientService } from '../../core/services/client.service';
-import { AlertsService } from '../../core/services/alerts.service';
+import { ClientService } from '../../../../core/services/client.service';
+import { AlertsService } from '../../../../core/services/alerts.service';
 import { CreateClientComponent } from '../create-client/create-client.component';
 
 @Component({

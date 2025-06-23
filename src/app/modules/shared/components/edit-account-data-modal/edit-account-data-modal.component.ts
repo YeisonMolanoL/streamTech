@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AccountService } from '../../core/services/account.service';
+import { AccountService } from '../../../../core/services/account.service';
 import { NbDialogRef, NbOverlayService } from '@nebular/theme';
-import { ProfileSaleService } from '../../core/services/profile-sale.service';
-import { AlertsService } from '../../core/services/alerts.service';
+import { ProfileSaleService } from '../../../../core/services/profile-sale.service';
+import { AlertsService } from '../../../../core/services/alerts.service';
 
 @Component({
   selector: 'app-edit-account-data-modal',

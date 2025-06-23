@@ -1,12 +1,12 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { AccountService } from '../../core/services/account.service';
+import { AccountService } from '../../../../core/services/account.service';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
-import { AlertsService } from '../../core/services/alerts.service';
-import { ProfileSaleService } from '../../core/services/profile-sale.service';
+import { AlertsService } from '../../../../core/services/alerts.service';
+import { ProfileSaleService } from '../../../../core/services/profile-sale.service';
 import { NbDialogService } from '@nebular/theme';
-import { EditAccountDataModalComponent } from '../edit-account-data-modal/edit-account-data-modal.component';
-import { AddCustomersComponent } from '../add-customers/add-customers.component';
+import { EditAccountDataModalComponent } from '../../../shared/components/edit-account-data-modal/edit-account-data-modal.component';
+import { AddCustomersComponent } from '../../../shared/components/add-customers/add-customers.component';
 import { CreateAccountComponent } from '../create-account/create-account.component';
 
 @Component({

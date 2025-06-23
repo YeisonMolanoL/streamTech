@@ -13,11 +13,12 @@ import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { CarProductsComponent } from './components/car-products/car-products.component';
 import { AuthInterceptor } from './modules/authentication/interceptors/auth.interceptor';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ManagementModule } from './modules/management/management.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
+import { CarProductsComponent } from './modules/shopping-cart/components/car-products/car-products.component';
+import { ShoppingCartModule } from './modules/shopping-cart/shopping-cart.module';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -36,6 +37,7 @@ import { InventoryModule } from './modules/inventory/inventory.module';
         NbDatepickerModule.forRoot(),
         ManagementModule,
         InventoryModule,
+        ShoppingCartModule,
         NbEvaIconsModule,
         NbIconModule,
         SweetAlert2Module.forRoot()], providers: [

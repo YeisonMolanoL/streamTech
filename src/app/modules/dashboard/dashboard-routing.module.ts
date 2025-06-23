@@ -7,7 +7,7 @@ import { AccountComponent } from '../inventory/pages/account/account.component';
 import { SellByAccountComponent } from '../management/pages/sales/sell-by-account/sell-by-account.component';
 import { SellByProfileComponent } from '../management/pages/sales/sell-by-profile/sell-by-profile.component';
 import { SellByComboComponent } from '../management/pages/sales/sell-by-combo/sell-by-combo.component';
-import { MessagesToSendComponent } from '../../components/messages-to-send/messages-to-send.component';
+import { MessagesToSendComponent } from '../shared/components/messages-to-send/messages-to-send.component';
 import { SaleProfilesComponent } from '../management/pages/landing-sale/sale-profiles/sale-profiles.component';
 import { SaleCombosComponent } from '../management/pages/landing-sale/sale-combos/sale-combos.component';
 import { SaleAccountComponent } from '../management/pages/landing-sale/sale-account/sale-account.component';

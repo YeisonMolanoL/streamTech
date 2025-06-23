@@ -1,17 +1,19 @@
 import { PlattformsComponent } from './pages/plattforms/plattforms.component';
-import { ComponentsModule } from './../../components/components.module';
 import { AccountComponent } from './pages/account/account.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AccountListComponent } from './components/account-list/account-list.component';
+import { CreateAccountComponent } from './components/create-account/create-account.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
 @NgModule({
-  declarations: [AccountComponent, PlattformsComponent],
+  declarations: [AccountComponent, PlattformsComponent, AccountListComponent, CreateAccountComponent
+  ],
   imports: [
     CommonModule,
-    ComponentsModule,
-    
+    SharedModule
   ]
 })
 export class InventoryModule { }

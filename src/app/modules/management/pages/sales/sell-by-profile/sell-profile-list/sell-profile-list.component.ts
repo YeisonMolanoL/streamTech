@@ -11,7 +11,7 @@ import { MessageRequestModel } from '../../../../../../core/models/MessageReques
 import { ConnectionChatService } from '../../../../../../core/services/connection-chat.service';
 import { AlertsService } from '../../../../../../core/services/alerts.service';
 import { ProfileSaleService } from '../../../../../../core/services/profile-sale.service';
-import { MessagesToSendComponent } from '../../../../../../components/messages-to-send/messages-to-send.component';
+import { MessagesToSendComponent } from '../../../../../shared/components/messages-to-send/messages-to-send.component';
 
 @Component({
   selector: 'app-sell-profile-list',

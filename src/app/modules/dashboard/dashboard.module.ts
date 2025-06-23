@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './layout/dashboard/dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { ComponentsModule } from '../../components/components.module';
+import { SharedModule } from '../shared/shared.module';
+import { ShoppingCartModule } from '../shopping-cart/shopping-cart.module';
 
 
 
@@ -12,8 +13,9 @@ import { ComponentsModule } from '../../components/components.module';
   ],
   imports: [
     CommonModule,
-    ComponentsModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    SharedModule,
+    ShoppingCartModule
   ]
 })
 export default class DashboardModule { }

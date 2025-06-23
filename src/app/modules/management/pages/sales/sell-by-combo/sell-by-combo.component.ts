@@ -1,5 +1,4 @@
-import { CreateComboComponent } from './../../../../../components/create-combo/create-combo.component';
-import { CreateClientComponent } from './../../../../../components/create-client/create-client.component';
+import { CreateComboComponent } from '../../../components/create-combo/create-combo.component';
 import { ClientService } from './../../../../../core/services/client.service';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { Component, OnInit } from '@angular/core';
@@ -13,6 +12,7 @@ import { ComboSaleService } from '../../../../../core/services/combo-sale.servic
 import { AlertsService } from '../../../../../core/services/alerts.service';
 import { AccountTypeService } from '../../../../../core/services/account-type.service';
 import { ComboModel } from '../../../../../core/models/Combo.model';
+import { CreateClientComponent } from '../../../../shared/components/create-client/create-client.component';
 
 @Component({
   selector: 'app-sell-by-combo',

@@ -1,6 +1,5 @@
-import { CartItem } from './../../core/models/Car.model';
+import { CartItem } from '../../../../core/models/Car.model';
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -8,10 +7,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { CarProductsComponent } from '../car-products/car-products.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { CarService } from '../../core/services/car.service';
+import { CarService } from '../../../../core/services/car.service';
 
 @Component({
   selector: 'app-card-product',

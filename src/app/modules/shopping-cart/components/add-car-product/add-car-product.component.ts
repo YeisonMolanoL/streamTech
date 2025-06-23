@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CarService } from '../../core/services/car.service';
+import { CarService } from '../../../../core/services/car.service';
 
 @Component({
   selector: 'app-add-car-product',
