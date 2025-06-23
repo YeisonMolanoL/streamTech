@@ -1,9 +1,9 @@
 import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NB_DIALOG_CONFIG, NbDialogRef, NbDialogService } from '@nebular/theme';
-import { ProfileSaleService } from '../../../../core/services/profile-sale.service';
-import { AccountService } from '../../../../core/services/account.service';
-import { AlertsService } from '../../../../core/services/alerts.service';
+import { ProfileSaleService } from '../../../management/core/services/profile-sale.service';
+import { AccountService } from '../../core/services/account.service';
+import { AlertsService } from '../../../shared/core/services/alerts.service';
 import { AddCustomersComponent } from '../../../shared/components/add-customers/add-customers.component';
 
 @Component({

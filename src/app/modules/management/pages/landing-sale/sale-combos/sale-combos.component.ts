@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ComboSaleService } from '../../../../../core/services/combo-sale.service';
-import { AlertsService } from '../../../../../core/services/alerts.service';
-import { CarService } from '../../../../../core/services/car.service';
+import { ComboSaleService } from '../../../core/services/combo-sale.service';
+import { AlertsService } from '../../../../shared/core/services/alerts.service';
+import { CarService } from '../../../../shopping-cart/core/services/car.service';
 
 @Component({
   selector: 'app-sale-combos',

@@ -1,4 +1,4 @@
-import { CartItem } from '../../../../core/models/Car.model';
+import { CartItem } from '../../core/models/Car.model';
 import {
   ChangeDetectorRef,
   Component,
@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CarService } from '../../../../core/services/car.service';
+import { CarService } from '../../core/services/car.service';
 
 @Component({
   selector: 'app-card-product',

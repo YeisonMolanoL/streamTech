@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountSaleListComponent } from './account-sale-list/account-sale-list.component';
 import { NbDialogService } from '@nebular/theme';
-import { AlertsService } from '../../../../../core/services/alerts.service';
-import { AccountTypeService } from '../../../../../core/services/account-type.service';
-import { ClientService } from '../../../../../core/services/client.service';
-import { AccountService } from '../../../../../core/services/account.service';
-import { AccountSaleService } from '../../../../../core/services/account-sale.service';
+import { AlertsService } from '../../../../shared/core/services/alerts.service';
+import { AccountTypeService } from '../../../../inventory/core/services/account-type.service';
+import { ClientService } from '../../../../shared/core/services/client.service';
+import { AccountService } from '../../../../inventory/core/services/account.service';
+import { AccountSaleService } from '../../../core/services/account-sale.service';
 import { CreateClientComponent } from '../../../../shared/components/create-client/create-client.component';
 
 @Component({

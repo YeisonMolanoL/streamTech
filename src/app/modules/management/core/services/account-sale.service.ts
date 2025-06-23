@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AccountTypeService {
-  globalRoute = `${environment.api}/platform/`;
+export class AccountSaleService {
+  globalRoute = `${environment.api}/sale/account/`
 
   constructor(private http: HttpClient) { }
 
@@ -18,13 +18,9 @@ export class AccountTypeService {
     return this.http.get<any>(this.globalRoute + 'all/data');
   }
 
-  newAccountType(accountType: any){
-    return this.http.post<any>(this.globalRoute + 'create', accountType, {
+  newAccountSale(accountSale: any){
+    return this.http.post<any>(this.globalRoute + 'create', accountSale, {
       observe: 'response'
-    })
-  }
-
-  getAllAvailableProfile(){
-    return this.http.get<any>(this.globalRoute + 'all/available');
+    });
   }
 }

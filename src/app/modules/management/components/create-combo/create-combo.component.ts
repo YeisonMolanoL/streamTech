@@ -1,4 +1,4 @@
-import { ComboSaleService } from '../../../../core/services/combo-sale.service';
+import { ComboSaleService } from '../../core/services/combo-sale.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';

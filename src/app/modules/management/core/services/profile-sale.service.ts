@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { SellByProfileResponse } from '../models/SellByProfileResponse.model';
+import { environment } from '../../../../../environments/environment';
+import { SellByProfileResponse } from '../response/SellByProfileResponse.model';
 
 @Injectable({
   providedIn: 'root'

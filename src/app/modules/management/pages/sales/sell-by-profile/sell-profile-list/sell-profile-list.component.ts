@@ -7,10 +7,10 @@ import {
 } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { NbDialogService } from '@nebular/theme';
-import { MessageRequestModel } from '../../../../../../core/models/MessageRequest.model';
-import { ConnectionChatService } from '../../../../../../core/services/connection-chat.service';
-import { AlertsService } from '../../../../../../core/services/alerts.service';
-import { ProfileSaleService } from '../../../../../../core/services/profile-sale.service';
+import { MessageRequestModel } from '../../../../../shared/core/models/MessageRequest.model';
+import { ConnectionChatService } from '../../../../../connection/core/services/connection-chat.service';
+import { AlertsService } from '../../../../../shared/core/services/alerts.service';
+import { ProfileSaleService } from '../../../../core/services/profile-sale.service';
 import { MessagesToSendComponent } from '../../../../../shared/components/messages-to-send/messages-to-send.component';
 
 @Component({

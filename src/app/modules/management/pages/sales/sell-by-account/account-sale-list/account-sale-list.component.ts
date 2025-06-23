@@ -1,8 +1,8 @@
 import { Component, Input, Output, SimpleChanges, ViewChild, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, map, of } from 'rxjs';
-import { AlertsService } from '../../../../../../core/services/alerts.service';
-import { AccountService } from '../../../../../../core/services/account.service';
+import { AlertsService } from '../../../../../shared/core/services/alerts.service';
+import { AccountService } from '../../../../../inventory/core/services/account.service';
 
 @Component({
   selector: 'app-account-sale-list',

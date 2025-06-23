@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
-import { AccountTypeService } from '../../../../core/services/account-type.service';
-import { AccountService } from '../../../../core/services/account.service';
-import { AlertsService } from '../../../../core/services/alerts.service';
+import { AccountTypeService } from '../../core/services/account-type.service';
+import { AccountService } from '../../core/services/account.service';
+import { AlertsService } from '../../../shared/core/services/alerts.service';
 
 @Component({
   selector: 'app-account',

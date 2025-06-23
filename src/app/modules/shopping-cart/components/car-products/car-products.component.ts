@@ -1,7 +1,7 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { CarModel, CartItem } from '../../../../core/models/Car.model';
-import { CarService } from '../../../../core/services/car.service';
+import { CarModel, CartItem } from '../../core/models/Car.model';
+import { CarService } from '../../core/services/car.service';
 
 @Component({
   selector: 'app-car-products',

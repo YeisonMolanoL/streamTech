@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
-import { AlertsService } from '../../../../core/services/alerts.service';
-import { ClientService } from '../../../../core/services/client.service';
+import { AlertsService } from '../../core/services/alerts.service';
+import { ClientService } from '../../core/services/client.service';
 
 @Component({
   selector: 'app-create-client',

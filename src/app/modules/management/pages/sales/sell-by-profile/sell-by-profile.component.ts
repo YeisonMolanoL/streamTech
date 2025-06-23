@@ -1,10 +1,10 @@
-import { AccountSaleService } from './../../../../../core/services/account-sale.service';
+import { AccountSaleService } from '../../../core/services/account-sale.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AlertsService } from '../../../../../core/services/alerts.service';
-import { AccountTypeService } from '../../../../../core/services/account-type.service';
-import { ClientService } from '../../../../../core/services/client.service';
-import { AccountService } from '../../../../../core/services/account.service';
+import { AlertsService } from '../../../../shared/core/services/alerts.service';
+import { AccountTypeService } from '../../../../inventory/core/services/account-type.service';
+import { ClientService } from '../../../../shared/core/services/client.service';
+import { AccountService } from '../../../../inventory/core/services/account.service';
 
 @Component({
   selector: 'app-sell-by-profile',

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
-import { AlertsService } from '../../../../core/services/alerts.service';
-import { AccountTypeService } from '../../../../core/services/account-type.service';
-import { CarService } from '../../../../core/services/car.service';
+import { AlertsService } from '../../../shared/core/services/alerts.service';
+import { AccountTypeService } from '../../../inventory/core/services/account-type.service';
+import { CarService } from '../../../shopping-cart/core/services/car.service';
 
 @Component({
   selector: 'app-landing-sale',

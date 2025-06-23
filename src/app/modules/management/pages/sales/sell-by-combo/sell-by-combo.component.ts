@@ -1,5 +1,5 @@
 import { CreateComboComponent } from '../../../components/create-combo/create-combo.component';
-import { ClientService } from './../../../../../core/services/client.service';
+import { ClientService } from '../../../../shared/core/services/client.service';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -8,10 +8,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ComboSaleService } from '../../../../../core/services/combo-sale.service';
-import { AlertsService } from '../../../../../core/services/alerts.service';
-import { AccountTypeService } from '../../../../../core/services/account-type.service';
-import { ComboModel } from '../../../../../core/models/Combo.model';
+import { ComboSaleService } from '../../../core/services/combo-sale.service';
+import { AlertsService } from '../../../../shared/core/services/alerts.service';
+import { AccountTypeService } from '../../../../inventory/core/services/account-type.service';
+import { ComboModel } from '../../../core/models/Combo.model';
 import { CreateClientComponent } from '../../../../shared/components/create-client/create-client.component';
 
 @Component({

@@ -1,5 +1,5 @@
-import { SocketService } from '../../core/services/socket.service';
-import { ConnectionChatService } from '../../core/services/connection-chat.service';
+import { SocketService } from '../shared/core/services/socket.service';
+import { ConnectionChatService } from './core/services/connection-chat.service';
 import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-connection',

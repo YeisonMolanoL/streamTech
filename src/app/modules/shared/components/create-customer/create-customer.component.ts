@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Modal } from 'bootstrap';
-import { ClientService } from '../../../../core/services/client.service';
+import { ClientService } from '../../core/services/client.service';
 
 @Component({
   selector: 'app-create-customer',

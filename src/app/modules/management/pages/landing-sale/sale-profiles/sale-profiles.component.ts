@@ -5,10 +5,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CartItem } from '../../../../../core/models/Car.model';
-import { AccountTypeService } from '../../../../../core/services/account-type.service';
-import { AlertsService } from '../../../../../core/services/alerts.service';
-import { CarService } from '../../../../../core/services/car.service';
+import { CartItem } from '../../../../shopping-cart/core/models/Car.model';
+import { AccountTypeService } from '../../../../inventory/core/services/account-type.service';
+import { AlertsService } from '../../../../shared/core/services/alerts.service';
+import { CarService } from '../../../../shopping-cart/core/services/car.service';
 
 @Component({
   selector: 'app-sale-profiles',

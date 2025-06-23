@@ -1,11 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { AccountService } from '../../../../core/services/account.service';
-import { AccountTypeService } from '../../../../core/services/account-type.service';
+import { AccountService } from '../../core/services/account.service';
+import { AccountTypeService } from '../../core/services/account-type.service';
 import { ref, uploadBytesResumable, Storage } from '@angular/fire/storage';
 import { getDownloadURL } from 'firebase/storage';
-import { AlertsService } from '../../../../core/services/alerts.service';
+import { AlertsService } from '../../../shared/core/services/alerts.service';
 
 @Component({
   selector: 'app-plattforms',

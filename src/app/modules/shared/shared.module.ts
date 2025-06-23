@@ -1,4 +1,4 @@
-import { YesNoPipelinePipe } from './../../core/yes-no-pipeline.pipe';
+import { YesNoPipelinePipe } from './core/pipes/yes-no-pipeline.pipe';
 import { NebularComponentsModule } from './modules/nebular-components/nebular-components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
