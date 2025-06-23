@@ -40,10 +40,8 @@ export class MessagesToSendComponent implements OnInit {
         this.message = this.message.slice(0, -1);
       }
     } else if (event.key === 'Enter') {
-      // Si presiona Enter, añadimos un salto de línea
       this.message += '\n'; 
     } else if (event.key.length === 1) {
-      // Para cualquier otro carácter imprimible, lo añadimos al mensaje
       this.message += event.key;
     }
 
@@ -54,7 +52,7 @@ export class MessagesToSendComponent implements OnInit {
   scrollToBottom(): void {
     const chatBubble = document.querySelector('.chat-bubble');
     if (chatBubble) {
-      chatBubble.scrollTop = chatBubble.scrollHeight; // Desplaza hacia abajo
+      chatBubble.scrollTop = chatBubble.scrollHeight;
     }
   }
 

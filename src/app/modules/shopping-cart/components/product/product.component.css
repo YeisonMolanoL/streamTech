@@ -4,14 +4,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   display: flex;
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+  flex-wrap: wrap;
   gap: 20px;
 }
 
 .dropdown-container,
 .date-input-container {
   flex: 1 1 calc(50% - 20px);
-  /* Ajusta el ancho de cada columna */
 }
 
 .input-with-icon {
@@ -54,7 +53,6 @@
   border-radius: 4px;
   z-index: 1;
   width: 29%;
-  /* Ajusta el ancho del dropdown al ancho del contenedor */
   max-height: 50%;
   overflow-y: auto;
   transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
@@ -86,7 +84,6 @@
   border-radius: 50%;
 }
 
-/*Input date container*/
 .date-input-container input {
   width: 100%;
   padding: 10px 10px 10px 40px;
@@ -112,7 +109,6 @@
   color: #66afe9;
 }
 
-/* app.component.css */
 .miniCard {
   background: #fff;
   border-radius: 8px;
@@ -124,13 +120,9 @@
   transition: transform 0.3s;
 }
 
-.miniCard:hover {
-  /* transform: scale(1.05); */
-}
-
 .active-card {
   transform: scale(0.95);
-  background-color: #e0e0e0; /* Cambia el color de fondo como ejemplo */
+  background-color: #e0e0e0;
 }
 
 .image-container {

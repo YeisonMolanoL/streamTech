@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
   styleUrl: './login.component.css' ,
 })
 export class LoginComponent implements OnInit {
-  isSignUpMode = false; // Estado para alternar entre login y registro
+  isSignUpMode = false;
   loginForm!: FormGroup;
   signupForm!: FormGroup;
   errorMessage$: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -21,12 +21,7 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    
-    // this.initSignUpForm();
-  }
-
-  
+  ngOnInit(): void {}
 
   initSignUpForm() {
     this.signupForm = this.fb.group({
@@ -38,17 +33,13 @@ export class LoginComponent implements OnInit {
       roles: ['USER'],
     });
   }
+  
 
-  // Cambiar el modo de formulario
   toggleMode(isSignUp: boolean): void {
     this.isSignUpMode = isSignUp;
     this.errorMessage$.next('');
   }
-
-  // Manejo del formulario de login
   
-
-  // Manejo del formulario de registro
   onSignup(): void {
     if (this.signupForm.valid) {
       this.userService.insertUser(this.signupForm.value).subscribe({

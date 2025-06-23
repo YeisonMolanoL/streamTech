@@ -18,7 +18,7 @@ export class ConnectionComponent implements OnInit {
         this.qrCodeUrl = data;
       },
       error: (err) => {
-
+        console.log('err :>> ', err);
       }
     })
       this.getDynaicQr();

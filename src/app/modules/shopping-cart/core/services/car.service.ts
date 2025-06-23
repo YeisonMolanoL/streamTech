@@ -14,7 +14,7 @@ export class CarService {
   );
 
   constructor() {
-    this.car = this.initializeCart(); // Se inicializa correctamente
+    this.car = this.initializeCart();
     this.currentCar$ = new BehaviorSubject<CarModel>(this.car);
   }
 

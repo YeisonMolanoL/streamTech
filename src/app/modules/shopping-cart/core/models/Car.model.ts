@@ -10,10 +10,10 @@ export class CarModel {
 }
 
 export class CartItem {
-  saleType: string; // perfiles combos o cuenta completa
-  name!: string; // NOmbre con el que va a aparecer en la lista
-  quantity: number = 0; // numero de items o perfiles o combo etc agregdos
-  total: number = 0; // total de lo que suma el valor de los items internos
+  saleType: string;
+  name!: string;
+  quantity: number = 0;
+  total: number = 0;
   category!: string;
   items: SaleItem[] = [];
   constructor(saleType: string, name: string) {

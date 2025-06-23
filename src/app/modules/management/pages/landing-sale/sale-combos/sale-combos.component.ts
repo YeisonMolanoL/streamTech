@@ -79,7 +79,6 @@ export class SaleCombosComponent implements OnInit {
       const animationElement = this.createAnimationElement(productElement);
       this.animateElement(animationElement, productPosition, cartPosition);
     }
-    // Aplica animación
   }
 
   createAnimationElement(productElement: HTMLElement): HTMLElement {
@@ -105,7 +104,7 @@ export class SaleCombosComponent implements OnInit {
     );
 
     animation.onfinish = () => {
-      element.remove(); // Elimina el elemento animado después de completar la animación
+      element.remove();
     };
   }
 }

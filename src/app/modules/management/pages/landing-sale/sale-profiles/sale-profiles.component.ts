@@ -103,7 +103,7 @@ export class SaleProfilesComponent implements OnInit {
     );
 
     animation.onfinish = () => {
-      element.remove(); // Elimina el elemento animado después de completar la animación
+      element.remove();
     };
   }
 

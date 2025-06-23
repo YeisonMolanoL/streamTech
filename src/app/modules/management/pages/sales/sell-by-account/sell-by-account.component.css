@@ -4,13 +4,13 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+    flex-wrap: wrap;
     gap: 20px;
   }
   
   .dropdown-container,
   .date-input-container {
-    flex: 1 1 calc(50% - 20px); /* Ajusta el ancho de cada columna */
+    flex: 1 1 calc(50% - 20px);
   }
   
   .input-with-icon {
@@ -55,7 +55,6 @@
     border-radius: 50%;
   }
   
-  /*Input date container*/
   .date-input-container input {
     width: 100%;
     padding: 10px 10px 10px 40px;

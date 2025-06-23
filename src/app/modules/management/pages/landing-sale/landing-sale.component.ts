@@ -57,7 +57,6 @@ export class LandingSaleComponent implements OnInit {
   handleBackButton() {
     this.navigationSubscription = this.router.events.subscribe((event: NavigationEvent) => {
       if (event instanceof NavigationStart && event.navigationTrigger === 'popstate') {
-        // Acción cuando el usuario presiona el botón de "Atrás"
         Swal.fire({
           title: 'Estás saliendo',
           text: '¿Estás seguro que quieres salir?',
@@ -69,8 +68,7 @@ export class LandingSaleComponent implements OnInit {
           if (result.isConfirmed) {
             this.ngOnInit();
           } else {
-            // Cancelar la navegación
-            this.router.navigate([this.router.url]); // Redirige al mismo lugar para evitar el cambio
+            this.router.navigate([this.router.url]);
           }
         });
       }

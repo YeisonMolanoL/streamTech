@@ -185,7 +185,6 @@ export class SellByAccountComponent implements OnInit {
   }
 
   recreateAccountSaleList() {
-    // Destruimos y recreamos el componente hijo
     this.accountSaleList.ngOnDestroy();
 
     setTimeout(() => {
