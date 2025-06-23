@@ -5,7 +5,7 @@ import { NbDialogRef } from '@nebular/theme';
 @Component({
   selector: 'app-messages-to-send',
   templateUrl: './messages-to-send.component.html',
-  styleUrl: './messages-to-send.component.css'
+  styleUrl: './messages-to-send.component.css' 
 })
 export class MessagesToSendComponent implements OnInit {
   formMessage!: FormGroup;

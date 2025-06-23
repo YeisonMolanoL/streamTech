@@ -7,7 +7,7 @@ import { AlertsService } from '../../core/services/alerts.service';
 @Component({
   selector: 'app-edit-account-data-modal',
   templateUrl: './edit-account-data-modal.component.html',
-  styleUrl: './edit-account-data-modal.component.css'
+  styleUrl: './edit-account-data-modal.component.css' 
 })
 export class EditAccountDataModalComponent implements OnInit {
   @Input() profilesSalesList: any[] = [];

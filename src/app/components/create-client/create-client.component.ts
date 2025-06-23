@@ -7,7 +7,7 @@ import { NbDialogRef } from '@nebular/theme';
 @Component({
   selector: 'app-create-client',
   templateUrl: './create-client.component.html',
-  styleUrl: './create-client.component.css'
+  styleUrl: './create-client.component.css' 
 })
 export class CreateClientComponent implements OnInit{
   @Output() modalClose: EventEmitter<any> = new EventEmitter<any>();

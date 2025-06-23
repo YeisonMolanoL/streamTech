@@ -8,7 +8,7 @@ import { CreateClientComponent } from '../create-client/create-client.component'
 @Component({
   selector: 'app-add-customers',
   templateUrl: './add-customers.component.html',
-  styleUrl: './add-customers.component.css'
+  styleUrl: './add-customers.component.css' 
 })
 export class AddCustomersComponent implements OnInit {
   customers = new Array<any>();
@@ -24,7 +24,17 @@ export class AddCustomersComponent implements OnInit {
     this._accountType = value;
   }
 
-  constructor(private dialogService: NbDialogService, @Inject(NB_DIALOG_CONFIG) private config: any, private dialogRef: NbDialogRef<AddCustomersComponent>, private fb: FormBuilder, private customerService: ClientService, private alert: AlertsService){}
+  config: any;
+
+  constructor(
+    private dialogService: NbDialogService, 
+    private dialogRef: NbDialogRef<AddCustomersComponent>, 
+    private fb: FormBuilder, 
+    private customerService: ClientService, 
+    private alert: AlertsService
+  ){
+    this.config = Inject(NB_DIALOG_CONFIG);
+  }
 
   ngOnInit(): void {
     this.initprofilesForm();

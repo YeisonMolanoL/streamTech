@@ -4,7 +4,7 @@ import { CarService } from '../../core/services/car.service';
 @Component({
   selector: 'app-add-car-product',
   templateUrl: './add-car-product.component.html',
-  styleUrl: './add-car-product.component.css'
+  styleUrl: './add-car-product.component.css' 
 })
 export class AddCarProductComponent {
   @Input() currentQuantity: number = 0;

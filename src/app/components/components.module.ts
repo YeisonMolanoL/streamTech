@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AddCustomersComponent } from './add-customers/add-customers.component';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from '../modules/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { MessagesToSendComponent } from './messages-to-send/messages-to-send.component';
@@ -13,10 +13,12 @@ import { CardInfoComponent } from './card-info/card-info.component';
 import { ProductCardComponent } from './product/product.component';
 import { AddCarProductComponent } from './add-car-product/add-car-product.component';
 import { CarProductsComponent } from './car-products/car-products.component';
+import { AccountListComponent } from './account-list/account-list.component';
 
 @NgModule({
   declarations: [
     AddCustomersComponent,
+    AccountListComponent,
     CreateAccountComponent,
     MessagesToSendComponent,
     CreateComboComponent,
@@ -28,7 +30,7 @@ import { CarProductsComponent } from './car-products/car-products.component';
     AddCarProductComponent,
     CarProductsComponent,
   ],
-  imports: [CommonModule, SharedModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, SharedModule, ReactiveFormsModule],
   exports: [
     SharedModule,
     CardInfoComponent,
@@ -41,7 +43,8 @@ import { CarProductsComponent } from './car-products/car-products.component';
     DialogConfirmationComponent,
     CardInfoComponent,
     ProductCardComponent,
-    CarProductsComponent
+    CarProductsComponent,
+    AccountListComponent
   ],
 })
 export class ComponentsModule {}

@@ -16,7 +16,7 @@ import { CarService } from '../../core/services/car.service';
 @Component({
   selector: 'app-card-product',
   templateUrl: './product.component.html',
-  styleUrl: './product.component.css',
+  styleUrl: './product.component.css' 
 })
 export class ProductCardComponent implements OnInit {
   @Input() accountType: any;

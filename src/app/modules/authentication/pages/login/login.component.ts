@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrl: './login.component.css' ,
 })
 export class LoginComponent implements OnInit {
   isSignUpMode = false; // Estado para alternar entre login y registro
@@ -22,16 +22,11 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initLoginform();
-    this.initSignUpForm();
+    
+    // this.initSignUpForm();
   }
 
-  initLoginform() {
-    this.loginForm = this.fb.group({
-      userName: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-    });
-  }
+  
 
   initSignUpForm() {
     this.signupForm = this.fb.group({
@@ -51,22 +46,7 @@ export class LoginComponent implements OnInit {
   }
 
   // Manejo del formulario de login
-  onLogin(): void {
-    if (this.loginForm.valid) {
-      this.userService.logIn(this.loginForm.value).subscribe({
-        next: (data) => {
-          localStorage.setItem('data_user', JSON.stringify(data));
-          this.router.navigate(['/principal/landing-sale']);
-        },
-        error: (err) => {
-          console.error('err :>> ', err);
-          // this.errorMessage$.next(err.error.message || '¡Upsss...! Ha ocurrido un error inesperado.');
-        },
-      });
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
-  }
+  
 
   // Manejo del formulario de registro
   onSignup(): void {

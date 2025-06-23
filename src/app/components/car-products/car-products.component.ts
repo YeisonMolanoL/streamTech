@@ -7,8 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-car-products',
   templateUrl: './car-products.component.html',
-  styleUrl: './car-products.component.css',
-  providers: [],
+  styleUrl: './car-products.component.css' 
 })
 export class CarProductsComponent implements OnInit {
   carProducts: CartItem[] = [];

@@ -9,7 +9,7 @@ import { AlertsService } from '../../core/services/alerts.service';
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
-  styleUrl: './create-account.component.css'
+  styleUrl: './create-account.component.css' 
 })
 export class CreateAccountComponent implements OnInit {
   accountForm! : FormGroup;
@@ -25,7 +25,7 @@ export class CreateAccountComponent implements OnInit {
     this._accountType = value;
   }
 
-  constructor(private profileSaleService: ProfileSaleService, private alert: AlertsService, private accountService: AccountService, @Inject(NB_DIALOG_CONFIG) public config: any, private dialogRef: NbDialogRef<AddCustomersComponent>, private fb: FormBuilder, private dialogService: NbDialogService){}
+  constructor(private profileSaleService: ProfileSaleService, private alert: AlertsService, private accountService: AccountService, private dialogRef: NbDialogRef<AddCustomersComponent>, private fb: FormBuilder, private dialogService: NbDialogService){}
 
   ngOnInit(): void {
     this.initForm();
