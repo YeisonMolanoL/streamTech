@@ -30,25 +30,6 @@
           </nb-option>
         </nb-autocomplete>
       </div>
-      <!--<div class="col-md-5">
-        <div class="p-2 input-with-icon" (click)="toggleDropdownAccountType()">
-          <input type="text" placeholder="Seleccione plataforma"
-            [value]="selectedAccountType?.accountTypeRecord?.accountTypeName" 
-            (input)="filterAccountType()" />
-          <img *ngIf="selectedAccountType?.accountTypeRecord?.accountTypeIcon"
-            [src]="selectedAccountType.accountTypeRecord.accountTypeIcon"
-            alt="{{ selectedAccountType?.accountTypeRecord?.accountTypeIcon }}" />
-        </div>
-        <div class="col-md-4 dropdown" [class.show]="isDropdownAccountTypeOpen">
-          <div class="dropdown-item" *ngFor="let accountType of filteredAccounts"
-            (click)="selectAccountType(accountType)">
-            <span>{{ accountType?.accountTypeRecord.accountTypeName }}</span>
-            <img [src]="accountType?.accountTypeRecord.accountTypeIcon"
-              alt="{{ accountType?.accountTypeRecord.accountTypeIcon }}" />
-          </div>
-        </div>
-      </div>-->
-
       <div
         class="col-md-2 p-1 d-flex align-items-center justify-content-center"
       >

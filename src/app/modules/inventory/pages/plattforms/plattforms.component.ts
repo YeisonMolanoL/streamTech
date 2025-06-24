@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { AccountService } from '../../core/services/account.service';
+import { Modal } from 'bootstrap';
 import { AccountTypeService } from '../../core/services/account-type.service';
 import { ref, uploadBytesResumable, Storage } from '@angular/fire/storage';
 import { getDownloadURL } from 'firebase/storage';
@@ -29,7 +29,6 @@ export class PlattformsComponent implements OnInit {
   constructor(
     private alert: AlertsService,
     private fb: FormBuilder,
-    private accountService: AccountService,
     private accountTypeService: AccountTypeService
   ) {}
 
@@ -186,7 +185,13 @@ export class PlattformsComponent implements OnInit {
 
     const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
     modalBackdrop.parentNode?.removeChild(modalBackdrop);
+    const modalElement = document.getElementById('staticBackdrop');
+  if (modalElement) {
+    const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+    modalInstance.hide();
+  }
     this.imageSelected = false;
+    console.log('Normal');
   }
 
   openConfirmation() {

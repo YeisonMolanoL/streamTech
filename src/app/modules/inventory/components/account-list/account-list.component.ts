@@ -1,12 +1,11 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { AccountService } from '../../core/services/account.service';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
 import { AlertsService } from '../../../shared/core/services/alerts.service';
 import { ProfileSaleService } from '../../../management/core/services/profile-sale.service';
 import { NbDialogService } from '@nebular/theme';
 import { EditAccountDataModalComponent } from '../../../shared/components/edit-account-data-modal/edit-account-data-modal.component';
-import { AddCustomersComponent } from '../../../shared/components/add-customers/add-customers.component';
 import { CreateAccountComponent } from '../create-account/create-account.component';
 
 @Component({
@@ -27,8 +26,9 @@ export class AccountListComponent implements OnInit, OnChanges{
   accountData: any[] = [];
 
   @ViewChild('autoInput') input: any;
+  private alert = inject(AlertsService);
 
-  constructor(private dialogService: NbDialogService, private profileSaleService: ProfileSaleService, private alert: AlertsService, private fb : FormBuilder, private accountService: AccountService){}
+  constructor(private dialogService: NbDialogService, private profileSaleService: ProfileSaleService, private fb : FormBuilder, private accountService: AccountService){}
 
   ngOnChanges(changes: SimpleChanges): void {
       this.ngOnInit();
@@ -46,7 +46,7 @@ export class AccountListComponent implements OnInit, OnChanges{
         this.filteredAccounts$ = of(this.accounts);
       },
       error: (err) => {
-
+        this.alert.showWarning(err.error.message, '¡Importante!');
       }
     })
   }
@@ -86,8 +86,6 @@ export class AccountListComponent implements OnInit, OnChanges{
     modalBackdrop.parentNode?.removeChild(modalBackdrop);
   }
 
-  
-
   toggleAccountStatus(account: any){
     if(account.accountAvailableProfiles < account.accountTypeRecord.accountTypeAmountProfile){
       this.profileSaleService.getSalesByAccount(account.accountId).subscribe({
@@ -106,26 +104,15 @@ export class AccountListComponent implements OnInit, OnChanges{
           });
         },
         error: (err) => {
-  
+          this.alert.showWarning(err.error.message, '¡Importante!');
         }
       });
     }
-    //account.accountStatusAcount = !account.accountStatusAcount;
-    /*this.accountService.updateAccount(account.accountId, account).subscribe({
-      next: (data) => {
-        this.ngOnInit();
-      },
-      error: (err) => {
-        this.alert.showWarning(err.error.message, 'Importante');
-      }
-    });*/
   }
 
   toggleAccountStatusSale(account: any){
     account.accountStatusSale = !account.accountStatusSale;
     account.accountTypeRecord.accountTypeAvailableProfiles = account.accountTypeRecord.accountTypeAvailableProfiles - account.accountAvailableProfiles;
-    
-    
     this.accountService.updateAccount(account.accountId, account).subscribe({
       next: (data) => {
         this.ngOnInit();
@@ -176,7 +163,7 @@ export class AccountListComponent implements OnInit, OnChanges{
         
       },
       error: (err) => {
-
+        this.alert.showWarning(err.error.message, '¡Importante!');
       }
     });
   }
@@ -186,6 +173,7 @@ export class AccountListComponent implements OnInit, OnChanges{
       context: { accountType: this.accountType },
     });
     dialogRef.onClose.subscribe((data: any) => {
+      console.log('data :>> ', data);
       if (data) {
         if(data?.response){
           this.ngOnInit();

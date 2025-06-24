@@ -32,6 +32,7 @@ export class AccountComponent implements OnInit{
         this.accountTypeList = data;
       },
       error: (err) => {
+        this.alert.showWarning(err.error.message, '¡Importante!');
       }
     })
   }
@@ -51,6 +52,7 @@ export class AccountComponent implements OnInit{
         this.pageTotal = data.totalPages;
       },
       error: (err) => {
+        this.alert.showWarning(err.error.message, '¡Importante!');
       }
     });
   }

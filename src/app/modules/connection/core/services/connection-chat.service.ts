@@ -3,12 +3,11 @@ import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MessageRequestModel } from '../../../shared/core/models/MessageRequest.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class ConnectionChatService {
-  private api = `${environment.apiComunication}`;
+  private api = `${environment.apiComunication}/`;
 
   constructor(private http: HttpClient) {}
 
@@ -25,5 +24,9 @@ export class ConnectionChatService {
 
   sendMessagesInSale(data: MessageRequestModel){
     return this.http.post(`${this.api}/massive`, data);
+  }
+
+  getLoginQr(){
+    return this.http.get<any>(`${this.api}generate-qr`);
   }
 }

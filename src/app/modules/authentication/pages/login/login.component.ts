@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../core/services/user.service';
-import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -11,49 +8,14 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
   isSignUpMode = false;
-  loginForm!: FormGroup;
-  signupForm!: FormGroup;
   errorMessage$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private router: Router
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  initSignUpForm() {
-    this.signupForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', Validators.required],
-      userName: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-      roles: ['USER'],
-    });
-  }
-  
 
   toggleMode(isSignUp: boolean): void {
     this.isSignUpMode = isSignUp;
     this.errorMessage$.next('');
-  }
-  
-  onSignup(): void {
-    if (this.signupForm.valid) {
-      this.userService.insertUser(this.signupForm.value).subscribe({
-        next: (data) => {
-          this.router.navigate(['/principal/landing-sale']);
-        },
-        error: (err) => {
-          this.errorMessage$.next(
-            err.error.message || '¡Upsss...! Ha ocurrido un error inesperado.'
-          );
-        },
-      });
-    } else {
-      this.signupForm.markAllAsTouched();
-    }
   }
 }

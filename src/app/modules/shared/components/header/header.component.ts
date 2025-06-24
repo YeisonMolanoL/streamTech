@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { Subject, map, takeUntil } from 'rxjs';
 
@@ -11,6 +12,7 @@ export class HeaderComponent {
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
+  router = inject(Router);
 
   themes = [
     {
@@ -77,19 +79,9 @@ export class HeaderComponent {
     return false;
   }
   logOut() {
-    //this.tokenStorageService.signOut();
-    window.location.reload();
+    localStorage.removeItem('data_user');
+    localStorage.removeItem('currentCar');
+    this.router.navigate(['/auth/login'], {replaceUrl: true});
   }
-  getDisplayName() {
-    //return this.tokenService.getUser().userInfo.displayName;
-  }
-
-  /*getUserName() {
-    return this.tokenService.getUser().sellerCode
-      ? this.tokenService.getUser().userInfo.username +
-          ' [' +
-          this.tokenService.getUser().sellerCode +
-          ']'
-      : this.tokenService.getUser().userInfo.username;
-  }*/
+  getDisplayName() {}
 }

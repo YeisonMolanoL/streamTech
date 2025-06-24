@@ -1,27 +1,38 @@
-# StreamTech
+# Stream Tech
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+```bash
+    This frontend is developed using Angular 17 under a modular and scalable architecture. Its main purpose is to serve as an interface for the administration and operation of key system functionalities, such as account management, confirmation message delivery, and, soon, direct sales through a shopping cart module.
 
-## Development server
+    It is designed to seamlessly integrate with various backend microservices, providing a complete experience for both administrative users and end customers.
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Technologies
 
-## Code scaffolding
+```bash
+    Angular 17 – A modern, fast framework actively maintained by Google.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+    TypeScript – Statically typed, robust, and scalable.
 
-## Build
+    Firebase Storage – Storage for images and multimedia files.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+    Proxy Configuration (proxy.conf.json) – Transparent routing to backend microservices during development.
 
-## Running unit tests
+    Modular Architecture – Each functionality is encapsulated in its own module to facilitate maintainability and scalability.
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Consumed Microservices
+```bash
+    # Account Management Microservice
+    Create, edit, delete, and assign accounts.
+    Requires authentication via JWT
+    
+    # Mass Messaging Microservice
+    Allows sending personalized confirmation messages via WhatsApp.
+    Uses protected endpoints
+```
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# Authentication and Security
+```bash
+    JWT Implementation: Tokens are securely stored and used to access protected resources.
+    Route Guards (AuthGuard): Restrict access to protected modules based on the user's role.
+```

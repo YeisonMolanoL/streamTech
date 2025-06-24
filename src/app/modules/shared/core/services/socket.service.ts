@@ -10,11 +10,9 @@ export class SocketService {
   private socket: Socket;
 
   constructor() {
-    // Conectarse al servidor Socket.io
-    this.socket = io(`${environment.apiComunication}/`); // Cambia la URL a la de tu servidor
+    this.socket = io(`${environment.apiComunication}/`);
   }
-
-  // Método para recibir el QR
+  
   getQRCode(): Observable<string> {
     return new Observable((observer) => {
       this.socket.on('qr', (qrUrl: string) => {
@@ -22,8 +20,7 @@ export class SocketService {
       });
     });
   }
-
-  // Método para recibir el estado del QR
+  
   getQRCodeStatus(): Observable<string> {
     return new Observable((observer) => {
       this.socket.on('qrstatus', (src: string) => {
@@ -31,8 +28,7 @@ export class SocketService {
       });
     });
   }
-
-  // Método para recibir el usuario
+  
   getUser(): Observable<string> {
     return new Observable((observer) => {
       this.socket.on('user', (user: string) => {

@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConnectionComponent } from './connection.component';
-
-
+import { ConnectionComponent } from './pages/connection.component';
 
 @NgModule({
   declarations: [ConnectionComponent],

@@ -10,8 +10,8 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const data_user = localStorage.getItem('data_user');
     if (!data_user) {
-      this.router.navigate(['/auth/login']); // Redirige si no hay datos de usuario
-      return next.handle(req); // Continúa con la solicitud sin modificar
+      this.router.navigate(['/auth/login']);
+      return next.handle(req);
     }
 
     const parsedData = JSON.parse(data_user);
@@ -24,8 +24,6 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(modifiedReq).pipe(
         catchError(error => {
           if (error.status === 401) {
-            // localStorage.removeItem('data_user');
-            // this.router.navigate(['/auth/login']);
           } else if (error.status === 403) {
             this.router.navigate(['/forbidden']);
           } else if (error.status === 500) {
@@ -35,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
         })
       );
     } else {
-      return next.handle(req); // Si no hay token, continúa sin modificar
+      return next.handle(req);
     }
   }
 }

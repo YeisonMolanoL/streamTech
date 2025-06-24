@@ -186,7 +186,10 @@ export class SellByComboComponent implements OnInit {
     this.dialogRef
       .open(CreateComboComponent, {})
       .onClose.subscribe((result) => {
-        this.selectCombo(result);
+        if(result){
+          this.combos.unshift(result);
+          this.selectCombo(result);
+        }
       });
   }
 

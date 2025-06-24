@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './layout/dashboard/dashboard.component';
-import { ConnectionComponent } from '../connection/connection.component';
+import { ConnectionComponent } from '../connection/pages/connection.component';
 import { PlattformsComponent } from '../inventory/pages/plattforms/plattforms.component';
 import { AccountComponent } from '../inventory/pages/account/account.component';
 import { SellByAccountComponent } from '../management/pages/sales/sell-by-account/sell-by-account.component';

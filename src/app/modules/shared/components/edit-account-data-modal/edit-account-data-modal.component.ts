@@ -16,7 +16,7 @@ export class EditAccountDataModalComponent implements OnInit {
   auxNewAccount: any;
   availableAccounts = new Array<any>();
 
-  constructor(protected dialogRef: NbDialogRef<EditAccountDataModalComponent>, private alert: AlertsService, private profileSaleService: ProfileSaleService, private accountService: AccountService, private overlayService: NbOverlayService){}
+  constructor(protected dialogRef: NbDialogRef<EditAccountDataModalComponent>, private alert: AlertsService, private profileSaleService: ProfileSaleService, private accountService: AccountService){}
 
   ngOnInit(): void {
     this.getAvailableAccountsByAccountTypeWithAvailableProfiles();
@@ -28,7 +28,7 @@ export class EditAccountDataModalComponent implements OnInit {
         this.availableAccounts = data.content.filter((account: any) => account.accountId !== this.account.accountId);
       },
       error: (err) => {
-
+        this.alert.showWarning(err.error.message, '¡Importante!');
       }
     });
   }
@@ -36,9 +36,10 @@ export class EditAccountDataModalComponent implements OnInit {
   onSelectionAccount(account: any, profileSale: any){
     this.profileSaleService.updateByEmail(account, profileSale.profileSaleId).subscribe({
       next: (data) => {
+        this.alert.showSuccess('Se ha actualizado la cuenta correctamente', '¡Exitoso!');
       },
       error: (err) => {
-
+        this.alert.showWarning(err.error.message, '¡Importante!');
       }
     });
   }

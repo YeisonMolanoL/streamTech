@@ -1,14 +1,26 @@
-<div class="header-container d-flex">
-    <div class="sm-4 d-flex align-items-center">
-        <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
-            <nb-icon icon="menu-2-outline"></nb-icon>
-        </a>
+<div class="header-container d-flex justify-content-between align-items-center w-100">
+  <div class="d-flex align-items-center">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle me-3">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <div class="mx-3 border-start ps-3">
+      <span><strong>Yeison Molano</strong></span><br />
+      <span>Administrador</span>
     </div>
-    <div class="border-left sm-8">
-        <div class="mx-3">
-            <span><strong>Yhary Buitrago</strong></span>
-            <br />
-            <span>Yhary Buitrago</span>
-        </div>
-    </div>
+  </div>
+
+  <div class="d-flex align-items-center">
+    <a href="#" class="header-link me-3">
+      <nb-icon icon="bell-outline"></nb-icon>
+    </a>
+    <a href="#" class="header-link me-3">
+      <nb-icon icon="email-outline"></nb-icon>
+    </a>
+    <a href="#" class="header-link me-3">
+      <nb-icon icon="settings-2-outline"></nb-icon>
+    </a>
+    <a (click)="logOut()" class="header-link cursor-pointer" nbTooltip="Cerrar sesión" nbTooltipPlacement="bottom">
+      <nb-icon icon="person-outline"></nb-icon>
+    </a>
+  </div>
 </div>

@@ -69,7 +69,7 @@ export class SellProfileListComponent implements OnInit {
   makeSale() {
     Swal.fire({
       title: '¡Importante!',
-      text: '¿Deseas enviar enviar mensajes adjuntos a tus clientes?',
+      text: '¿Deseas enviar mensajes adjuntos a tus clientes?',
       icon: 'success',
       confirmButtonText: 'Aceptar',
       showDenyButton: true,

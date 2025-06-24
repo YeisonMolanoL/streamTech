@@ -5,8 +5,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { ShoppingCartModule } from '../shopping-cart/shopping-cart.module';
 
-
-
 @NgModule({
   declarations: [
     DashboardComponent

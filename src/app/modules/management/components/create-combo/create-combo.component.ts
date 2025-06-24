@@ -27,6 +27,7 @@ export class CreateComboComponent implements OnInit {
   saveNewCombo(){
     this.comboSaleService.insertCombo(this.newComboForm.value).subscribe({
       next: (newCombo) => {
+        console.log('newCombo :>> ', newCombo);
         this.dialogRef.close(newCombo);
       },
       error: (err) => {

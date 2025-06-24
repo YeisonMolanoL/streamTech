@@ -32,7 +32,6 @@ export class CreateAccountComponent implements OnInit {
   }
 
   initForm(){
-    const maxProfiles = 0; //this.accountType?.accountTypeRecord?.accountTypeAmountProfile || 0;
     this.accountForm = this.fb.group({
       accountId: [''],
       accountEmail: ['', Validators.required],
@@ -93,7 +92,7 @@ export class CreateAccountComponent implements OnInit {
     this.accountService.newAccount(this.accountForm.value).subscribe({
       next: (data) => {
         const dataAddProdiles = {
-          accountTypeId: 1,
+          accountTypeId: data.body.accountTypeRecord.accountTypeId,
           accountRecordId: data.body.accountId,
           profileSales: this.profilesActive
         }
@@ -106,10 +105,6 @@ export class CreateAccountComponent implements OnInit {
             this.alert.showError('Error interno en el servidor', '¡Alto!');
           }
         });
-        /*this.closeModal();
-        this.accountForm.reset();
-        this.ngOnInit();
-        this.alert.showSuccess('Se ha creado la cuenta correctamente', '¡Correcto!')*/
       },
       error: (err) =>{
         this.alert.showWarning(err.error.message, 'Importante');
