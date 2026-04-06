@@ -1,0 +1,82 @@
+.card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .dropdown-container,
+  .date-input-container {
+    flex: 1 1 calc(50% - 20px);
+  }
+  
+  .input-with-icon {
+    display: flex;
+    align-items: center;
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    background-color: white;
+    position: relative;
+  }
+  
+  .input-with-icon:hover,
+  .input-with-icon:focus-within {
+    border-color: #66afe9;
+  }
+  
+  .input-with-icon img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .input-with-icon input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    background: none;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .dropdown-item img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+  .date-input-container input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    outline: none;
+    transition: 0.3s;
+  }
+  
+  .date-input-container input:focus {
+    border-color: #66afe9;
+  }
+  
+  .date-input-container i {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #ccc;
+    transition: 0.3s;
+  }
+  
+  .date-input-container input:focus + i {
+    color: #66afe9;
+  }
+  

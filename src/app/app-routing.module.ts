@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LandingSaleComponent } from './pages/landing-sale/landing-sale.component';
 
 const routes: Routes = [
   {
@@ -11,11 +10,16 @@ const routes: Routes = [
   {
     path: 'principal',
     loadChildren: () =>
-      import('./pages/pages.module').then((m) => m.PagesModule),
+      import('./modules/dashboard/dashboard.module'),
+  },
+  {
+    path: 'code',
+    loadChildren: () =>
+      import('./modules/code-reception/code-reception.module').then((m) => m.CodeReceptionModule),
   },
   {
     path: '',
-    redirectTo: 'principal',
+    redirectTo: '/auth/login',
     pathMatch: 'full'
   },
 ];

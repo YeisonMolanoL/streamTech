@@ -1,0 +1,81 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Administración de Cuentas de Email</h2>
+  </nb-card-header>
+  <nb-card-body>
+    <!-- Formulario para agregar cuenta -->
+    <nb-card class="add-account-card">
+      <nb-card-header>Agregar Nueva Cuenta</nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="addForm" (ngSubmit)="addAccount()">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="email">Email</label>
+              <input nbInput id="email" formControlName="email" placeholder="usuario@example.com" fullWidth>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="password">Contraseña</label>
+              <input nbInput id="password" type="password" formControlName="password" fullWidth>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="host">Host IMAP</label>
+              <input nbInput id="host" formControlName="host" placeholder="imap.example.com" fullWidth>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="port">Puerto</label>
+              <input nbInput id="port" type="number" formControlName="port" fullWidth>
+            </div>
+            <div class="form-group col-md-2">
+              <nb-form-field>
+                <label for="secure">SSL</label>
+                <nb-toggle formControlName="secure"></nb-toggle>
+              </nb-form-field>
+            </div>
+            <div class="form-group col-md-4">
+              <button nbButton type="submit" [disabled]="!addForm.valid" status="primary">Agregar Cuenta</button>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+    <!-- Lista de cuentas -->
+    <nb-card class="accounts-list-card">
+      <nb-card-header>Cuentas Configuradas</nb-card-header>
+      <nb-card-body>
+        <nb-list *ngIf="!loading">
+          <nb-list-item *ngFor="let account of accounts" class="account-item">
+            <div class="account-info">
+              <div class="account-header">
+                <nb-icon icon="email-outline" pack="eva"></nb-icon>
+                <span class="account-email">{{ account.email }}</span>
+                <nb-badge [text]="account.isImapActive ? 'ACTIVO' : 'INACTIVO'"
+                          [status]="account.isImapActive ? 'success' : 'danger'"
+                          class="status-badge"></nb-badge>
+              </div>
+              <div class="account-details">
+                <small>{{ account.imapHost }}:{{ account.imapPort }} ({{ account.imapSecure ? 'SSL' : 'No SSL' }})</small>
+                <div *ngIf="account.connectionError" class="error-message">
+                  <nb-icon icon="alert-triangle-outline" pack="eva" status="danger"></nb-icon>
+                  {{ account.connectionError }}
+                </div>
+              </div>
+            </div>
+            <div class="account-actions">
+              <nb-form-field>
+                <nb-toggle [checked]="account.isImapActive"
+                           (checkedChange)="toggleListening(account)"
+                           status="primary">
+                  Escucha IMAP
+                </nb-toggle>
+              </nb-form-field>
+            </div>
+          </nb-list-item>
+        </nb-list>
+        <nb-spinner *ngIf="loading" size="large"></nb-spinner>
+      </nb-card-body>
+    </nb-card>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,127 @@
+<form autocomplete="off" [formGroup]="signupForm" (ngSubmit)="onSignup()">
+  <h1>Crear Cuenta</h1>
+  <nb-form-field class="w-100">
+    <input
+      nbInput
+      class="m-1"
+      formControlName="name"
+      type="text"
+      placeholder="Nombres"
+      required
+    />
+    <span
+      *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
+      class="error-message"
+    >
+      Este campo es obligatorio*
+    </span>
+  </nb-form-field>
+  <nb-form-field class="w-100">
+    <input
+      nbInput
+      class="m-1"
+      formControlName="lastName"
+      type="text"
+      placeholder="Apellidos"
+      required
+    />
+    <span
+      *ngIf="
+        signupForm.get('lastName')?.invalid &&
+        signupForm.get('lastName')?.touched
+      "
+      class="error-message"
+    >
+      Este campo es obligatorio*
+    </span>
+  </nb-form-field>
+  <nb-form-field class="w-100">
+    <input
+      nbInput
+      class="m-1"
+      formControlName="userName"
+      type="email"
+      placeholder="Email"
+      required
+    />
+    <span
+      *ngIf="
+        signupForm.get('userName')?.invalid &&
+        signupForm.get('userName')?.touched
+      "
+      class="error-message"
+    >
+      Este campo debe ser tipo email.
+    </span>
+  </nb-form-field>
+  <nb-form-field class="w-100">
+    <input
+      nbInput
+      class="m-1"
+      formControlName="password"
+      [type]="getInputType()"
+      placeholder="Contraseña"
+      required
+    />
+    <button nbSuffix nbButton ghost (click)="toggleShowPassword()">
+      <nb-icon
+        [icon]="showPassword ? 'eye-off-2-outline' : 'eye-outline'"
+        pack="eva"
+        [attr.aria-label]="showPassword ? 'hide password' : 'show password'"
+      >
+      </nb-icon>
+    </button>
+  </nb-form-field>
+  <span
+    *ngIf="
+      signupForm.get('password')?.invalid && signupForm.get('password')?.touched
+    "
+    class="error-message"
+  >
+    Este campo debe tener minimo 8 caráteres es obligatorio.
+  </span>
+  <nb-form-field class="w-100">
+    <input
+      nbInput
+      class="m-1"
+      formControlName="confirmPassword"
+      [type]="getInputType()"
+      placeholder="Confirmar Contraseña"
+      required
+    />
+    <button nbSuffix nbButton ghost (click)="toggleShowPassword()">
+      <nb-icon
+        [icon]="showPassword ? 'eye-off-2-outline' : 'eye-outline'"
+        pack="eva"
+        [attr.aria-label]="showPassword ? 'hide password' : 'show password'"
+      >
+      </nb-icon>
+    </button>
+  </nb-form-field>
+  <span
+    *ngIf="
+      signupForm.get('confirmPassword')?.invalid &&
+      signupForm.get('confirmPassword')?.touched
+    "
+    class="error-message"
+  >
+    Este campo debe tener minimo 8 caráteres es obligatorio.
+  </span>
+
+  <div
+    *ngIf="
+      signupForm.errors?.['passwordMismatch'] &&
+      (signupForm.touched || signupForm.dirty)
+    "
+  >
+    <small class="text-danger">Las contraseñas no coinciden</small>
+  </div>
+
+  <div class="w-100 p-1 mt-3">
+    <button nbButton outline type="submit" status="primary" class="w-100" [disabled]="isLoading">
+      Registrarse
+      <loader *ngIf="isLoading"></loader>
+    </button>
+  </div>
+  <span class="error-message">{{ errorMessage$ | async }}</span>
+</form>

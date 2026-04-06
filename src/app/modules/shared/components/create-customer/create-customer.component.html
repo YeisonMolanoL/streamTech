@@ -1,0 +1,55 @@
+<div
+  #modalElement
+  class="modal fade"
+  tabindex="-1"
+  aria-labelledby="modalNewClientLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNewClientLabel">Crear cliente</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="close()"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="clientForm">
+          <div class="p-2 input-with-icon">
+            <input
+              #clientNameInput
+              type="text"
+              placeholder="Nombre cliente"
+              formControlName="clientName"
+              class="form-control"
+            />
+          </div>
+          <br />
+          <div class="p-2 input-with-icon">
+            <input
+              type="text"
+              placeholder="Contacto cliente"
+              formControlName="clientNumber"
+              class="form-control"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="createClient()"
+          [disabled]="loading"
+          [nbSpinner]="loading"
+          nbSpinnerStatus="success"
+        >
+          Crear
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div *ngIf="isCarActivated | async; else carButton">
+  <div class="card floating content p-3">
+    <div class="header">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex align-items-center justify-content-center w-90">
+          <h6><strong>Tus productos actuales</strong></h6>
+        </div>
+        <div class="w-20">
+          <button nbButton ghost status="danger" size="giant"></button>
+        </div>
+      </div>
+    </div>
+    <div class="body">
+      <div *ngFor="let product of currentItems">
+        {{ product.name }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #carButton>
+  <button class="floating-button" (click)="isCarActivated.next(true)"></button>
+</ng-template>

@@ -1,0 +1,114 @@
+import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { NB_DIALOG_CONFIG, NbDialogRef, NbDialogService } from '@nebular/theme';
+import { ProfileSaleService } from '../../../management/core/services/profile-sale.service';
+import { AccountService } from '../../core/services/account.service';
+import { AlertsService } from '../../../shared/core/services/alerts.service';
+import { AddCustomersComponent } from '../../../shared/components/add-customers/add-customers.component';
+
+@Component({
+  selector: 'app-create-account',
+  templateUrl: './create-account.component.html',
+  styleUrl: './create-account.component.css' 
+})
+export class CreateAccountComponent implements OnInit {
+  accountForm! : FormGroup;
+  private _accountType: any;
+  profilesActive: any[] = [];
+  isReadonly: boolean = false;
+
+  get accountType() {
+    return this._accountType;
+  }
+
+  set accountType(value: any) {
+    this._accountType = value;
+  }
+
+  constructor(private profileSaleService: ProfileSaleService, private alert: AlertsService, private accountService: AccountService, private dialogRef: NbDialogRef<AddCustomersComponent>, private fb: FormBuilder, private dialogService: NbDialogService){}
+
+  ngOnInit(): void {
+    this.initForm();
+  }
+
+  initForm(){
+    this.accountForm = this.fb.group({
+      accountId: [''],
+      accountEmail: ['', Validators.required],
+      accountPassword: ['', Validators.required],
+      accountStatusAcount: [false],
+      accountStatusSale: [false],
+      accountProperty: [false],
+      accountDueDate: ['', Validators.required],
+      accountPurchaseDate: ['', Validators.required],
+      accountAvailableProfiles: ['', [Validators.required]],
+      accountTypeRecord: [''],
+    });
+
+    this.accountForm.get('accountPurchaseDate')?.valueChanges.subscribe((value) => {
+      if (value) {
+        const purchaseDate = new Date(value);
+        const dueDate = new Date(purchaseDate);
+        dueDate.setDate(purchaseDate.getDate() + 30);
+        this.accountForm.get('accountPurchaseDate')?.setValue(purchaseDate.toISOString().split('T')[0], { emitEvent: false });
+        this.accountForm.get('accountDueDate')?.setValue(dueDate.toISOString().split('T')[0]);
+      }
+    });
+  }
+
+  quantityAvailableProfiles(maxProfiles: number) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+  
+      if (value !== null && (isNaN(value) || value > maxProfiles)) {
+        return { notPositive: true };
+      }
+      return null;
+    };
+  }
+
+  openDialogAddCustomers(){
+    const dialogRef = this.dialogService.open(AddCustomersComponent, {
+      context: { accountType: this.accountType }
+    });
+    dialogRef.onClose.subscribe((data: any) => {
+      if (data) {
+        this.accountForm.get('accountAvailableProfiles')?.setValue(this._accountType.accountTypeRecord.accountTypeAmountProfile - data.length);
+        this.isReadonly = true; 
+        this.profilesActive = data;
+      } else {
+      }
+    });
+  }
+
+  closeModal(data?: any) {
+    this.accountForm.reset()
+    this.dialogRef.close(data);
+  }
+
+  createAccount(){
+    this.accountForm.get('accountTypeRecord')?.setValue(this._accountType);
+    this.accountForm.get('accountAvailableProfiles')?.enable();
+    this.accountService.newAccount(this.accountForm.value).subscribe({
+      next: (data) => {
+        const dataAddProdiles = {
+          accountTypeId: data.body.accountTypeRecord.accountTypeId,
+          accountRecordId: data.body.accountId,
+          profileSales: this.profilesActive
+        }
+        this.profileSaleService.sellProfilesByAccountRecord(dataAddProdiles).subscribe({
+          next: () => {
+            this.closeModal({response: true});
+            this.alert.showSuccess('Se ha creado la cuenta correctamente', '¡Correcto!')
+          },
+          error: (err) => {
+            this.alert.showError('Error interno en el servidor', '¡Alto!');
+          }
+        });
+      },
+      error: (err) =>{
+        this.alert.showWarning(err.error.message, 'Importante');
+      }
+    });
+  }
+}

@@ -1,0 +1,15 @@
+<nb-layout windowMode>
+  <nb-layout-header>
+    <div class="w-100">
+      <app-header></app-header>
+    </div>
+  </nb-layout-header>
+  <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
+    <nb-menu tag="menu" [items]="menu"></nb-menu>
+  </nb-sidebar>
+  <nb-layout-column>
+    <ng-content select="router-outlet"></ng-content>
+    <router-outlet></router-outlet>
+    <app-car-products></app-car-products>
+  </nb-layout-column>
+</nb-layout>

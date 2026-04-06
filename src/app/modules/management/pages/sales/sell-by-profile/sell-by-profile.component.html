@@ -1,0 +1,140 @@
+<div class="card p-4">
+  <form [formGroup]="newProfileSaleForm">
+    <div class="row">
+      <div class="col-md-5">
+        <input
+          nbInput
+          type="text"
+          fullWidth
+          placeholder="Elige plataforma"
+          [nbAutocomplete]="autoControl"
+          [value]="selectedAccountType?.accountTypeRecord?.accountTypeName"
+          (input)="filterAccountType($event)"
+        />
+
+        <nb-autocomplete #autoControl (selectedChange)="selectAccountType($event)">
+          <nb-option *ngFor="let accountType of filteredAccounts" [value]="accountType">
+            <div class="row w-100">
+              <span class="col-10">{{
+                accountType?.accountTypeRecord?.accountTypeName
+              }}</span>
+              <span class="col-2">
+                <img
+                  [src]="accountType?.accountTypeRecord?.accountTypeIcon"
+                  alt="logo plataforma"
+                  class="rounded-circle"
+                  style="width: 30px; height: 30px"
+                />
+              </span>
+            </div>
+          </nb-option>
+        </nb-autocomplete>
+      </div>
+      <div
+        class="col-md-2 p-1 d-flex align-items-center justify-content-center"
+      >
+        <span
+          >Disponibles
+          {{
+            selectedAccountType?.accountTypeRecord
+              ?.accountTypeAvailableProfiles || 0
+          }}</span
+        >
+      </div>
+
+      <div class="col-md-5 mb-3">
+        <div class="" (click)="toggleDropdownClients()">
+          <input
+            nbInput
+            type="text"
+            fullWidth
+            placeholder="Seleccione cliente"
+            [nbAutocomplete]="customersControl"
+            (input)="filterClient($event)"
+            [value]="selectedClient?.clientName"
+          />
+
+          <nb-autocomplete #customersControl (selectedChange)="selectClient($event)">
+            <nb-option (click)="clientModal.open()"
+              >Nuevo cliente</nb-option
+            >
+            <nb-option *ngFor="let client of filteredClients" [value]="client">
+              {{ client.clientName }}
+            </nb-option>
+          </nb-autocomplete>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date-input-container">
+        <label for="saleDate" class="form-label">Fecha de venta</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="profileSalePurchaseDate"
+        />
+      </div>
+
+      <div class="date-input-container">
+        <label for="dueDate" class="form-label">Fecha de vencimiento</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="profileSaleDueDate"
+        />
+      </div>
+    </div>
+    <br />
+
+    <div class="row">
+      <div class="col-md-5 mb-1">
+        <div class="p-2 input-with-icon">
+          <input
+            type="text"
+            placeholder="Ingrese nombre"
+            formControlName="profileSaleName"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-5 mb-1">
+        <div class="p-2 input-with-icon">
+          <input
+            type="text"
+            placeholder="Ingrese pin"
+            formControlName="profileSalePin"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="d-flex justify-content-center">
+          <button
+            nbButton
+            status="danger"
+            (click)="addNewProfileSale()"
+            [disabled]="!this.newProfileSaleForm.valid"
+          >
+            <nb-icon icon="plus-circle-outline"></nb-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<br />
+<div *ngIf="this.profileSaleList.length > 0">
+  <app-sell-profile-list
+    [saleList]="profileSaleList"
+    (saleListCleared)="saleMade()"
+  ></app-sell-profile-list>
+</div>
+
+<!--Dialog new client-->
+<app-create-customer
+  #clientModal
+  (onCreate)="handleClientCreate($event)"
+  [loading]="isLoading"
+></app-create-customer>

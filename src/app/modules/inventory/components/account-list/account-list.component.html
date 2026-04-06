@@ -1,0 +1,228 @@
+<div class="lg-d-flex pb-1">
+  <div>
+    <h2>Administración de cuentas</h2>
+  </div>
+  <div class="col">
+    <span class="d-flex lg-justify-content-end align-items-center w-100 h-100">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="openDialogCreateAccount()"
+      >
+        Nueva cuenta
+      </button>
+    </span>
+  </div>
+</div>
+
+<div class="mt-5 pt-5" *ngIf="accountsPage.length == 0">
+  <h2>NO HAY CUENTAS REGISTRADAS EN LA BASE DE DATOS</h2>
+</div>
+
+<div class="card" *ngIf="accountsPage.length > 0">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <input
+        #autoInput
+        nbInput
+        type="text"
+        (input)="onChange()"
+        placeholder="Buscar"
+        [nbAutocomplete]="auto"
+      />
+      <nb-autocomplete #auto (selectedChange)="onSelectionChange($event)">
+        <nb-option
+          *ngFor="let option of filteredAccounts$ | async"
+          [value]="option.accountEmail"
+        >
+          {{ option.accountEmail }}
+        </nb-option>
+      </nb-autocomplete>
+    </div>
+    <div class="btn-group">
+      <button
+        type="button"
+        class="btn btn-secondary dropdown-toggle"
+        data-bs-toggle="dropdown"
+        data-bs-display="static"
+        aria-expanded="false"
+      >
+        Filtrar por:
+      </button>
+      <ul class="dropdown-menu dropdown-menu-lg-end">
+        <li><button class="dropdown-item" type="button">Propias</button></li>
+        <li><button class="dropdown-item" type="button">Vendidas</button></li>
+        <li>
+          <button class="dropdown-item" type="button">Funcionales</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <td scope="col">Correo</td>
+          <td scope="col">Cliente</td>
+          <td scope="col">Perfiles disp</td>
+          <td scope="col">Vence</td>
+          <td scope="col">¿Funcionando?</td>
+          <td scope="col">Escucha IMAP</td>
+          <td scope="col">¿Vendida?</td>
+          <td scope="col">¿Propia?</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let account of accountsPage">
+          <th data-label="Correo" data-bs-toggle="modal" data-bs-target="#modalAccountData" (click)="showAccountData(account)" class="text-center">{{ account.accountEmail }}</th>
+          <td data-label="Cliente" data-bs-toggle="modal" data-bs-target="#modalAccountData" (click)="showAccountData(account)" class="text-center">Yeison</td>
+          <td data-label="Perfiles disp" data-bs-toggle="modal" data-bs-target="#modalAccountData" (click)="showAccountData(account)" class="text-center">{{ account.accountAvailableProfiles }}</td>
+          <td data-label="Vence" data-bs-toggle="modal" data-bs-target="#modalAccountData" (click)="showAccountData(account)" class="text-center">{{ account.accountDueDate }}</td>
+          <td data-label="¿Funcionando?">
+            <div class="custom-td form-check form-switch d-flex justify-content-center">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="flexSwitchCheckDefault"
+                [checked]="account.accountStatusAcount"
+                (change)="toggleAccountStatus(account)"
+              />
+              <label class="form-check-label" for="flexSwitchCheckDefault">{{
+                account.accountStatusAcount | yesNoPipeline
+              }}</label>
+            </div>
+          </td>
+          <td data-label="Escucha IMAP">
+            <div class="custom-td form-check form-switch d-flex justify-content-center">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="flexSwitchCheckDefault"
+                [checked]="account.isImapActive"
+                (change)="toggleImapListening(account)"
+              />
+              <label class="form-check-label" for="flexSwitchCheckDefault">{{
+                account.isImapActive | yesNoPipeline
+              }}</label>
+            </div>
+          </td>
+          <td data-label="¿Vendida?">
+            <div class="custom-td form-check form-switch" style="display: flex">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="flexSwitchCheckDefault"
+                [checked]="account.accountStatusSale"
+                (change)="toggleAccountStatusSale(account)"
+              />
+              <label class="form-check-label" for="flexSwitchCheckDefault">{{
+                account.accountStatusSale | yesNoPipeline
+              }}</label>
+            </div>
+          </td>
+          <td data-label="¿Propia?">
+            <div class="custom-td form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="flexSwitchCheckDefault"
+                [checked]="account.accountProperty"
+                (change)="toggleAccountProperty(account)"
+              />
+              <label class="form-check-label" for="flexSwitchCheckDefault">{{
+                account.accountProperty | yesNoPipeline
+              }}</label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    <div class="d-flex justify-content-center">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a
+              class="page-link"
+              (click)="getNewPage('prev')"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Anterior</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" (click)="getNewPage('next')" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Siguiente</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+<!--Modal Show Account Data-->
+<div
+  class="modal fade"
+  id="modalAccountData"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable custom-modal-width">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Información cuenta</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="d-flex justify-content-between p-3">
+        <span
+          >Correo: <br />
+          {{ this.accountSelected?.accountEmail }}</span
+        >
+        <span
+          >Fecha de vencimiento: <br />
+          {{ this.accountSelected?.accountDueDate }}</span
+        >
+      </div>
+      <div class="p-3">
+        <span>Perfiles vendidos:</span><br /><br />
+        <div class="overflow-auto">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <td class="text-center" scope="col">Cliente</td>
+                <td class="text-center" scope="col">Usuario</td>
+                <td class="text-center" scope="col">Pin</td>
+                <td class="text-center" scope="col">Tipo de venta</td>
+                <td class="text-center" scope="col">Fecha de venta</td>
+                <td class="text-center" scope="col">Fecha de corte</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let profile of accountData">
+                <th class="text-center">{{ profile.clientRecord.clientName }}</th>
+                <td class="text-center">{{ profile.profileSaleName }}</td>
+                <td class="text-center">{{ profile.profileSalePin }}</td>
+                <td class="text-center">{{ profile.profileSaleType }}</td>
+                <td class="text-center">{{ profile.profileSalePurchaseDate }}</td>
+                <td class="text-center">{{ profile.profileSaleDueDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="p-3 d-flex justify-content-center" *ngIf="accountData.length <= 0">
+            <h2>AÚN SIN VENTAS DE ESTA CUENTA</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
