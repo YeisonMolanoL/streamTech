@@ -70,10 +70,11 @@ export class PlattformsComponent implements OnInit {
       if (this.fileSelected != null) {
         selectedFile = this.fileSelected;
       }
-      if (selectedFile != null) {
+      console.log('selectedFile :>> ', selectedFile);
+      // if (selectedFile != null) {
         try {
-          const url = await this.uploadFile(selectedFile);
-          this.newAccountTypeForm.get('accountTypeIcon')?.setValue(url);
+          // const url = await this.uploadFile(selectedFile);
+          // this.newAccountTypeForm.get('accountTypeIcon')?.setValue(url);
           this.accountTypeService
           .newAccountType(this.newAccountTypeForm.value)
           .subscribe({
@@ -99,7 +100,7 @@ export class PlattformsComponent implements OnInit {
             'Importante'
           );
         }
-      }
+      // }
     } else {
       this.alert.showWarning(
         'Tiene que llenar el formulario bien ¡IDIOTA!',
