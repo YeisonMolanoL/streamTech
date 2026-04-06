@@ -51,6 +51,10 @@ export class AccountService {
     });
   }
 
+  toggleImapListening(accountId: number){
+    return this.http.put<any>(`${this.globalRoute}${accountId}/toggle-imap`, {});
+  }
+
   inactiveAccount(accountId: number){
     return this.http.post<any>(`${this.globalRoute}${accountId}`, {});
   }

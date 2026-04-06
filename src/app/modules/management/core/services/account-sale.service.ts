@@ -3,24 +3,24 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccountSaleService {
-  globalRoute = `${environment.api}/sale/account/`
+  globalRoute = `${environment.api}/sale/account/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getAll(){
+  getAll() {
     return this.http.get<any>(this.globalRoute + 'all');
   }
 
-  getAllTotalAccounts(){
+  getAllTotalAccounts() {
     return this.http.get<any>(this.globalRoute + 'all/data');
   }
 
-  newAccountSale(accountSale: any){
+  newAccountSale(accountSale: any) {
     return this.http.post<any>(this.globalRoute + 'create', accountSale, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 }

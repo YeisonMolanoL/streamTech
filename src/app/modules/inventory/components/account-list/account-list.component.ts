@@ -135,6 +135,16 @@ export class AccountListComponent implements OnInit, OnChanges{
     });
   }
 
+  toggleImapListening(account: any){
+    this.accountService.toggleImapListening(account.accountId).subscribe({
+      next: () => {
+        account.isImapActive = !account.isImapActive;
+      },
+      error: (err) => {
+        this.alert.showWarning(err.error.message, 'Importante');
+      }
+    });
+  }
 
   private filter(value: string): string[] {
     const filterValue = value.toLowerCase();

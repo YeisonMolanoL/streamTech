@@ -23,6 +23,7 @@ import {
   NbSpinnerModule,
   NbTagModule,
   NbThemeModule,
+  NbToggleModule,
   NbTooltipModule,
   NbUserModule,
 } from '@nebular/theme';
@@ -79,6 +80,7 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     NbTooltipModule,
     NbAutocompleteModule,
     NbBadgeModule,
+    NbToggleModule,
     NbTagModule,
     NbSpinnerModule,
     NbAlertModule,

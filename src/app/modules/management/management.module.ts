@@ -1,6 +1,6 @@
 import { SellByAccountComponent } from './pages/sales/sell-by-account/sell-by-account.component';
 import { SellByComboComponent } from './pages/sales/sell-by-combo/sell-by-combo.component';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SaleProfilesComponent } from './pages/landing-sale/sale-profiles/sale-profiles.component';
 import { SaleCombosComponent } from './pages/landing-sale/sale-combos/sale-combos.component';
@@ -14,6 +14,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CreateComboComponent } from './components/create-combo/create-combo.component';
 import { ShoppingCartModule } from '../shopping-cart/shopping-cart.module';
 import { SharedModule } from '../shared/shared.module';
+import { AccountManagementComponent } from './account-management/account-management.component';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  NbCardModule,
+  NbButtonModule,
+  NbInputModule,
+  NbToggleModule,
+  NbIconModule,
+  NbBadgeModule,
+  NbListModule,
+  NbSpinnerModule,
+  NbDialogModule,
+  NbFormFieldModule
+} from '@nebular/theme';
 
 
 
@@ -30,12 +44,25 @@ import { SharedModule } from '../shared/shared.module';
     AccountSaleListComponent,
     SellByAccountComponent,
     CreateComboComponent,
+    AccountManagementComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    HttpClientModule,
     ShoppingCartModule,
-    SharedModule
-  ]
+    SharedModule,
+    NbCardModule,
+    NbButtonModule,
+    NbInputModule,
+    NbToggleModule,
+    NbIconModule,
+    NbBadgeModule,
+    NbListModule,
+    NbSpinnerModule,
+    NbDialogModule,
+    NbFormFieldModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ManagementModule { }

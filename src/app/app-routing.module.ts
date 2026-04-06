@@ -13,6 +13,11 @@ const routes: Routes = [
       import('./modules/dashboard/dashboard.module'),
   },
   {
+    path: 'code',
+    loadChildren: () =>
+      import('./modules/code-reception/code-reception.module').then((m) => m.CodeReceptionModule),
+  },
+  {
     path: '',
     redirectTo: '/auth/login',
     pathMatch: 'full'

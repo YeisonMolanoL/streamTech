@@ -1,0 +1,148 @@
+<div class="code-reception-container">
+  <div class="code-reception-card">
+    <div class="header">
+      <h1>Obtener Código de Verificación</h1>
+      <p class="subtitle">Selecciona tu perfil, valida el PIN y recibe el código por correo</p>
+    </div>
+
+    <div class="form">
+      <div class="form-group">
+        <label for="email">Correo Electrónico:</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="ejemplo@correo.com"
+          class="input-field"
+          [disabled]="loading || profileLookupLoading"
+          required
+        />
+      </div>
+
+      <div class="form-group button-group">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="fetchProfiles()"
+          [disabled]="profileLookupLoading || !email"
+        >
+          <span *ngIf="!profileLookupLoading">Buscar Perfiles</span>
+          <span *ngIf="profileLookupLoading">
+            <span class="spinner"></span>
+            Buscando...
+          </span>
+        </button>
+      </div>
+
+      <div *ngIf="profiles.length" class="form-group">
+        <label>Selecciona tu Perfil:</label>
+        <div class="profiles-grid">
+          <div
+            *ngFor="let profile of profiles"
+            class="profile-card"
+            [class.selected]="selectedProfile?.profileSaleId === profile.profileSaleId"
+            [class.active]="profile.profileSaleValidationAccess === 1"
+            (click)="selectProfile(profile)"
+          >
+            <h3 class="profile-name">{{ profile.profileSaleName }}</h3>
+            <div class="profile-dates">
+              <p><strong>Vence:</strong> {{ profile.profileSaleDueDate }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selectedProfile" class="form-group otp-section">
+        <label>Ingresa el PIN (4 dígitos):</label>
+        <div class="otp-inputs">
+          <input
+            *ngFor="let i of [0, 1, 2, 3]"
+            type="text"
+            class="otp-input"
+            [attr.data-otp-index]="i"
+            maxlength="1"
+            inputmode="numeric"
+            placeholder="•"
+            [value]="otpDigits[i]"
+            (input)="onOtpInput(i, $event)"
+            (keydown)="onOtpKeydown(i, $event)"
+            [disabled]="pinValidationLoading || pinValidated"
+          />
+        </div>
+        <div *ngIf="pinValidationLoading" class="loading-text">
+          <span class="spinner"></span>
+          Validando PIN...
+        </div>
+      </div>
+
+      <form (ngSubmit)="getCode()" class="form" *ngIf="selectedProfile && pinValidated">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="loading"
+        >
+          <span *ngIf="!loading">Obtener Código</span>
+          <span *ngIf="loading">
+            <span class="spinner"></span>
+            Esperando código (30s)...
+          </span>
+        </button>
+      </form>
+    </div>
+
+    <div *ngIf="validationMessage" class="alert alert-success">
+      <div class="alert-header">
+        <span class="icon">✓</span>
+        <h3>Validación Correcta</h3>
+      </div>
+      <p class="alert-message">{{ validationMessage }}</p>
+    </div>
+
+    <div *ngIf="activeDeviceWarning" class="alert alert-warning">
+      <div class="alert-header">
+        <span class="icon">⚠</span>
+        <h3>Advertencia</h3>
+      </div>
+      <p class="alert-message">{{ activeDeviceWarning }}</p>
+    </div>
+
+    <div *ngIf="success" class="alert alert-success">
+      <div class="alert-header">
+        <span class="icon">✓</span>
+        <h3>¡Código Recibido!</h3>
+      </div>
+      <div class="code-display">
+        <span class="code-value">{{ code }}</span>
+        <button type="button" class="btn-copy" (click)="copyToClipboard()">
+          📋 Copiar
+        </button>
+      </div>
+      <p class="alert-message">El código se recibió correctamente y está listo para usar.</p>
+    </div>
+
+    <div *ngIf="error" class="alert alert-error">
+      <div class="alert-header">
+        <span class="icon">✕</span>
+        <h3>Error</h3>
+      </div>
+      <p class="alert-message">{{ error }}</p>
+    </div>
+
+    <div *ngIf="success || error" class="actions">
+      <button type="button" class="btn btn-secondary" (click)="reset()">
+        Solicitar Otro Código
+      </button>
+    </div>
+
+    <div class="info-section">
+      <h4>¿Cómo funciona?</h4>
+      <ul>
+        <li>Ingresa tu correo electrónico</li>
+        <li>Busca y selecciona el perfil asociado</li>
+        <li>Valida el PIN antes de solicitar el código</li>
+        <li>No es necesario recargar la página</li>
+      </ul>
+    </div>
+  </div>
+</div>
