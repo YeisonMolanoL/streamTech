@@ -62,10 +62,6 @@
   .custom-td label {
     font-size: 8px !important;
   }
-
-  .nb-theme-default [nbInput].size-medium:not(.input-full-width) {
-    max-width: 10rem !important;
-  }
 }
 
 @media screen and (min-width: 577px) and (max-width: 768px) {

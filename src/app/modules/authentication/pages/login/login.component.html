@@ -1,7 +1,7 @@
 <nb-layout>
   <nb-layout-column>
-    <div class="d-flex justify-content-center py-4">
-      <div class="container mt-4" [class.right-panel-active]="isSignUpMode">
+    <div class="d-md-flex justify-content-center py-md-4">
+      <div class="container mt-md-4" [class.right-panel-active]="isSignUpMode">
         <div class="form-container sign-up-container">
           <registration-form></registration-form>
         </div>
@@ -18,7 +18,7 @@
                 Para mantenerte conectado, inicia sesión con tu información
                 personal
               </p>
-              <button nbButton type="submit" status="primary" class="w-75" (click)="toggleMode(false)">Iniciar Sesión</button>
+              <button nbButton type="button" status="primary" class="w-75" (click)="toggleMode(false)">Iniciar Sesión</button>
             </div>
             <div class="overlay-panel overlay-right">
               <h2 style="color: antiquewhite">¡Hola, Amigo!</h2>
@@ -26,10 +26,14 @@
                 Regístrate con tus datos personales para comenzar tu viaje con
                 nosotros
               </p>
-              <button nbButton type="submit" status="primary" class="w-75" (click)="toggleMode(true)">Registrarse</button>
+              <button nbButton type="button" status="primary" class="w-75" (click)="toggleMode(true)">Registrarse</button>
             </div>
           </div>
         </div>
+      </div>
+      <div class="mobile-toggle d-flex justify-content-center gap-2">
+        <button nbButton type="button" status="primary" (click)="toggleMode(false)">Iniciar Sesión</button>
+        <button nbButton type="button" status="info" (click)="toggleMode(true)">Registrarse</button>
       </div>
     </div>
   </nb-layout-column>
