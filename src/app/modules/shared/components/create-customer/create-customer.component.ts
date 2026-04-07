@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Modal } from 'bootstrap';
+import { AlertsService } from '../../core/services/alerts.service';
 import { ClientService } from '../../core/services/client.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class CreateCustomerComponent implements AfterViewInit {
   @ViewChild('clientNameInput') clientNameInput!: ElementRef;
   private modalInstance!: Modal;
   clientsService = inject(ClientService);
+  alertsService = inject(AlertsService);
 
   @Output() onCreate = new EventEmitter<{ clientId: number, clientName: string; clientNumber: string } | null>();
   @Input() loading = false;
@@ -64,6 +66,12 @@ export class CreateCustomerComponent implements AfterViewInit {
           this.clientForm.markAsPristine();
         },
         error: (err) => {
+          const backendMessage = err.error?.message || 'Error inesperado';
+          if (backendMessage.toLowerCase().includes('cliente') && backendMessage.toLowerCase().includes('número')) {
+            this.alertsService.showError(backendMessage, 'Cliente duplicado');
+          } else {
+            this.alertsService.showError(backendMessage, 'Error inesperado');
+          }
           this.onCreate.emit(null);
         }
       });

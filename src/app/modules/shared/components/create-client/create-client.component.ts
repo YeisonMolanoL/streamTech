@@ -46,7 +46,12 @@ export class CreateClientComponent implements OnInit{
       },
       error: (err) => {
         this.isLoading = false;
-        this.alert.showError(err.error.message, 'Error inesperado')
+        const backendMessage = err.error?.message || 'Error inesperado';
+        if (backendMessage.toLowerCase().includes('cliente') && backendMessage.toLowerCase().includes('número')) {
+          this.alert.showError(backendMessage, 'Cliente duplicado');
+        } else {
+          this.alert.showError(backendMessage, 'Error inesperado');
+        }
       }
     });
   }
