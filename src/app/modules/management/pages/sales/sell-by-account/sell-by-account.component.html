@@ -130,7 +130,7 @@
           type="button"
           class="btn btn-primary"
           (click)="createClient()"
-          [disabled]="this.clientDialog"
+          [disabled]="isLoading" [nbSpinner]="isLoading" nbSpinnerStatus="success"
         >
           Crear
         </button>

@@ -118,9 +118,8 @@
   </div>
 
   <div class="w-100 p-1 mt-3">
-    <button nbButton outline type="submit" status="primary" class="w-100" [disabled]="isLoading">
+    <button nbButton outline type="submit" status="primary" class="w-100" [disabled]="isLoading" [nbSpinner]="isLoading" nbSpinnerStatus="success">
       Registrarse
-      <loader *ngIf="isLoading"></loader>
     </button>
   </div>
   <span class="error-message">{{ errorMessage$ | async }}</span>

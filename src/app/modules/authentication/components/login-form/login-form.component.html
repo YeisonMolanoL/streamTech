@@ -45,9 +45,8 @@
     Este campo es obligatorio*
   </span>
   <div class="mt-3 w-100">
-    <button nbButton outline type="submit" status="primary" class="w-100" [disabled]="isLoading">
+    <button nbButton outline type="submit" status="primary" class="w-100" [disabled]="isLoading" [nbSpinner]="isLoading" nbSpinnerStatus="success">
       Iniciar Sesión
-      <loader *ngIf="isLoading"></loader>
     </button>
   </div>
   <span class="error-message">{{ errorMessage$ | async }}</span>

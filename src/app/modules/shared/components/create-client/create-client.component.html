@@ -11,16 +11,20 @@
                         <div class="p-2 input-with-icon">
                             <input type="text" placeholder="Nombre cliente" formControlName="clientName" />
                         </div>
-                        <br>
-                        <div class="p-2 input-with-icon">
+                        <small class="error-message" *ngIf="clientForm.get('clientName')?.invalid && clientForm.get('clientName')?.touched">Este campo es obligatorio*</small>
+                        
+                        <div class="p-2 input-with-icon my-2">
                             <input type="text" placeholder="Contacto cliente" formControlName="clientNumber" />
                         </div>
+                        <small class="error-message" *ngIf="clientForm.get('clientNumber')?.invalid && clientForm.get('clientNumber')?.touched">Este campo es obligatorio*</small>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="createClient()"
-                    >Crear</button>
+                <button nbButton type="button" status="primary" (click)="createClient()"
+                    [disabled]="isLoading" [nbSpinner]="isLoading" nbSpinnerStatus="success">
+                    Crear
+                </button>
             </div>
         </div>
     </div>

@@ -14,6 +14,7 @@ export class CreateClientComponent implements OnInit{
   filteredClients = new Array<any>();
   clients = new Array<any>();
   clientForm!: FormGroup;
+  isLoading: boolean = false;
 
   constructor(public dialogRef: NbDialogRef<CreateClientComponent>, private fb: FormBuilder, private alert: AlertsService, private clientsService: ClientService){}
 
@@ -30,14 +31,21 @@ export class CreateClientComponent implements OnInit{
   }
 
   createClient(){
+    if (this.clientForm.invalid) {
+      this.clientForm.markAllAsTouched();
+      return;
+    }
+    this.isLoading = true;
     this.clientsService.newClient(this.clientForm.value).subscribe({
       next: (data) => {
+        this.isLoading = false;
         this.getAllClients();
         this.alert.showSuccess('¡Se ha creado el nuevo cliente correctamente!', '¡Validado!');
         this.modalClose.emit();
         this.dialogRef.close({ response: true });
       },
       error: (err) => {
+        this.isLoading = false;
         this.alert.showError(err.error.message, 'Error inesperado')
       }
     });
