@@ -135,6 +135,7 @@
           <button
             type="button"
             class="btn btn-danger"
+            [disabled]="isSendingRequest()"
             (click)="openDialogAddCustomers()"
           >
             Añadir clientes
@@ -148,6 +149,7 @@
         <button
           type="button"
           class="btn btn-secondary"
+          [disabled]="isSendingRequest()"
           (click)="closeModal()"
         >
           Cancelar
@@ -157,7 +159,8 @@
         <button
           type="button"
           class="btn btn-primary"
-          [disabled]="!this.accountForm.valid"
+          [disabled]="!this.accountForm.valid || isSendingRequest()"
+          [nbSpinner]="isSendingRequest()"
           (click)="createAccount()"
         >
           Crear

@@ -1,4 +1,4 @@
-import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NB_DIALOG_CONFIG, NbDialogRef, NbDialogService } from '@nebular/theme';
 import { ProfileSaleService } from '../../../management/core/services/profile-sale.service';
@@ -16,6 +16,7 @@ export class CreateAccountComponent implements OnInit {
   private _accountType: any;
   profilesActive: any[] = [];
   isReadonly: boolean = false;
+  isSendingRequest = signal<boolean>(false);
 
   get accountType() {
     return this._accountType;
@@ -89,8 +90,10 @@ export class CreateAccountComponent implements OnInit {
   createAccount(){
     this.accountForm.get('accountTypeRecord')?.setValue(this._accountType);
     this.accountForm.get('accountAvailableProfiles')?.enable();
+    this.isSendingRequest.set(true);
     this.accountService.newAccount(this.accountForm.value).subscribe({
       next: (data) => {
+        this.isSendingRequest.set(false);
         const dataAddProdiles = {
           accountTypeId: data.body.accountTypeRecord.accountTypeId,
           accountRecordId: data.body.accountId,
@@ -107,6 +110,7 @@ export class CreateAccountComponent implements OnInit {
         });
       },
       error: (err) =>{
+        this.isSendingRequest.set(false);
         this.alert.showWarning(err.error.message, 'Importante');
       }
     });
