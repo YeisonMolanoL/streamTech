@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 interface CodeResponse {
   success: boolean;
@@ -20,9 +21,12 @@ interface GetCodeRequest {
 })
 export class CodeReceptionService {
 
-  private apiUrl = '/streamtech/api/code-reception';
+  private apiUrl: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Dinámica: usa environment.api (vacío en dev, URL completa en prod)
+    this.apiUrl = `${environment.api}/api/code-reception`;
+  }
 
   getCode(email: string): Observable<CodeResponse> {
     const request: GetCodeRequest = {
@@ -39,8 +43,10 @@ export class CodeReceptionService {
   }
 
   getProfilesByEmail(email: string): Observable<any[]> {
+    let params = new HttpParams().set('email', email.trim().toLowerCase());
     return this.http.get<any[]>(
-      `/streamtech/api/sale/profile/by-email?email=${encodeURIComponent(email.trim().toLowerCase())}`
+      `${environment.api}/sale/profile/by-email`,
+      { params }
     ).pipe(
       catchError(this.handleError)
     );
@@ -76,3 +82,4 @@ export class CodeReceptionService {
     return throwError(() => new Error(errorMessage));
   }
 }
+
